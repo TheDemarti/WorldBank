@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WorldBank</string>
+    <string name="buttonCountry">Paesi</string>
+    <string name="buttonArg">Argomenti</string>
+    <string name="buttonFavorites">Preferiti</string>
+</resources>

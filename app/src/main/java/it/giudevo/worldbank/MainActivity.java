@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         Holder(){
         btnArg = findViewById(R.id.btnArg);
         btnCountry = findViewById(R.id.btnCountry);
-        btnOff= findViewById(R.id.btnOff);
+        btnOff= findViewById(R.id.btnFavorites);
 
         btnCountry.setOnClickListener(this);
         btnArg.setOnClickListener(this);
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                  Intent intent = new Intent(MainActivity.this, SearchByArg.class);
                  startActivity(intent);
              }
-             if(v.getId() == R.id.btnOff){
+             if(v.getId() == R.id.btnFavorites){
                  Intent intent = new Intent(MainActivity.this, SearchByOffline.class);
                  startActivity(intent);
              }
