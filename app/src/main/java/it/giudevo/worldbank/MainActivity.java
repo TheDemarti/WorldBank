@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import it.giudevo.worldbank.searchapi.SearchByArg;
 import it.giudevo.worldbank.searchapi.SearchByCountry;
+import it.giudevo.worldbank.searchapi.SearchByOffline;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,27 +21,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    class Holder implements View.OnClickListener{
 
-
- class Holder implements View.OnClickListener{
-   Button btnCountry, btnArg, btnOff;
+        Button btnCountry, btnArg, btnOff;
 
         Holder(){
         btnArg = findViewById(R.id.btnArg);
         btnCountry = findViewById(R.id.btnCountry);
         btnOff= findViewById(R.id.btnOff);
 
+        btnCountry.setOnClickListener(this);
+        btnArg.setOnClickListener(this);
+        btnOff.setOnClickListener(this);
+
         }
 
 
-     @Override
-     public void onClick(View v) {
-         if(v.getId() == R.id.btnArg){
-             Intent intent = new Intent(MainActivity.this, SearchByCountry.class);
-
-             SearchByCountry.this.startActivity(intent);
-         }
-     }
- }
+        @Override
+        public void onClick(View v) {
+             if(v.getId() == R.id.btnCountry){
+                 Intent intent = new Intent(MainActivity.this, SearchByCountry.class);
+                 startActivity(intent);
+             }
+             if(v.getId() == R.id.btnArg){
+                 Intent intent = new Intent(MainActivity.this, SearchByArg.class);
+                 startActivity(intent);
+             }
+             if(v.getId() == R.id.btnOff){
+                 Intent intent = new Intent(MainActivity.this, SearchByOffline.class);
+                 startActivity(intent);
+             }
+        }
+    }
 }
 
