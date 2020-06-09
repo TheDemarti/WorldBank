@@ -1,4 +1,4 @@
-android package it.giudevo.worldbank;
+package it.giudevo.worldbank;
 
 import androidx.appcompat.app.AppCompatActivity;
 
