@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import it.giudevo.worldbank.R;
+
 public class SearchByCountry extends AppCompatActivity {
 
     @Override
