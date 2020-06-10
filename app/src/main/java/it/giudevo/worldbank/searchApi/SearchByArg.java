@@ -1,11 +1,10 @@
-package it.giudevo.worldbank.searchapi;
+package it.giudevo.worldbank.searchApi;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,14 +30,13 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import it.giudevo.worldbank.MainActivity;
 import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.AppArgumentsDatabase;
 import it.giudevo.worldbank.database.Arguments;
 
 
 public class SearchByArg extends AppCompatActivity {
-    private AppArgumentsDatabase db;
+    AppArgumentsDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +49,11 @@ public class SearchByArg extends AppCompatActivity {
 
     private void createDB(){
         db = Room.databaseBuilder(getApplicationContext(),
-                AppArgumentsDatabase.class,
-                "arguments.db").allowMainThreadQueries().
+                AppArgumentsDatabase.class, "arguments.db").allowMainThreadQueries().
                 build();
     }
 
-    private class Holder {
+    private class Holder implements View.OnClickListener{
         RecyclerView rvArguments;
         final VolleyArguments model;
 
@@ -78,6 +75,11 @@ public class SearchByArg extends AppCompatActivity {
                     rvArguments.setAdapter(mAdapter);
                 }
             };
+        }
+
+        @Override
+        public void onClick(View v) {
+
         }
     }
 

@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import it.giudevo.worldbank.searchapi.SearchByArg;
+import it.giudevo.worldbank.searchApi.SearchByArg;
 
 public class MainActivity extends AppCompatActivity {
 
