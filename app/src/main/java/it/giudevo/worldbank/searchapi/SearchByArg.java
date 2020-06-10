@@ -2,8 +2,20 @@ package it.giudevo.worldbank.searchapi;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,19 +33,58 @@ import java.util.List;
 
 import it.giudevo.worldbank.MainActivity;
 import it.giudevo.worldbank.R;
+import it.giudevo.worldbank.database.AppArgumentsDatabase;
+import it.giudevo.worldbank.database.Arguments;
 
 
 public class SearchByArg extends AppCompatActivity {
+    private AppArgumentsDatabase db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new MainActivity.Holder();
+
+        new Holder();
+        createDB();
     }
 
-    abstract static class Volley implements Response.ErrorListener, Response.Listener<String> {
+    private void createDB(){
+        db = Room.databaseBuilder(getApplicationContext(),
+                AppArgumentsDatabase.class,
+                "arguments.db").allowMainThreadQueries().
+                build();
+    }
 
-        void searchCocktailsByName(String s) {
+    private class Holder {
+        RecyclerView rvArguments;
+        final VolleyArguments model;
+
+        Holder() {
+            rvArguments = findViewById(R.id.rvArguments);
+            this.model = new VolleyArguments() {
+
+
+                @Override
+                void fill(List<Arguments> cnt) {
+                    Log.w("CA", "fill");
+                    fillList(cnt);
+                }
+
+                private void fillList(List<Arguments> cnt) {
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SearchByArg.this);
+                    rvArguments.setLayoutManager(layoutManager);
+                    ArgAdapter mAdapter = new ArgAdapter(cnt);
+                    rvArguments.setAdapter(mAdapter);
+                }
+            };
+        }
+    }
+
+    abstract class VolleyArguments implements Response.ErrorListener, Response.Listener<String> {
+        abstract void fill(List<Arguments> cnt);
+
+        void searchByArg(String s) {
             String url = " http://api.worldbank.org/v2/topic?format=json";
             apiCall(url);
         }
@@ -51,18 +102,20 @@ public class SearchByArg extends AppCompatActivity {
 
         @Override
         public void onErrorResponse(VolleyError error) {
+            Toast.makeText(SearchByArg.this, "Some Thing Goes Wrong", Toast.LENGTH_LONG).show();//
+            error.printStackTrace();//
         }
 
         @Override
         public void onResponse(String response) {
             Gson gson = new Gson();
-            String drinks;
+            String arguments;
             try {
                 JSONObject jsonObject = new JSONObject(response);
-                drinks = jsonObject.getJSONArray("drinks").toString();
-                Type listType = new TypeToken<List<Cocktail>>() {
+                arguments = jsonObject.getJSONArray("arguments").toString();
+                Type listType = new TypeToken<List<Arguments>>() {
                 }.getType();
-                List<Cocktail> cnt = gson.fromJson(drinks, listType);
+                List<Arguments> cnt = gson.fromJson(arguments, listType);
                 if (cnt != null && cnt.size() > 0) {
                     Log.w("CA", "" + cnt.size());
                     fill(cnt);
@@ -71,6 +124,53 @@ public class SearchByArg extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+        private class ArgAdapter extends RecyclerView.Adapter<ArgAdapter.Holder> implements View.OnClickListener {
+            private final List<Arguments> arguments;
+
+            public ArgAdapter(List<Arguments> all) {
+                arguments = all;
+            }
+
+            @NonNull
+            @Override
+            public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                ConstraintLayout cl;
+                cl = (ConstraintLayout) LayoutInflater
+                        .from(parent.getContext())
+                        .inflate(R.layout.raw_layout_arg, parent, false);
+                cl.setOnClickListener(this);
+                return new Holder(cl);
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull Holder holder, int position) {
+
+            }
+
+            @Override
+            public int getItemCount() {
+                return arguments.size();
+            }
+
+            @Override
+            public void onClick(View v) {
+
+            }
+
+
+            class Holder extends RecyclerView.ViewHolder {
+                TextView tvElement;
+                CardView cvElement;
+
+                Holder(@NonNull View itemView) {
+                    super(itemView);
+                    tvElement = itemView.findViewById(R.id.tvElement);
+                    cvElement = itemView.findViewById(R.id.cvElement);
+                }
+            }
+        }
     }
+
 
 }

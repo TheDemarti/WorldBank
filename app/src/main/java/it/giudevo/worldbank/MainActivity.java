@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.Button;
 
 import it.giudevo.worldbank.searchapi.SearchByArg;
-import it.giudevo.worldbank.searchapi.SearchByCountry;
-import it.giudevo.worldbank.searchapi.SearchByOffline;
 
 public class MainActivity extends AppCompatActivity {
 
