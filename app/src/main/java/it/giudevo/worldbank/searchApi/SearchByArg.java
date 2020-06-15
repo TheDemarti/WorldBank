@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -15,7 +14,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -41,10 +39,16 @@ public class SearchByArg extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        setContentView(R.layout.activity_search_by_arg);
         new Holder();
         createDB();
+
+
+
+
+
+
+
     }
 
     private void createDB(){
@@ -53,14 +57,13 @@ public class SearchByArg extends AppCompatActivity {
                 build();
     }
 
-    private class Holder implements View.OnClickListener{
+    private class Holder implements View.OnClickListener {
         RecyclerView rvArguments;
         final VolleyArguments model;
 
         Holder() {
             rvArguments = findViewById(R.id.rvArguments);
             this.model = new VolleyArguments() {
-
 
                 @Override
                 void fill(List<Arguments> cnt) {
@@ -75,18 +78,20 @@ public class SearchByArg extends AppCompatActivity {
                     rvArguments.setAdapter(mAdapter);
                 }
             };
+            model.searchByArg();
         }
-
         @Override
-        public void onClick(View v) {
+        public void onClick (View v){
 
-        }
+            }
+
+
+
     }
-
     abstract class VolleyArguments implements Response.ErrorListener, Response.Listener<String> {
         abstract void fill(List<Arguments> cnt);
 
-        void searchByArg(String s) {
+        void searchByArg() {
             String url = " http://api.worldbank.org/v2/topic?format=json";
             apiCall(url);
         }
@@ -146,7 +151,8 @@ public class SearchByArg extends AppCompatActivity {
             }
 
             @Override
-            public void onBindViewHolder(@NonNull Holder holder, int position) {
+            public void onBindViewHolder(@NonNull ArgAdapter.Holder Holder , int position) {
+                  Holder.tvElement.setText(arguments.get(position).page);
 
             }
 

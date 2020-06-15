@@ -14,6 +14,7 @@
         android:layout_marginTop="@dimen/pidButton"
         android:layout_marginEnd="@dimen/pidButton"
         android:text="@string/buttonCountry"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -26,6 +27,7 @@
         android:layout_marginTop="@dimen/pidButton"
         android:layout_marginEnd="@dimen/pidButton"
         android:text="@string/buttonArg"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnCountry" />
@@ -38,6 +40,7 @@
         android:layout_marginTop="@dimen/pidButton"
         android:layout_marginEnd="@dimen/pidButton"
         android:text="@string/buttonFavorites"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnArg" />
