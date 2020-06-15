@@ -5,6 +5,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import java.util.List;
 
@@ -38,17 +39,17 @@ import javax.xml.transform.Templates;
 public interface ArgumentsDAO {
     @Insert
     void insert (Template template);
-
-    @Query("SELECT * FROM Arg")
-    List<Arguments> getAll();
+    @Transaction
+    @Query("SELECT * FROM Templates")
+    List<Template> getAll();
 
 //    @Query("SELECT * FROM Arg.Templates " + " WHERE id IN (:ids)")
 //    List<Arguments> loadAllByIds(int[] ids);
 
-    @Query("SELECT * FROM " + " Arg.Templates WHERE value LIKE :value ORDER BY value")
+    @Query("SELECT * FROM " + " Templates WHERE value LIKE :value ORDER BY value")
     List<Template> findByCountryName(String value);
 
-    @Query("SELECT count(*) FROM Arg")
+    @Query("SELECT count(*) FROM Templates")
     int size();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

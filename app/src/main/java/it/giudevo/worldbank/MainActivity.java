@@ -37,18 +37,18 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-             if(v.getId() == R.id.btnCountry){
-                 Intent intent = new Intent(MainActivity.this, SearchByCountry.class);
-                 startActivity(intent);
-             }
+//             if(v.getId() == R.id.btnCountry){
+//                 Intent intent = new Intent(MainActivity.this, SearchByCountry.class);
+//                 startActivity(intent);
+//             }
              if(v.getId() == R.id.btnArg){
                  Intent intent = new Intent(MainActivity.this, SearchByArg.class);
                  startActivity(intent);
              }
-             if(v.getId() == R.id.btnFavorites){
-                 Intent intent = new Intent(MainActivity.this, SearchByOffline.class);
-                 startActivity(intent);
-             }
+//             if(v.getId() == R.id.btnFavorites){
+//                 Intent intent = new Intent(MainActivity.this, SearchByOffline.class);
+//                 startActivity(intent);
+//             }
         }
     }
 }

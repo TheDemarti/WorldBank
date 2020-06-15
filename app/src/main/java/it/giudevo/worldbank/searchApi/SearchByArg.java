@@ -127,7 +127,7 @@ public class SearchByArg extends AppCompatActivity {
             }
         }
 
-        private class ArgAdapter extends RecyclerView.Adapter<ArgAdapter.Holder> implements View.OnClickListener {
+        public class ArgAdapter extends RecyclerView.Adapter<ArgAdapter.Holder> implements View.OnClickListener {
             private final List<Arguments> arguments;
 
             public ArgAdapter(List<Arguments> all) {
