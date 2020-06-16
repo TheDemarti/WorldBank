@@ -3,4 +3,6 @@
     <string name="buttonCountry">Country</string>
     <string name="buttonArg">Arguments</string>
     <string name="buttonFavorites">Favorites</string>
+    <string name="data">Data</string>
+    <string name="graphs">Graphs</string>
 </resources>
