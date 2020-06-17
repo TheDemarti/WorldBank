@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import it.giudevo.worldbank.searchApi.searchByArg;
+import it.giudevo.worldbank.searchApi.SearchByArg;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,8 +42,9 @@ public class MainActivity extends AppCompatActivity {
 //                 startActivity(intent);
 //             }
              if(v.getId() == R.id.btnArg){
-                 Intent intent = new Intent(MainActivity.this, searchByArg.class);
-                 startActivity(intent);
+                 Intent intent = new Intent(MainActivity.this, SearchByArg.class);
+                 //startActivity(intent);
+                 MainActivity.this.startActivity(intent);
              }
              if(v.getId() == R.id.btnFavorites){
                  Intent intent = new Intent(MainActivity.this, FavoritesActivity.class);
