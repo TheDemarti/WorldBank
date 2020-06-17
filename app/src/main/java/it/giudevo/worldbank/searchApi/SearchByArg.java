@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuItemImpl;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
@@ -47,7 +49,7 @@ public class SearchByArg extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_searc_by_arg);
 
         new Holder();
         createDB();
@@ -59,9 +61,9 @@ public class SearchByArg extends AppCompatActivity {
                 build();
     }
 
-    private class Holder implements View.OnClickListener{
+    private class Holder{
         RecyclerView rvArguments;
-        final VolleyArguments model;
+        VolleyArguments model;
 
         Holder() {
             rvArguments = findViewById(R.id.rvArguments);
@@ -89,13 +91,6 @@ public class SearchByArg extends AppCompatActivity {
 
         }
 
-        @Override
-        public void onClick(View v) {
-//            String search = "topic";
-//            model.searchByArg(search);
-//            hideKeyboard(SearchByArg.this);
-        }
-
         void hideKeyboard(Activity activity) {
             InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
             //Find the currently focused view, so we can grab the correct window token from it.
@@ -109,7 +104,7 @@ public class SearchByArg extends AppCompatActivity {
         }
     }
 
-    abstract class VolleyArguments implements Response.ErrorListener, Response.Listener<String> {
+public abstract class VolleyArguments implements Response.ErrorListener, Response.Listener<String> {
         abstract void fill(List<Arguments> cnt);
 
         void searchByArg(String s) {
@@ -141,15 +136,21 @@ public class SearchByArg extends AppCompatActivity {
             Gson gson = new Gson();
             String arguments;
             try {
-                JSONArray values = new JSONArray(response);
-                //JSONArray object = values.getJSONArray(1);
-                arguments = values.get(1).toString();
+                JSONArray jsonArray = new JSONArray(response);
+                for(int i = 0; i < jsonArray.length(); i++){
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+//                    String id = jsonObject.getString("id");
+//                    String value = jsonObject.getString("value");
+//                    String sourceNote = jsonObject.getString("sourceNote");
+                }
+                //JsonObject jsonObject = (JsonObject) jsonArray.get(1);
+                arguments = jsonArray.toString();
                 //arguments = jsonArray.getJSONArray(1).toString();//getJSONArray("arguments").toString();
                 Type listType = new TypeToken<List<Arguments>>() {}.getType();
                 List<Arguments> cnt = gson.fromJson(arguments, listType);
                 if (cnt != null && cnt.size() > 0) {
                     Log.w("CA", "" + cnt.size());
-                    db.argumentsDAO().insertAll();////
+                    db.argumentsDAO().insertAll();
                     fill(cnt);
                 }
             } catch (JSONException e) {
@@ -158,8 +159,8 @@ public class SearchByArg extends AppCompatActivity {
             }
         }
 
-        public class ArgAdapter extends RecyclerView.Adapter<ArgAdapter.Holder> implements View.OnClickListener {
-            private final List<Arguments> arguments;
+        public class ArgAdapter extends RecyclerView.Adapter<ArgAdapter.ViewHolder>{
+            public List<Arguments> arguments;
 
             public ArgAdapter(List<Arguments> all) {
                 arguments = all;
@@ -167,19 +168,17 @@ public class SearchByArg extends AppCompatActivity {
 
             @NonNull
             @Override
-            public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 ConstraintLayout cl;
                 cl = (ConstraintLayout) LayoutInflater
                         .from(parent.getContext())
                         .inflate(R.layout.raw_layout_arg, parent, false);
-                cl.setOnClickListener(this);
-                return new Holder(cl);
+                return new ViewHolder(cl);
             }
 
             @Override
-            public void onBindViewHolder(@NonNull Holder holder, int position) {
+            public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
                 holder.tvElement.setText(arguments.get(position).getValue());
-                holder.tvElement.setText(arguments.get(position).value);
             }
 
             @Override
@@ -187,16 +186,11 @@ public class SearchByArg extends AppCompatActivity {
                 return arguments.size();
             }
 
-            @Override
-            public void onClick(View v) {
 
-            }
-
-
-            class Holder extends RecyclerView.ViewHolder {
+            class ViewHolder extends RecyclerView.ViewHolder {
                 TextView tvElement;
 
-                Holder(@NonNull View itemView) {
+                ViewHolder(@NonNull View itemView) {
                     super(itemView);
                     tvElement = itemView.findViewById(R.id.tvElement);
                 }
