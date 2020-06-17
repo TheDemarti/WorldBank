@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    class Holder implements View.OnClickListener{
+    class Holder implements View.OnClickListener {
 
         Button btnCountry, btnArg, btnOff;
 
@@ -45,10 +45,10 @@ public class MainActivity extends AppCompatActivity {
                  Intent intent = new Intent(MainActivity.this, searchByArg.class);
                  startActivity(intent);
              }
-//             if(v.getId() == R.id.btnFavorites){
-//                 Intent intent = new Intent(MainActivity.this, SearchByOffline.class);
-//                 startActivity(intent);
-//             }
+             if(v.getId() == R.id.btnFavorites){
+                 Intent intent = new Intent(MainActivity.this, FavoritesActivity.class);
+                 startActivity(intent);
+             }
         }
     }
 }
