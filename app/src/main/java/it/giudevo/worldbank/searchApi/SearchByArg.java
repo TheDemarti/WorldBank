@@ -3,17 +3,11 @@ package it.giudevo.worldbank.searchApi;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuItemImpl;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -25,9 +19,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
@@ -35,7 +26,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 import it.giudevo.worldbank.R;
@@ -49,7 +39,7 @@ public class SearchByArg extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_searc_by_arg);
+        setContentView(R.layout.activity_search_by_arg);
 
         new Holder();
         createDB();
@@ -79,16 +69,14 @@ public class SearchByArg extends AppCompatActivity {
                 private void fillList(List<Arguments> cnt) {
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SearchByArg.this);
                     rvArguments.setLayoutManager(layoutManager);
-                    ArgAdapter mAdapter = new ArgAdapter(cnt);
-                    rvArguments.setAdapter(mAdapter);
+                    rvArguments.setHasFixedSize(true);
+                    ArgAdapter myAdapter = new ArgAdapter(cnt);
+                    rvArguments.setAdapter(myAdapter);
                 }
             };
-
-
             String search = "topic";
             model.searchByArg(search);
             hideKeyboard(SearchByArg.this);
-
         }
 
         void hideKeyboard(Activity activity) {
@@ -104,11 +92,11 @@ public class SearchByArg extends AppCompatActivity {
         }
     }
 
-public abstract class VolleyArguments implements Response.ErrorListener, Response.Listener<String> {
+private abstract class VolleyArguments implements Response.ErrorListener, Response.Listener<String> {
         abstract void fill(List<Arguments> cnt);
 
         void searchByArg(String s) {
-            String url = " http://api.worldbank.org/v2/%s?format=json";
+            String url = "http://api.worldbank.org/v2/%s?format=json";
             url = String.format(url, s);
             apiCall(url);
         }
@@ -137,15 +125,12 @@ public abstract class VolleyArguments implements Response.ErrorListener, Respons
             String arguments;
             try {
                 JSONArray jsonArray = new JSONArray(response);
-                for(int i = 0; i < jsonArray.length(); i++){
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-//                    String id = jsonObject.getString("id");
-//                    String value = jsonObject.getString("value");
-//                    String sourceNote = jsonObject.getString("sourceNote");
-                }
-                //JsonObject jsonObject = (JsonObject) jsonArray.get(1);
-                arguments = jsonArray.toString();
-                //arguments = jsonArray.getJSONArray(1).toString();//getJSONArray("arguments").toString();
+                    JSONObject jsonObject = jsonArray.getJSONObject(1);
+                    //String id = jsonObject.getString("id");
+                    //String value = jsonObject.getString("value");
+                    //String sourceNote = jsonObject.getString("sourceNote");
+
+                arguments = jsonObject.toString();
                 Type listType = new TypeToken<List<Arguments>>() {}.getType();
                 List<Arguments> cnt = gson.fromJson(arguments, listType);
                 if (cnt != null && cnt.size() > 0) {
@@ -158,45 +143,5 @@ public abstract class VolleyArguments implements Response.ErrorListener, Respons
                 e.printStackTrace();
             }
         }
-
-        public class ArgAdapter extends RecyclerView.Adapter<ArgAdapter.ViewHolder>{
-            public List<Arguments> arguments;
-
-            public ArgAdapter(List<Arguments> all) {
-                arguments = all;
-            }
-
-            @NonNull
-            @Override
-            public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                ConstraintLayout cl;
-                cl = (ConstraintLayout) LayoutInflater
-                        .from(parent.getContext())
-                        .inflate(R.layout.raw_layout_arg, parent, false);
-                return new ViewHolder(cl);
-            }
-
-            @Override
-            public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-                holder.tvElement.setText(arguments.get(position).getValue());
-            }
-
-            @Override
-            public int getItemCount() {
-                return arguments.size();
-            }
-
-
-            class ViewHolder extends RecyclerView.ViewHolder {
-                TextView tvElement;
-
-                ViewHolder(@NonNull View itemView) {
-                    super(itemView);
-                    tvElement = itemView.findViewById(R.id.tvElement);
-                }
-            }
-        }
     }
-
-
 }
