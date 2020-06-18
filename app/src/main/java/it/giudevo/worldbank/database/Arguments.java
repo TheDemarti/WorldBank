@@ -9,8 +9,8 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class Arguments implements Parcelable {
-    @PrimaryKey(autoGenerate = true)
-        //@ColumnInfo(name = "id")
+        @PrimaryKey(autoGenerate = true)
+        @ColumnInfo(name = "id")
         public int id;
         @ColumnInfo(name = "value")
         public String value;
