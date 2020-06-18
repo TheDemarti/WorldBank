@@ -29,7 +29,6 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import it.giudevo.worldbank.R;
-import it.giudevo.worldbank.database.database.Arguments.Arguments;
 import it.giudevo.worldbank.database.database.Indicators.AppIndicatorsDatabase;
 import it.giudevo.worldbank.database.database.Indicators.Indicators;
 
@@ -42,7 +41,7 @@ public class SearchByIndicator extends AppCompatActivity {
         setContentView(R.layout.activity_search_by_indicator);
 
         Intent data = getIntent();
-        Indicators arguments = data.getParcelableExtra("indicators");
+        Indicators arguments = data.getParcelableExtra("arguments");
 
         new Holder();
         createDB();

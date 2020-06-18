@@ -34,7 +34,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import it.giudevo.worldbank.R;
-import AppArgumentsDatabase;
+import it.giudevo.worldbank.database.database.Arguments.AppArgumentsDatabase;
 import it.giudevo.worldbank.database.database.Arguments.Arguments;
 
 
