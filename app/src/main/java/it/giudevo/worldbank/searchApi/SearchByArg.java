@@ -1,13 +1,19 @@
 package it.giudevo.worldbank.searchApi;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -23,14 +29,13 @@ import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.List;
 
 import it.giudevo.worldbank.R;
-import it.giudevo.worldbank.database.AppArgumentsDatabase;
-import it.giudevo.worldbank.database.Arguments;
+import AppArgumentsDatabase;
+import it.giudevo.worldbank.database.database.Arguments.Arguments;
 
 
 public class SearchByArg extends AppCompatActivity {
@@ -39,7 +44,7 @@ public class SearchByArg extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_searchbyarg);
+        setContentView(R.layout.activity_search_by_arg);
 
         new Holder();
         createDB();
@@ -77,20 +82,20 @@ public class SearchByArg extends AppCompatActivity {
 
             String search = "topic";
             model.searchByArg(search);
-            hideKeyboard(SearchByArg.this);
+            //hideKeyboard(SearchByArg.this);
         }
 
-        void hideKeyboard(Activity activity) {
-            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            //Find the currently focused view, so we can grab the correct window token from it.
-            View view = activity.getCurrentFocus();
-            //If no view currently has focus, create a new one, just so we can grab a window token from it
-            if (view == null) {
-                view = new View(activity);
-            }
-            assert imm != null;
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
+//        void hideKeyboard(Activity activity) {
+//            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+//            //Find the currently focused view, so we can grab the correct window token from it.
+//            View view = activity.getCurrentFocus();
+//            //If no view currently has focus, create a new one, just so we can grab a window token from it
+//            if (view == null) {
+//                view = new View(activity);
+//            }
+//            assert imm != null;
+//            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+//        }
     }
 
 private abstract class VolleyArguments implements Response.ErrorListener, Response.Listener<String> {
@@ -145,5 +150,57 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
                 e.printStackTrace();
             }
         }
+    }
+
+    public class ArgAdapter extends RecyclerView.Adapter<ArgAdapter.ViewHolder> {
+            public List<Arguments> arguments;
+
+            public ArgAdapter(List<Arguments> cnt) {
+                arguments = cnt;
+            }
+
+
+            @NonNull
+            @Override
+            public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                ConstraintLayout cl;
+                cl = (ConstraintLayout) LayoutInflater
+                        .from(parent.getContext())
+                        .inflate(R.layout.raw_arguments, parent, false);
+                return new ViewHolder(cl);
+
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+                holder.tvValue.setText(arguments.get(position).getValue());
+                holder.tvSourceNote.setText(arguments.get(position).getSourceNote());
+            }
+
+            @Override
+            public int getItemCount() {
+                return arguments.size();
+            }
+
+            public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+                TextView tvValue, tvSourceNote;
+                CardView cvArguments;
+
+                public ViewHolder(ConstraintLayout cl) {
+                    super(cl);
+                    tvValue = cl.findViewById(R.id.tvValue);
+                    tvSourceNote = cl.findViewById(R.id.tvSourceNote);
+                    cvArguments = cl.findViewById(R.id.cvArguments);
+                }
+
+                @Override
+                public void onClick(View v) {
+                    if(v.getId() == R.id.cvArguments){
+                        Intent intent = new Intent(SearchByArg.this, SearchByIndicator.class);
+                        intent.putExtra("arguments", (Parcelable) arguments);
+                        SearchByArg.this.startActivity(intent);
+                    }
+                }
+            }
     }
 }
