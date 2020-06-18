@@ -74,6 +74,7 @@ public class SearchByArg extends AppCompatActivity {
                     rvArguments.setAdapter(myAdapter);
                 }
             };
+
             String search = "topic";
             model.searchByArg(search);
             hideKeyboard(SearchByArg.this);
@@ -125,13 +126,13 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
             String arguments;
             try {
                 JSONArray jsonArray = new JSONArray(response);
-                    JSONArray jsonObject = jsonArray.getJSONArray(1);/////modificato
+                    JSONArray json = jsonArray.getJSONArray(1);/////modificato
                     //JSONObject jsonObject1 = jsonObject.getJSONObject("value");
                     //String id = jsonObject.getString("id");
                     //String value = jsonObject.getString("value");
                     //String sourceNote = jsonObject.getString("sourceNote");
 
-                arguments = jsonObject.toString();
+                arguments = json.toString();
                 Type listType = new TypeToken<List<Arguments>>() {}.getType();
                 List<Arguments> cnt = gson.fromJson(arguments, listType);
                 if (cnt != null && cnt.size() > 0) {
