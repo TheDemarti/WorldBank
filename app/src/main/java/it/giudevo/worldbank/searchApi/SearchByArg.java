@@ -39,7 +39,7 @@ public class SearchByArg extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_by_arg);
+        setContentView(R.layout.activity_searchbyarg);
 
         new Holder();
         createDB();
@@ -125,7 +125,8 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
             String arguments;
             try {
                 JSONArray jsonArray = new JSONArray(response);
-                    JSONObject jsonObject = jsonArray.getJSONObject(1);
+                    JSONArray jsonObject = jsonArray.getJSONArray(1);/////modificato
+                    //JSONObject jsonObject1 = jsonObject.getJSONObject("value");
                     //String id = jsonObject.getString("id");
                     //String value = jsonObject.getString("value");
                     //String sourceNote = jsonObject.getString("sourceNote");

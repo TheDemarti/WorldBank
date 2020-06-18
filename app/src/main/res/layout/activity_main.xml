@@ -6,56 +6,75 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/btnCountry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/pidButton"
-        android:layout_marginTop="@dimen/pidButton"
-        android:layout_marginEnd="@dimen/pidButton"
-        android:text="@string/buttonCountry"
-        android:textSize="24sp"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/btnArg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/pidButton"
-        android:layout_marginTop="@dimen/pidButton"
-        android:layout_marginEnd="@dimen/pidButton"
-        android:text="@string/buttonArg"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCountry" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnFavorites"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/pidButton"
-        android:layout_marginTop="@dimen/pidButton"
-        android:layout_marginEnd="@dimen/pidButton"
-        android:text="@string/buttonFavorites"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnArg" />
+            <Button
+                android:id="@+id/btnFavorites"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/pidButton"
+                android:layout_marginTop="@dimen/pidButton"
+                android:layout_marginEnd="@dimen/pidButton"
+                android:layout_marginBottom="@dimen/pidButton"
+                android:text="@string/buttonFavorites"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnArg" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="242dp"
-        android:layout_height="269dp"
-        android:layout_marginStart="@dimen/pidLogo"
-        android:layout_marginTop="@dimen/pidLogo"
-        android:layout_marginEnd="@dimen/pidLogo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/worldbank"
-        tools:ignore="ContentDescription" />
+            <Button
+                android:id="@+id/btnArg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/pidButton"
+                android:layout_marginTop="@dimen/pidButton"
+                android:layout_marginEnd="@dimen/pidButton"
+                android:text="@string/buttonArg"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnCountry" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="242dp"
+                android:layout_height="269dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/pidLogo"
+                android:layout_marginTop="@dimen/pidLogo"
+                android:layout_marginEnd="@dimen/pidLogo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/worldbank"
+                tools:ignore="ContentDescription" />
+
+            <Button
+                android:id="@+id/btnCountry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/pidButton"
+                android:layout_marginTop="@dimen/pidButton"
+                android:layout_marginEnd="@dimen/pidButton"
+                android:text="@string/buttonCountry"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
