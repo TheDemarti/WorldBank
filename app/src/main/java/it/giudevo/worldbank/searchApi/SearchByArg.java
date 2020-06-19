@@ -34,9 +34,8 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import it.giudevo.worldbank.R;
-import it.giudevo.worldbank.database.database.Arguments.AppArgumentsDatabase;
-import it.giudevo.worldbank.database.database.Arguments.Arguments;
-
+import it.giudevo.worldbank.database.Arguments.Arguments;
+import it.giudevo.worldbank.database.Arguments.AppArgumentsDatabase;
 
 public class SearchByArg extends AppCompatActivity {
     AppArgumentsDatabase db;
@@ -191,13 +190,15 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
                     tvValue = cl.findViewById(R.id.tvValue);
                     tvSourceNote = cl.findViewById(R.id.tvSourceNote);
                     cvArguments = cl.findViewById(R.id.cvArguments);
+
+                    cvArguments.setOnClickListener(this);
                 }
 
                 @Override
                 public void onClick(View v) {
                     if(v.getId() == R.id.cvArguments){
                         Intent intent = new Intent(SearchByArg.this, SearchByIndicator.class);
-                        intent.putExtra("arguments", (Parcelable) arguments);
+                        //intent.putExtra("arguments", arguments.get(1));
                         SearchByArg.this.startActivity(intent);
                     }
                 }
