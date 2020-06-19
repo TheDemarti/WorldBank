@@ -152,9 +152,11 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
     }
 
     public class ArgAdapter extends RecyclerView.Adapter<ArgAdapter.ViewHolder> {
-            public List<Arguments> arguments;
 
-            public ArgAdapter(List<Arguments> cnt) {
+        public List<Arguments> arguments;
+        private String id;
+
+        public ArgAdapter(List<Arguments> cnt) {
                 arguments = cnt;
             }
 
@@ -174,6 +176,7 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
             public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
                 holder.tvValue.setText(arguments.get(position).getValue());
                 holder.tvSourceNote.setText(arguments.get(position).getSourceNote());
+                id = String.valueOf(arguments.get(position).getId());
             }
 
             @Override
@@ -198,7 +201,7 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
                 public void onClick(View v) {
                     if(v.getId() == R.id.cvArguments){
                         Intent intent = new Intent(SearchByArg.this, SearchByIndicator.class);
-                        //intent.putExtra("arguments", arguments.get(1));
+                        intent.putExtra("arguments", id);
                         SearchByArg.this.startActivity(intent);
                     }
                 }

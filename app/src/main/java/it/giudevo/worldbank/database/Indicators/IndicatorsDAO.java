@@ -16,8 +16,8 @@ public interface IndicatorsDAO {
     @Query("SELECT * FROM Indicators WHERE id IN (:ids)")
     List<Indicators> loadAllByIds(int[] ids);
 
-//    @Query("SELECT * FROM Indicators WHERE value LIKE :value ORDER BY value")
-//    List<Indicators> findByIndicators(String value);
+    @Query("SELECT * FROM Indicators WHERE name LIKE :value ORDER BY name")
+    List<Indicators> findByIndicators(String value);
 
     @Query("SELECT count(*) FROM Indicators")
     int size();

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +28,7 @@ import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -37,6 +39,7 @@ import it.giudevo.worldbank.database.Indicators.Indicators;
 
 public class SearchByIndicator extends AppCompatActivity {
     AppIndicatorsDatabase db;
+    String search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +49,10 @@ public class SearchByIndicator extends AppCompatActivity {
         new Holder();
         createDB();
 
-        //Intent data = getIntent();
-        //Indicators arguments = data.getParcelableExtra("arguments");
+        Intent data = getIntent();
+        //int search = arguments;
+        search = data.getStringExtra("arguments");
+        Log.w("CA", String.valueOf(search));
 
 
     }
@@ -83,7 +88,7 @@ public class SearchByIndicator extends AppCompatActivity {
                 }
             };
 
-            String search = "indicator";
+            //int search = arguments;
             model.searchByInd(search);
         }
 }
@@ -92,7 +97,7 @@ public class SearchByIndicator extends AppCompatActivity {
         abstract void fill(List<Indicators> cnt);
 
         void searchByInd(String s) {
-            String url = "http://api.worldbank.org/v2/%s?format=json&per_page=100";
+            String url = "http://api.worldbank.org/v2/topic/11/indicator?format=json";
             url = String.format(url, s);
             apiCall(url);
         }
@@ -120,15 +125,21 @@ public class SearchByIndicator extends AppCompatActivity {
             Gson gson = new Gson();
             String indicators;
             try {
+                //JSONObject ob = new JSONObject(response);
+                //JSONArray ar = ob.getJSONArray("id");
                 JSONArray jsonArray = new JSONArray(response);
                 JSONArray json = jsonArray.getJSONArray(1);/////modificato
-                JSONArray first = json.getJSONArray(6);
+                //JSONObject ob = json.getJSONObject(6);
+                //JSONArray ob = json.getJSONArray(1);
+                //JSONArray first = (JSONArray) json.getJSONArray(0).get(6);
+                Log.w("CA", "lunghezza dell'array =" + json.get(0));
+                Log.w("CA", "lunghezza dell'array =" + json.length());
                 //JSONObject jsonObject1 = jsonObject.getJSONObject("value");
                 //String id = jsonObject.getString("id");
                 //String value = jsonObject.getString("value");
                 //String sourceNote = jsonObject.getString("sourceNote");
 
-                indicators = first.toString();
+                indicators = json.toString();
                 Type listType = new TypeToken<List<Indicators>>() {}.getType();
                 List<Indicators> cnt = gson.fromJson(indicators, listType);
                 if (cnt != null && cnt.size() > 0) {
@@ -162,7 +173,7 @@ public class SearchByIndicator extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull Holder1 holder, int position) {
-            holder.tvIndicator.setText(indicators.get(position).value);
+            holder.tvIndicator.setText(indicators.get(position).name);
         }
 
         @Override

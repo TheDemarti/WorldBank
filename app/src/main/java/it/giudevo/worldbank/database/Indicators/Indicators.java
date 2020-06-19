@@ -12,17 +12,53 @@ public class Indicators implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name="id")
     public int id;
-    @ColumnInfo(name="value")
-    public String value;
+    @ColumnInfo(name="name")
+    public String name;
+    @ColumnInfo(name = "unit")
+    public String unit;
+    @ColumnInfo(name = "source")
+    public String source;
+    @ColumnInfo(name = "sourceNote")
+    public String sourceNote;
+    @ColumnInfo(name = "sourceOrganization")
+    public String sourceOrganization;
+    @ColumnInfo(name = "topics")
+    public String topics;
 
-    public Indicators(int id, String value) {
+    public Indicators(int id, String name, String unit, String source, String sourceNote, String sourceOrganization, String topics) {
         this.id = id;
-        this.value = value;
+        this.name = name;
+        this.unit = unit;
+        this.source = source;
+        this.sourceNote = sourceNote;
+        this.sourceOrganization = sourceOrganization;
+        this.topics = topics;
     }
 
     protected Indicators(Parcel in) {
         id = in.readInt();
-        value = in.readString();
+        name = in.readString();
+        unit = in.readString();
+        source = in.readString();
+        sourceNote = in.readString();
+        sourceOrganization = in.readString();
+        topics = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(unit);
+        dest.writeString(source);
+        dest.writeString(sourceNote);
+        dest.writeString(sourceOrganization);
+        dest.writeString(topics);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Indicators> CREATOR = new Creator<Indicators>() {
@@ -36,73 +72,4 @@ public class Indicators implements Parcelable {
             return new Indicators[size];
         }
     };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(value);
-    }
-//    @ColumnInfo(name="unit")
-//    public String unit;
-//    @ColumnInfo(name="source")
-//    public String source;
-//    @ColumnInfo(name="sourceNote")
-//    public String sourceNote;
-//    @ColumnInfo(name="sourceOrganization")
-//    public String sourceOrganization;
-//    @ColumnInfo(name="topics")
-//    public String topics;
-//
-//    public Indicators(int id, String name, String unit, String source, String sourceNote, String sourceOrganization, String topics) {
-//        this.id = id;
-//        this.name = name;
-//        this.unit = unit;
-//        this.source = source;
-//        this.sourceNote = sourceNote;
-//        this.sourceOrganization = sourceOrganization;
-//        this.topics = topics;
-//    }
-//
-//    protected Indicators(Parcel in) {
-//        id = in.readInt();
-//        name = in.readString();
-//        unit = in.readString();
-//        source = in.readString();
-//        sourceNote = in.readString();
-//        sourceOrganization = in.readString();
-//        topics = in.readString();
-//    }
-//
-//    public static final Creator<Indicators> CREATOR = new Creator<Indicators>() {
-//        @Override
-//        public Indicators createFromParcel(Parcel in) {
-//            return new Indicators(in);
-//        }
-//
-//        @Override
-//        public Indicators[] newArray(int size) {
-//            return new Indicators[size];
-//        }
-//    };
-//
-//    @Override
-//    public int describeContents() {
-//        return 0;
-//    }
-//
-//    @Override
-//    public void writeToParcel(Parcel dest, int flags) {
-//        dest.writeInt(id);
-//        dest.writeString(name);
-//        dest.writeString(unit);
-//        dest.writeString(source);
-//        dest.writeString(sourceNote);
-//        dest.writeString(sourceOrganization);
-//        dest.writeString(topics);
-//    }
 }
