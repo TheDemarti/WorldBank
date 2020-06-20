@@ -50,10 +50,7 @@ public class SearchByIndicator extends AppCompatActivity {
         new Holder();
         createDB();
 
-        Intent data = getIntent();
-        //int search = arguments;
-        search = data.getStringExtra("arguments");
-        Log.w("CA", String.valueOf(search));
+
 
     }
 
@@ -87,7 +84,10 @@ public class SearchByIndicator extends AppCompatActivity {
                     rvIndicators.setAdapter(myAdapter);
                 }
             };
-
+            Intent data = getIntent();
+            //int search = arguments;
+            search = data.getStringExtra("arguments");
+            Log.w("ID TOPIC", String.valueOf(search));
             model.searchByInd(search);
         }
 }
@@ -96,7 +96,8 @@ public class SearchByIndicator extends AppCompatActivity {
         abstract void fill(List<Indicators> cnt);
 
         void searchByInd(String s) {
-            String url = "http://api.worldbank.org/v2/topic/%s/indicator?format=json";
+
+            String url = "http://api.worldbank.org/v2/topic/%s/indicator?format=json&per_page=15000";
             url = String.format(url, s);
             apiCall(url);
         }
