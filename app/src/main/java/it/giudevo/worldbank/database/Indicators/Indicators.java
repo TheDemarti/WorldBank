@@ -18,10 +18,10 @@ import java.util.List;
 @Entity
 public class Indicators implements Parcelable {
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "number")
-    public int number;
+    //@ColumnInfo(name = "number")
+    //public int number;
     @ColumnInfo(name="id")
-    public String id;
+    public int id;
     @ColumnInfo(name="name")
     public String name;
     @ColumnInfo(name = "unit")
@@ -43,7 +43,7 @@ public class Indicators implements Parcelable {
         public String name;
     }
 
-    public Indicators(String id, String name, String unit, String source, String sourceNote, String sourceOrganization, String topics) {
+    public Indicators(int id, String name, String unit, String source, String sourceNote, String sourceOrganization, String topics) {
         this.id = id;
         this.name = name;
         this.unit = unit;
@@ -54,7 +54,7 @@ public class Indicators implements Parcelable {
     }
 
     protected Indicators(Parcel in) {
-        id = in.readString();
+        id = in.readInt();
         name = in.readString();
         unit = in.readString();
         //source = in.readList(source);
@@ -65,7 +65,7 @@ public class Indicators implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
+        dest.writeInt(id);
         dest.writeString(name);
         dest.writeString(unit);
         //dest.writeTypedObject(source);
@@ -91,11 +91,11 @@ public class Indicators implements Parcelable {
         }
     };
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

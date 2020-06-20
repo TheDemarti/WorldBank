@@ -11,8 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".searchApi.SearchByIndicator"></activity>
-        <activity android:name=".FavoritesActivity"></activity>
+        <activity android:name=".searchApi.SearchByCountry"></activity>
+        <activity android:name=".searchApi.SearchByaCountry" />
+        <activity android:name=".searchApi.SearchByIndicator" />
+        <activity android:name=".FavoritesActivity" />
         <activity android:name=".searchApi.SearchByArg" />
         <activity android:name=".MainActivity">
             <intent-filter>

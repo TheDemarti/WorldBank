@@ -3,7 +3,6 @@ package it.giudevo.worldbank.searchApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,7 +60,7 @@ public class SearchByArg extends AppCompatActivity {
         VolleyArguments model;
 
         Holder() {
-            rvArguments = findViewById(R.id.rvArguments);
+            rvArguments = findViewById(R.id.rvCountry);
             this.model = new VolleyArguments() {
 
 
