@@ -55,7 +55,6 @@ public class SearchByIndicator extends AppCompatActivity {
         search = data.getStringExtra("arguments");
         Log.w("CA", String.valueOf(search));
 
-
     }
 
     private void createDB(){
