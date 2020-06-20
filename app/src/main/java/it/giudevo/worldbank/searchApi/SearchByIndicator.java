@@ -89,6 +89,7 @@ public class SearchByIndicator extends AppCompatActivity {
             };
 
             //int search = arguments;
+            String search = "1";
             model.searchByInd(search);
         }
 }
@@ -97,7 +98,7 @@ public class SearchByIndicator extends AppCompatActivity {
         abstract void fill(List<Indicators> cnt);
 
         void searchByInd(String s) {
-            String url = "http://api.worldbank.org/v2/topic/11/indicator?format=json";
+            String url = "http://api.worldbank.org/v2/topic/%s/indicator?format=json";
             url = String.format(url, s);
             apiCall(url);
         }
@@ -128,18 +129,22 @@ public class SearchByIndicator extends AppCompatActivity {
                 //JSONObject ob = new JSONObject(response);
                 //JSONArray ar = ob.getJSONArray("id");
                 JSONArray jsonArray = new JSONArray(response);
+
+                //JSONObject json = jsonArray.getJSONObject(1);
+
                 JSONArray json = jsonArray.getJSONArray(1);/////modificato
-                //JSONObject ob = json.getJSONObject(6);
-                //JSONArray ob = json.getJSONArray(1);
+                JSONObject a = (JSONObject) json.getJSONObject(0).get("id");
+                //JSONObject ob = json.getJSONObject("id");
+                //JSONArray ob = json.getJSONArray("id");
                 //JSONArray first = (JSONArray) json.getJSONArray(0).get(6);
-                Log.w("CA", "lunghezza dell'array =" + json.get(0));
-                Log.w("CA", "lunghezza dell'array =" + json.length());
+                //Log.w("CA", "lunghezza dell'array =" + a.get(0));
+                Log.w("CA", "lunghezza dell'array =" + a.length());
                 //JSONObject jsonObject1 = jsonObject.getJSONObject("value");
                 //String id = jsonObject.getString("id");
                 //String value = jsonObject.getString("value");
                 //String sourceNote = jsonObject.getString("sourceNote");
 
-                indicators = json.toString();
+                indicators = a.toString();
                 Type listType = new TypeToken<List<Indicators>>() {}.getType();
                 List<Indicators> cnt = gson.fromJson(indicators, listType);
                 if (cnt != null && cnt.size() > 0) {
@@ -173,7 +178,7 @@ public class SearchByIndicator extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull Holder1 holder, int position) {
-            holder.tvIndicator.setText(indicators.get(position).name);
+            holder.tvIndicator.setText(indicators.get(position).getId());
         }
 
         @Override

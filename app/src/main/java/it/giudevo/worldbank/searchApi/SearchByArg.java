@@ -1,5 +1,6 @@
 package it.giudevo.worldbank.searchApi;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -79,30 +81,29 @@ public class SearchByArg extends AppCompatActivity {
                 }
             };
 
-            String search = "topic";
-            model.searchByArg(search);
-            //hideKeyboard(SearchByArg.this);
+            model.searchByArg();
+            hideKeyboard(SearchByArg.this);
         }
 
-//        void hideKeyboard(Activity activity) {
-//            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-//            //Find the currently focused view, so we can grab the correct window token from it.
-//            View view = activity.getCurrentFocus();
-//            //If no view currently has focus, create a new one, just so we can grab a window token from it
-//            if (view == null) {
-//                view = new View(activity);
-//            }
-//            assert imm != null;
-//            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-//        }
+        void hideKeyboard(Activity activity) {
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            //Find the currently focused view, so we can grab the correct window token from it.
+            View view = activity.getCurrentFocus();
+            //If no view currently has focus, create a new one, just so we can grab a window token from it
+            if (view == null) {
+                view = new View(activity);
+            }
+            assert imm != null;
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
 private abstract class VolleyArguments implements Response.ErrorListener, Response.Listener<String> {
         abstract void fill(List<Arguments> cnt);
 
-        void searchByArg(String s) {
-            String url = "http://api.worldbank.org/v2/%s?format=json";
-            url = String.format(url, s);
+        void searchByArg() {
+            String url = "http://api.worldbank.org/v2/topic?format=json";
+            //url = String.format(url);
             apiCall(url);
         }
 
