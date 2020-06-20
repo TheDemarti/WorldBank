@@ -30,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -88,8 +89,6 @@ public class SearchByIndicator extends AppCompatActivity {
                 }
             };
 
-            //int search = arguments;
-            String search = "1";
             model.searchByInd(search);
         }
 }
@@ -133,22 +132,21 @@ public class SearchByIndicator extends AppCompatActivity {
                 //JSONObject json = jsonArray.getJSONObject(1);
 
                 JSONArray json = jsonArray.getJSONArray(1);/////modificato
-                JSONObject a = (JSONObject) json.getJSONObject(0).get("id");
                 //JSONObject ob = json.getJSONObject("id");
-                //JSONArray ob = json.getJSONArray("id");
+                //JSONArray ob = json.getJSONArray(1);
                 //JSONArray first = (JSONArray) json.getJSONArray(0).get(6);
                 //Log.w("CA", "lunghezza dell'array =" + a.get(0));
-                Log.w("CA", "lunghezza dell'array =" + a.length());
+                Log.w("CA", "lunghezza dell'array =" + json.get(0));
                 //JSONObject jsonObject1 = jsonObject.getJSONObject("value");
                 //String id = jsonObject.getString("id");
                 //String value = jsonObject.getString("value");
                 //String sourceNote = jsonObject.getString("sourceNote");
 
-                indicators = a.toString();
+                indicators = json.toString();
                 Type listType = new TypeToken<List<Indicators>>() {}.getType();
                 List<Indicators> cnt = gson.fromJson(indicators, listType);
                 if (cnt != null && cnt.size() > 0) {
-                    Log.w("CA", "" + cnt.size());
+                    Log.w("CAA", "" + cnt.size());
                     db.indicatorsDAO().insertAll();
                     fill(cnt);
                 }
