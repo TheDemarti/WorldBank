@@ -35,6 +35,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import it.giudevo.worldbank.R;
+import it.giudevo.worldbank.database.Arguments.Arguments;
 import it.giudevo.worldbank.database.Indicators.AppIndicatorsDatabase;
 import it.giudevo.worldbank.database.Indicators.Indicators;
 
@@ -86,9 +87,9 @@ public class SearchByIndicator extends AppCompatActivity {
             };
             Intent data = getIntent();
             //int search = arguments;
-            search = data.getStringExtra("arguments");
-            Log.w("ID TOPIC", String.valueOf(search));
-            model.searchByInd(search);
+            Arguments search = data.getParcelableExtra("arguments");
+            Log.w("ID TOPIC", String.valueOf(search.id));
+            model.searchByInd(String.valueOf(search.id));
         }
 }
 
