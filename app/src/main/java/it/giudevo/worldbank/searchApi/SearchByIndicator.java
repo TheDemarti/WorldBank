@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,19 +28,17 @@ import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.List;
 
 import it.giudevo.worldbank.R;
+import it.giudevo.worldbank.database.Arguments.Arguments;
 import it.giudevo.worldbank.database.Indicators.AppIndicatorsDatabase;
 import it.giudevo.worldbank.database.Indicators.Indicators;
 
 public class SearchByIndicator extends AppCompatActivity {
     AppIndicatorsDatabase db;
-    int search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +47,6 @@ public class SearchByIndicator extends AppCompatActivity {
 
         new Holder();
         createDB();
-
-
-
     }
 
     private void createDB(){
@@ -69,7 +64,6 @@ public class SearchByIndicator extends AppCompatActivity {
             rvIndicators = findViewById(R.id.rvIndicators);
             this.model = new VolleyIndicator() {
 
-
                 @Override
                 void fill(List<Indicators> cnt) {
                     Log.w("CA", "fill");
@@ -85,10 +79,10 @@ public class SearchByIndicator extends AppCompatActivity {
                 }
             };
             Intent data = getIntent();
-            //int search = arguments;
-            search = data.getIntExtra("arguments",0);
-            Log.w("ID TOPIC", String.valueOf(search));
-            model.searchByInd(search);
+            Arguments search = data.getParcelableExtra("arguments");
+            //Log.w("ID TOPIC", String.valueOf(search));
+            assert search != null;
+            model.searchByInd(search.id);
         }
 }
 
@@ -97,7 +91,7 @@ public class SearchByIndicator extends AppCompatActivity {
 
         void searchByInd(int s) {
 
-            String url = "http://api.worldbank.org/v2/topic/%s/indicator?format=json&per_page=15000";
+            String url = "http://api.worldbank.org/v2/topic/%s/indicator?format=json&per_page=17447";
             url = String.format(url, s);
             apiCall(url);
         }
@@ -121,32 +115,18 @@ public class SearchByIndicator extends AppCompatActivity {
 
         @Override
         public void onResponse(String response) {
-            Log.d("Prova", "json approvato");
+            //Log.d("Prova", "json approvato");
             Gson gson = new Gson();
             String indicators;
             try {
-                //JSONObject ob = new JSONObject(response);
-                //JSONArray ar = ob.getJSONArray("id");
                 JSONArray jsonArray = new JSONArray(response);
-
-                //JSONObject json = jsonArray.getJSONObject(1);
-
                 JSONArray json = jsonArray.getJSONArray(1);/////modificato
-                //JSONObject ob = json.getJSONObject("id");
-                //JSONArray ob = json.getJSONArray(1);
-                //JSONArray first = (JSONArray) json.getJSONArray(0).get(6);
-                //Log.w("CA", "lunghezza dell'array =" + a.get(0));
-                Log.w("CA", "lunghezza dell'array =" + json.get(0));
-                //JSONObject jsonObject1 = jsonObject.getJSONObject("value");
-                //String id = jsonObject.getString("id");
-                //String value = jsonObject.getString("value");
-                //String sourceNote = jsonObject.getString("sourceNote");
-
+                //Log.w("CA", "lunghezza dell'array =" + json.get(0));
                 indicators = json.toString();
                 Type listType = new TypeToken<List<Indicators>>() {}.getType();
                 List<Indicators> cnt = gson.fromJson(indicators, listType);
                 if (cnt != null && cnt.size() > 0) {
-                    Log.w("CAA", "" + cnt.size());
+                    //Log.w("CAA", "" + cnt.size());
                     db.indicatorsDAO().insertAll();
                     fill(cnt);
                 }
@@ -157,7 +137,7 @@ public class SearchByIndicator extends AppCompatActivity {
         }
     }
 
-    private static class IndAdapter extends RecyclerView.Adapter<Holder1>{
+    private class IndAdapter extends RecyclerView.Adapter<Holder1> implements View.OnClickListener{
         public List<Indicators> indicators;
 
         public IndAdapter(List<Indicators> cnt) {
@@ -171,6 +151,7 @@ public class SearchByIndicator extends AppCompatActivity {
             cl = (ConstraintLayout) LayoutInflater
                     .from(parent.getContext())
                     .inflate(R.layout.raw_indicator, parent, false);
+            cl.setOnClickListener(this);
             return new Holder1(cl);
         }
 
@@ -182,6 +163,15 @@ public class SearchByIndicator extends AppCompatActivity {
         @Override
         public int getItemCount() {
             return indicators.size();
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = ((RecyclerView) v.getParent()).getChildAdapterPosition(v);
+            Indicators ind = indicators.get(position);
+            Intent intent = new Intent(SearchByIndicator.this, SearchByCountry.class);
+            intent.putExtra("indicators", ind);
+            SearchByIndicator.this.startActivity(intent);
         }
     }
 

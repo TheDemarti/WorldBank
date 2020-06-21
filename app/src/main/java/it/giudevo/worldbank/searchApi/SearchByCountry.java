@@ -38,7 +38,7 @@ import it.giudevo.worldbank.R;
 
 import it.giudevo.worldbank.database.Countries.Countries;
 import it.giudevo.worldbank.database.Countries.AppCountriesDatabase;
-import it.giudevo.worldbank.database.Indicators.AppIndicatorsDatabase;
+import it.giudevo.worldbank.database.Indicators.Indicators;
 
 
 public class SearchByCountry extends AppCompatActivity {
@@ -48,7 +48,8 @@ public class SearchByCountry extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_by_country);
-        new SearchByCountry.Holder();
+
+        new Holder();
         createDB();
     }
     private void createDB(){
@@ -76,12 +77,16 @@ public class SearchByCountry extends AppCompatActivity {
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SearchByCountry.this);
                     rvCountry.setLayoutManager(layoutManager);
                     rvCountry.setHasFixedSize(true);
-                    SearchByCountry.CountryAdapter myAdapter = new SearchByCountry.CountryAdapter(cnt);
+                    CountryAdapter myAdapter = new CountryAdapter(cnt);
                     rvCountry.setAdapter(myAdapter);
                 }
             };
 
-            model.searchByCountry();
+            Intent data = getIntent();
+            Indicators search = data.getParcelableExtra("indicators");
+            //Log.w("ID TOPIC", String.valueOf(search));
+            assert search != null;
+            model.searchByCountry(search.id);
             hideKeyboard(SearchByCountry.this);
         }
 
@@ -101,9 +106,9 @@ public class SearchByCountry extends AppCompatActivity {
     private abstract class VolleyCountries implements Response.ErrorListener, Response.Listener<String> {
         abstract void fill(List<Countries> cnt);
 
-        void searchByCountry() {
-            String url = "http://api.worldbank.org/v2/country?format=json";
-            //url = String.format(url);
+        void searchByCountry(String s) {
+            String url = "http://api.worldbank.org/v2/country/all/indicator/%s?format=json&per_page=15840";
+            url = String.format(url, s);
             apiCall(url);
         }
 
@@ -152,10 +157,9 @@ public class SearchByCountry extends AppCompatActivity {
         }
     }
 
-    public class CountryAdapter extends RecyclerView.Adapter<SearchByCountry.CountryAdapter.ViewHolder> {
+    public static class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHolder>{// implements View.OnClickListener{
 
         public List<Countries> countries;
-        private String id;
 
         public CountryAdapter(List<Countries> cnt) {
              countries = cnt;
@@ -164,20 +168,19 @@ public class SearchByCountry extends AppCompatActivity {
 
         @NonNull
         @Override
-        public SearchByCountry.CountryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             ConstraintLayout cl;
             cl = (ConstraintLayout) LayoutInflater
                     .from(parent.getContext())
                     .inflate(R.layout.raw_countries, parent, false);
-            return new SearchByCountry.CountryAdapter.ViewHolder(cl);
+            //cl.setOnClickListener(this);
+            return new ViewHolder(cl);
 
         }
 
         @Override
-        public void onBindViewHolder(@NonNull SearchByCountry.CountryAdapter.ViewHolder holder, int position) {
-            holder.tvValue.setText(countries.get(position).id);
-            holder.tvSourceNote.setText(countries.get(position).capitalCity);
-            id = String.valueOf(countries.get(position).getId());
+        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+            holder.tvIsoCode.setText(countries.get(position).getCountryiso3code());
         }
 
         @Override
@@ -185,26 +188,24 @@ public class SearchByCountry extends AppCompatActivity {
             return countries.size();
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            TextView tvValue, tvSourceNote;
+//        @Override
+//        public void onClick(View v) {
+//            int position = ((RecyclerView) v.getParent()).getChildAdapterPosition(v);
+//            Countries cou = countries.get(position);
+//            Intent intent = new Intent(SearchByCountry.this, SearchByArg.class);
+//            intent.putExtra("countries",cou);
+//            SearchByCountry.this.startActivity(intent);
+//
+//        }
+
+        public static class ViewHolder extends RecyclerView.ViewHolder {
+            TextView tvIsoCode;
             CardView cvCountry;
 
             public ViewHolder(ConstraintLayout cl) {
                 super(cl);
-                tvValue = cl.findViewById(R.id.tvValue);
-                tvSourceNote = cl.findViewById(R.id.tvSourceNote);
+                tvIsoCode = cl.findViewById(R.id.tvIsoCode);
                 cvCountry = cl.findViewById(R.id.cvCountries);
-
-                cvCountry.setOnClickListener(this);
-            }
-
-            @Override
-            public void onClick(View v) {
-                if(v.getId() == R.id.cvCountries){
-                    Intent intent = new Intent(SearchByCountry.this, SearchByArg.class);
-                    intent.putExtra("countries", id);
-                    SearchByCountry.this.startActivity(intent);
-                }
             }
         }
     }

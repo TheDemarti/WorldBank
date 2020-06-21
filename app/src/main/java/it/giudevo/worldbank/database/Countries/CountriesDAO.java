@@ -18,7 +18,7 @@ public interface CountriesDAO {
     @Query("SELECT * FROM Countries WHERE id IN (:ids)")
     List<Countries> loadAllByIds(int[] ids);
 
-    @Query("SELECT * FROM Countries WHERE name LIKE :name ORDER BY name")
+    @Query("SELECT * FROM Countries WHERE countryiso3code LIKE :name ORDER BY countryiso3code")
     List<Countries> findByCountryName(String name);
 
     @Query("SELECT count(*) FROM Countries")
