@@ -175,8 +175,8 @@ public class SearchByCountry extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull SearchByCountry.CountryAdapter.ViewHolder holder, int position) {
-            holder.tvValue.setText(countries.get(position).getValue());
-            holder.tvSourceNote.setText(countries.get(position).getSourceNote());
+        //    holder.tvValue.setText(countries.get(position).getValue());
+              //holder.tvSourceNote.setText(countries.get(position).getSourceNote());
             id = String.valueOf(countries.get(position).getId());
         }
 

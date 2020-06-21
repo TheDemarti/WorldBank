@@ -60,7 +60,7 @@ public class SearchByArg extends AppCompatActivity {
         VolleyArguments model;
 
         Holder() {
-            rvArguments = findViewById(R.id.rvCountry);
+            rvArguments = findViewById(R.id.rvArguments);
             this.model = new VolleyArguments() {
 
 

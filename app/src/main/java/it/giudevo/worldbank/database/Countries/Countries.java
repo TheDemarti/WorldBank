@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey;
 public class Countries implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    public String id;
+    public int id;
     @ColumnInfo(name = "iso2code")
     public String iso2code;
     @ColumnInfo(name = "name")
@@ -23,7 +23,7 @@ public class Countries implements Parcelable {
     @ColumnInfo(name="latitude")
     public String latitude;
 
-    public Countries(String id, String iso2code, String name, String capitalCity, String longitude, String latitude) {
+    public Countries(int id, String iso2code, String name, String capitalCity, String longitude, String latitude) {
         this.id = id;
         this.iso2code = iso2code;
         this.name = name;
@@ -33,7 +33,7 @@ public class Countries implements Parcelable {
     }
 
     protected Countries(Parcel in) {
-        id = in.readString();
+        id = in.readInt();
         iso2code = in.readString();
         name = in.readString();
         capitalCity = in.readString();
@@ -54,11 +54,11 @@ public class Countries implements Parcelable {
         }
     };
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -109,7 +109,7 @@ public class Countries implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
+        dest.writeInt(id);
         dest.writeString(iso2code);
         dest.writeString(name);
         dest.writeString(capitalCity);

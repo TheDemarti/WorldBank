@@ -4,74 +4,54 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.room.ColumnInfo;
-import androidx.room.Delete;
-import androidx.room.Embedded;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverter;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 public class Indicators implements Parcelable {
     @PrimaryKey(autoGenerate = true)
-    //@ColumnInfo(name = "number")
-    //public int number;
+    @ColumnInfo(name="test")
+    public Integer test;
     @ColumnInfo(name="id")
-    public int id;
+    public String id;
     @ColumnInfo(name="name")
     public String name;
     @ColumnInfo(name = "unit")
     public String unit;
-    @ColumnInfo(name = "source")
-    public String source;
     @ColumnInfo(name = "sourceNote")
     public String sourceNote;
     @ColumnInfo(name = "sourceOrganization")
     public String sourceOrganization;
-    @ColumnInfo(name = "topics")
-    public String topics;
 
-    public static class Source {
-        @PrimaryKey(autoGenerate = true)
-        //@ColumnInfo(name="id")
-        public int id;
-        @ColumnInfo(name="name")
-        public String name;
-    }
-
-    public Indicators(int id, String name, String unit, String source, String sourceNote, String sourceOrganization, String topics) {
+    public Indicators(String id, String name, String unit, String sourceNote, String sourceOrganization) {
         this.id = id;
         this.name = name;
         this.unit = unit;
-        this.source = source;
         this.sourceNote = sourceNote;
         this.sourceOrganization = sourceOrganization;
-        this.topics = topics;
+
     }
 
     protected Indicators(Parcel in) {
-        id = in.readInt();
+        id = in.readString();
         name = in.readString();
         unit = in.readString();
-        //source = in.readList(source);
         sourceNote = in.readString();
         sourceOrganization = in.readString();
-        topics = in.readString();
+
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
+        dest.writeString(id);
         dest.writeString(name);
         dest.writeString(unit);
-        //dest.writeTypedObject(source);
+
         dest.writeString(sourceNote);
         dest.writeString(sourceOrganization);
-        dest.writeString(topics);
+
     }
 
     @Override
@@ -91,11 +71,11 @@ public class Indicators implements Parcelable {
         }
     };
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -115,14 +95,6 @@ public class Indicators implements Parcelable {
         this.unit = unit;
     }
 
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
     public String getSourceNote() {
         return sourceNote;
     }
@@ -139,13 +111,13 @@ public class Indicators implements Parcelable {
         this.sourceOrganization = sourceOrganization;
     }
 
-    public String getTopics() {
-        return topics;
-    }
+   // public String getTopics() {
+   //     return topics;
+   // }
 
-    public void setTopics(String topics) {
-        this.topics = topics;
-    }
+   // public void setTopics(String topics) {
+   //     this.topics = topics;
+   // }
 
 
 }
