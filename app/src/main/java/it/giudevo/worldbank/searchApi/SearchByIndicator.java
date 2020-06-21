@@ -35,13 +35,12 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import it.giudevo.worldbank.R;
-import it.giudevo.worldbank.database.Arguments.Arguments;
 import it.giudevo.worldbank.database.Indicators.AppIndicatorsDatabase;
 import it.giudevo.worldbank.database.Indicators.Indicators;
 
 public class SearchByIndicator extends AppCompatActivity {
     AppIndicatorsDatabase db;
-    String search;
+    int search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,16 +86,16 @@ public class SearchByIndicator extends AppCompatActivity {
             };
             Intent data = getIntent();
             //int search = arguments;
-            Arguments search = data.getParcelableExtra("arguments");
-            Log.w("ID TOPIC", String.valueOf(search.id));
-            model.searchByInd(String.valueOf(search.id));
+            search = data.getIntExtra("arguments",0);
+            Log.w("ID TOPIC", String.valueOf(search));
+            model.searchByInd(search);
         }
 }
 
     private abstract class VolleyIndicator implements Response.ErrorListener, Response.Listener<String>{
         abstract void fill(List<Indicators> cnt);
 
-        void searchByInd(String s) {
+        void searchByInd(int s) {
 
             String url = "http://api.worldbank.org/v2/topic/%s/indicator?format=json&per_page=15000";
             url = String.format(url, s);
@@ -177,7 +176,7 @@ public class SearchByIndicator extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull Holder1 holder, int position) {
-            holder.tvIndicator.setText(indicators.get(position).getId());
+            holder.tvIndicator.setText(indicators.get(position).getName());
         }
 
         @Override

@@ -3,6 +3,7 @@ package it.giudevo.worldbank.searchApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -150,10 +151,10 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
         }
     }
 
-    public class ArgAdapter extends RecyclerView.Adapter<ArgAdapter.ViewHolder> implements View.OnClickListener {
+    public class ArgAdapter extends RecyclerView.Adapter<ArgAdapter.ViewHolder> {
 
         public List<Arguments> arguments;
-        public String id;
+        private int id;
 
         public ArgAdapter(List<Arguments> cnt) {
                 arguments = cnt;
@@ -167,15 +168,15 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
                 cl = (ConstraintLayout) LayoutInflater
                         .from(parent.getContext())
                         .inflate(R.layout.raw_arguments, parent, false);
-                cl.setOnClickListener(this);
                 return new ViewHolder(cl);
-        }
+
+            }
 
             @Override
             public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
                 holder.tvValue.setText(arguments.get(position).getValue());
                 holder.tvSourceNote.setText(arguments.get(position).getSourceNote());
-                id = String.valueOf(arguments.get(position).getId());
+                id = arguments.get(position).getId();
             }
 
             @Override
@@ -183,16 +184,7 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
                 return arguments.size();
             }
 
-        @Override
-        public void onClick(View v) {
-            int position = ((RecyclerView) v.getParent()).getChildAdapterPosition(v);
-            Arguments arg = arguments.get(position);
-            Intent intent = new Intent(SearchByArg.this, SearchByIndicator.class);
-            intent.putExtra("arguments", arg);
-            SearchByArg.this.startActivity(intent);
-        }
-
-        public class ViewHolder extends RecyclerView.ViewHolder {
+            public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
                 TextView tvValue, tvSourceNote;
                 CardView cvArguments;
 
@@ -201,9 +193,19 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
                     tvValue = cl.findViewById(R.id.tvValue);
                     tvSourceNote = cl.findViewById(R.id.tvSourceNote);
                     cvArguments = cl.findViewById(R.id.cvArguments);
+
+                    cvArguments.setOnClickListener(this);
                 }
 
-
+                @Override
+                public void onClick(View v) {
+                    if(v.getId() == R.id.cvArguments){
+                        Intent intent = new Intent(SearchByArg.this, SearchByIndicator.class);
+                        intent.putExtra("arguments", );
+                        //Log.w("CA", String.valueOf(arguments.get(1)));
+                        SearchByArg.this.startActivity(intent);
+                    }
+                }
             }
     }
 }
