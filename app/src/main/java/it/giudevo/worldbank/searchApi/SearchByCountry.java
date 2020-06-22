@@ -90,16 +90,10 @@ public class SearchByCountry extends AppCompatActivity {
 
             Intent data = getIntent();
             Indicators search = data.getParcelableExtra("indicators");
-            int Clicked = data.getIntExtra("btnClick", 3);
             //Log.w("ID TOPIC", String.valueOf(search));
             assert search != null;
             model.CountriesAPI(getApplicationContext());
-            if(Clicked == 1) {
-                model.searchByCountry(search.id);
-            }
-            else if(Clicked == 0){
-                model.searchByCountryFirst();
-            }
+            model.searchByCountry(search.id);
             hideKeyboard(SearchByCountry.this);
         }
 
@@ -131,12 +125,6 @@ public class SearchByCountry extends AppCompatActivity {
         void searchByCountry(String s) {
             String url = "http://api.worldbank.org/v2/country/all/indicator/%s?format=json&per_page=15840";
             url = String.format(url, s);
-            apiCall(url);
-        }
-
-        void searchByCountryFirst() {
-            String url = "http://api.worldbank.org/v2/country?format=json&per_page=304";
-            //url = String.format(url, s);
             apiCall(url);
         }
 
