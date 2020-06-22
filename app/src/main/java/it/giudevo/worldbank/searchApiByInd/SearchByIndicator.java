@@ -33,9 +33,9 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import it.giudevo.worldbank.R;
-import it.giudevo.worldbank.database.Arguments.Arguments;
-import it.giudevo.worldbank.database.IndicatorsByArguments.AppIndicatorsDatabase;
-import it.giudevo.worldbank.database.IndicatorsByArguments.Indicators;
+import it.giudevo.worldbank.database.Arguments.Arguments.Arguments;
+import it.giudevo.worldbank.database.Arguments.Indicators.AppIndicatorsDatabase;
+import it.giudevo.worldbank.database.Arguments.Indicators.Indicators;
 
 public class SearchByIndicator extends AppCompatActivity {
     AppIndicatorsDatabase db;
