@@ -42,9 +42,9 @@ import java.util.List;
 
 import it.giudevo.worldbank.R;
 
-import it.giudevo.worldbank.database.Countries.Countries;
-import it.giudevo.worldbank.database.Countries.AppCountriesDatabase;
-import it.giudevo.worldbank.database.IndicatorsByArguments.Indicators;
+import it.giudevo.worldbank.database.Arguments.Countries.Countries;
+import it.giudevo.worldbank.database.Arguments.Countries.AppCountriesDatabase;
+import it.giudevo.worldbank.database.Arguments.Indicators.Indicators;
 
 
 public class SearchByCountry extends AppCompatActivity {
