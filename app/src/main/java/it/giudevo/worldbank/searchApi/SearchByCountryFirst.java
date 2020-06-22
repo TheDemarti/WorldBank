@@ -91,7 +91,7 @@ public class SearchByCountryFirst extends AppCompatActivity {
             //Log.w("ID TOPIC", String.valueOf(search));
             assert search != null;
             model.CountriesAPI(getApplicationContext());
-            model.searchByCountry(search.id);
+            model.searchByCountry();
             hideKeyboard(SearchByCountryFirst.this);
         }
 
@@ -120,9 +120,9 @@ public class SearchByCountryFirst extends AppCompatActivity {
             requestQueue.start();
         }
 
-        void searchByCountry(String s) {
-            String url = "http://api.worldbank.org/v2/country?format=json&per_page=15840";
-            url = String.format(url, s);
+        void searchByCountry() {
+            String url = "http://api.worldbank.org/v2/country?format=json&per_page=304";
+            //url = String.format(url, s);
             apiCall(url);
         }
 
