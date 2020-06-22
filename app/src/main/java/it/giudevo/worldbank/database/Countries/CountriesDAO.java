@@ -8,8 +8,6 @@ import androidx.room.Query;
 
 import java.util.List;
 
-import it.giudevo.worldbank.database.Countries.Countries;
-
 @Dao
 public interface CountriesDAO {
     @Query("SELECT * FROM Countries")
@@ -25,7 +23,7 @@ public interface CountriesDAO {
     int size();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(Countries... arguments);
+    void insertAll(Countries... countries);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<Countries>countries);

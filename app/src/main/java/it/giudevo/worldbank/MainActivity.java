@@ -18,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
         new Holder();
     }
 
-
     class Holder implements View.OnClickListener {
 
         Button btnCountry, btnArg, btnOff;
@@ -43,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
 //             }
              if(v.getId() == R.id.btnArg){
                  Intent intent = new Intent(MainActivity.this, SearchByArg.class);
-                 //startActivity(intent);
                  MainActivity.this.startActivity(intent);
              }
              if(v.getId() == R.id.btnFavorites){

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,10 +20,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Cache;
+import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
@@ -38,7 +44,7 @@ import it.giudevo.worldbank.R;
 
 import it.giudevo.worldbank.database.Countries.Countries;
 import it.giudevo.worldbank.database.Countries.AppCountriesDatabase;
-import it.giudevo.worldbank.database.Indicators.Indicators;
+import it.giudevo.worldbank.database.IndicatorsByArguments.Indicators;
 
 
 public class SearchByCountry extends AppCompatActivity {
@@ -86,6 +92,7 @@ public class SearchByCountry extends AppCompatActivity {
             Indicators search = data.getParcelableExtra("indicators");
             //Log.w("ID TOPIC", String.valueOf(search));
             assert search != null;
+            model.CountriesAPI(getApplicationContext());
             model.searchByCountry(search.id);
             hideKeyboard(SearchByCountry.this);
         }
@@ -106,6 +113,15 @@ public class SearchByCountry extends AppCompatActivity {
     private abstract class VolleyCountries implements Response.ErrorListener, Response.Listener<String> {
         abstract void fill(List<Countries> cnt);
 
+        RequestQueue requestQueue;
+
+        void CountriesAPI(Context context) {
+            Cache cache = new DiskBasedCache(context.getCacheDir(), 100 * 1024 * 1024); // 100MB
+            Network network = new BasicNetwork(new HurlStack());
+            requestQueue = new RequestQueue(cache, network);
+            requestQueue.start();
+        }
+
         void searchByCountry(String s) {
             String url = "http://api.worldbank.org/v2/country/all/indicator/%s?format=json&per_page=15840";
             url = String.format(url, s);
@@ -113,7 +129,7 @@ public class SearchByCountry extends AppCompatActivity {
         }
 
         private void apiCall(String url) {
-            RequestQueue requestQueue;
+            //RequestQueue requestQueue;
             requestQueue = Volley.newRequestQueue(SearchByCountry.this);
             StringRequest stringRequest = new StringRequest(Request.Method.GET,
                     url,
@@ -180,7 +196,9 @@ public class SearchByCountry extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            holder.tvIsoCode.setText(countries.get(position).getCountryiso3code());
+            if(!countries.get(position).countryiso3code.equals("")) {
+                holder.tvIsoCode.setText(countries.get(position).getCountryiso3code());
+            }
         }
 
         @Override
