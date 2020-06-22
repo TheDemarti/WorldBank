@@ -1,4 +1,4 @@
-package it.giudevo.worldbank.searchApi;
+package it.giudevo.worldbank.searchApiByInd;
 
 import android.app.Activity;
 import android.content.Intent;

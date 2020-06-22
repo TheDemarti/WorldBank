@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".searchApi.SearchByIndicator">
+    tools:context=".searchApiByInd.SearchByIndicator">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvIndicators"

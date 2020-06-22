@@ -1,4 +1,4 @@
-package it.giudevo.worldbank.database.Arguments;
+package it.giudevo.worldbank.database.Arguments.Arguments;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -7,8 +7,6 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import java.util.List;
-
-import it.giudevo.worldbank.database.Arguments.Arguments;
 
 @Dao
 public interface ArgumentsDAO {

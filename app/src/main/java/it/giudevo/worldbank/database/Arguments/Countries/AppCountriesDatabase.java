@@ -1,4 +1,4 @@
-package it.giudevo.worldbank.database.Countries;
+package it.giudevo.worldbank.database.Arguments.Countries;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;

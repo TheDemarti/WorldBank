@@ -1,4 +1,4 @@
-package it.giudevo.worldbank.searchApi;
+package it.giudevo.worldbank.searchApiByInd;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -116,7 +116,7 @@ public class SearchByCountry extends AppCompatActivity {
         RequestQueue requestQueue;
 
         void CountriesAPI(Context context) {
-            Cache cache = new DiskBasedCache(context.getCacheDir(), 100 * 1024 * 1024); // 100MB
+            Cache cache = new DiskBasedCache(context.getCacheDir(), 20 * 1024 * 1024); // 20MB
             Network network = new BasicNetwork(new HurlStack());
             requestQueue = new RequestQueue(cache, network);
             requestQueue.start();
