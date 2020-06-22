@@ -1,4 +1,4 @@
-package it.giudevo.worldbank.searchApiByInd;
+package it.giudevo.worldbank.searchApi;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
