@@ -46,6 +46,7 @@ import it.giudevo.worldbank.database.Country.Countries.Country;
 
 public class SearchByCountryFirst extends AppCompatActivity {
     AppCountriesDatabase db;
+    public boolean choice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +86,8 @@ public class SearchByCountryFirst extends AppCompatActivity {
                 }
             };
 
-            //Intent data = getIntent();
+            Intent data = getIntent();
+            choice = data.getBooleanExtra("choice", true);
             //Indicators search = data.getParcelableExtra("indicators");
             //Log.w("ID TOPIC", String.valueOf(search));
             //assert search != null;
@@ -205,7 +207,6 @@ public class SearchByCountryFirst extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            boolean choice = true;
             int position = ((RecyclerView) v.getParent()).getChildAdapterPosition(v);
             Country cou = countries.get(position);
             Intent intent = new Intent(SearchByCountryFirst.this, SearchByArg.class);

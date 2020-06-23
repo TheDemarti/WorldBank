@@ -39,7 +39,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
              if(v.getId() == R.id.btnCountry){
+                 choice = true;
                  Intent intent = new Intent(MainActivity.this, SearchByCountryFirst.class);
+                 intent.putExtra("choice", choice);
                  MainActivity.this.startActivity(intent);
              }
              if(v.getId() == R.id.btnArg){

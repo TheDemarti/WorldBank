@@ -41,7 +41,7 @@ import it.giudevo.worldbank.database.Country.Countries.Country;
 
 public class SearchByArg extends AppCompatActivity {
     AppArgumentsDatabase db;
-    public boolean choice = false;
+    public boolean choice;
     public Country country;
 
     @Override
@@ -86,7 +86,6 @@ public class SearchByArg extends AppCompatActivity {
             if(choice) {
                 country = data.getParcelableExtra("countries");
             }
-
             model.searchByArg();
             hideKeyboard(SearchByArg.this);
         }

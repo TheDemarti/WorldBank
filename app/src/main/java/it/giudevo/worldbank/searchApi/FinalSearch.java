@@ -32,7 +32,7 @@ import it.giudevo.worldbank.database.Arguments.Indicators.Indicators;
 import it.giudevo.worldbank.database.Country.Countries.Country;
 
 public class FinalSearch extends AppCompatActivity {
-    public List<Countries> cnt;
+    public List<Countries> cnt;//forse il problema è qui
     public boolean choice;
 
     @Override
@@ -55,28 +55,26 @@ public class FinalSearch extends AppCompatActivity {
             Intent data = getIntent();
             Indicators search = data.getParcelableExtra("indicators");
             choice = data.getBooleanExtra("choice", false);
-            if(!choice) {
+            if(choice) {
+                Country countries = data.getParcelableExtra("countries");
+                assert search != null;
+                //model.CountriesAPI(getApplicationContext());
+                assert countries != null;
+                model.searchByCountry(countries.getIso2Code(), search.getId());
+            }
+            else{
                 Countries countries = data.getParcelableExtra("countries");
                 assert search != null;
                 //model.CountriesAPI(getApplicationContext());
                 assert countries != null;
                 model.searchByCountry(countries.getCountryiso3code(), search.getId());
-                hideKeyboard(FinalSearch.this);
-            }
-            else{
-                Country country = data.getParcelableExtra("countries");
-                assert search != null;
-                //model.CountriesAPI(getApplicationContext());
-                assert country != null;
-                model.searchByCountry(country.getIso2Code(), search.getId());
-                hideKeyboard(FinalSearch.this);
             }
             //Log.w("ID TOPIC", String.valueOf(search));
 //            assert search != null;
 //            //model.CountriesAPI(getApplicationContext());
 //            assert countries != null;
 //            model.searchByCountry(countries.getCountryiso3code(), search.getId());
-//            hideKeyboard(FinalSearch.this);
+            hideKeyboard(FinalSearch.this);
 
             //tvProva.setText(cnt.get(0).getCountryiso3code());
         }
@@ -105,7 +103,7 @@ public class FinalSearch extends AppCompatActivity {
 //        }
 
             void searchByCountry(String s, String r) {
-                String url = "http://api.worldbank.org/v2/country/%s/indicator/%s?format=json&per_page=2000";
+                String url = "http://api.worldbank.org/v2/country/%s/indicator/%s?format=json&per_page=1000";
                 url = String.format(url, s, r);
                 apiCall(url);
             }
