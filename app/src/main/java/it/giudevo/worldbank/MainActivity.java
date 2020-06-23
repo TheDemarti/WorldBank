@@ -8,10 +8,9 @@ import android.view.View;
 import android.widget.Button;
 
 import it.giudevo.worldbank.searchApi.SearchByArg;
-import it.giudevo.worldbank.searchApi.SearchByCountry;
+import it.giudevo.worldbank.searchApi.SearchByCountryFirst;
 
 public class MainActivity extends AppCompatActivity {
-    int btnClick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,21 +38,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
              if(v.getId() == R.id.btnCountry){
-                 btnClick = 0;
-                 Intent intent = new Intent(MainActivity.this, SearchByCountry.class);
-                 intent.putExtra("btnClick", btnClick);
+                 Intent intent = new Intent(MainActivity.this, SearchByCountryFirst.class);
                  MainActivity.this.startActivity(intent);
              }
              if(v.getId() == R.id.btnArg){
-                 btnClick = 1;
                  Intent intent = new Intent(MainActivity.this, SearchByArg.class);
-                 intent.putExtra("btnClick", btnClick);
                  MainActivity.this.startActivity(intent);
              }
              if(v.getId() == R.id.btnFavorites){
-                 btnClick = 2;
                  Intent intent = new Intent(MainActivity.this, FavoritesActivity.class);
-                 intent.putExtra("btnClick", btnClick);
                  startActivity(intent);
              }
         }

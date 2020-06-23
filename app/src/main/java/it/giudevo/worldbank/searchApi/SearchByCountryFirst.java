@@ -1,13 +1,5 @@
 package it.giudevo.worldbank.searchApi;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +11,14 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import com.android.volley.Cache;
 import com.android.volley.Network;
@@ -41,13 +41,11 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import it.giudevo.worldbank.R;
-
-import it.giudevo.worldbank.database.Arguments.Countries.Countries;
-import it.giudevo.worldbank.database.Arguments.Countries.AppCountriesDatabase;
+import it.giudevo.worldbank.database.Country.Countries.AppCountriesDatabase;
+import it.giudevo.worldbank.database.Country.Countries.Countries;
 import it.giudevo.worldbank.database.Arguments.Indicators.Indicators;
 
-
-public class SearchByCountry extends AppCompatActivity {
+public class SearchByCountryFirst extends AppCompatActivity {
     AppCountriesDatabase db;
 
     @Override
@@ -66,11 +64,11 @@ public class SearchByCountry extends AppCompatActivity {
 
     private class Holder{
         RecyclerView rvCountry;
-        SearchByCountry.VolleyCountries model;
+        VolleyCountries model;
 
         Holder() {
             rvCountry = findViewById(R.id.rvCountry);
-            this.model = new SearchByCountry.VolleyCountries() {
+            this.model = new VolleyCountries() {
 
 
                 @Override
@@ -80,7 +78,7 @@ public class SearchByCountry extends AppCompatActivity {
                 }
 
                 private void fillList(List<Countries> cnt) {
-                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SearchByCountry.this);
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SearchByCountryFirst.this);
                     rvCountry.setLayoutManager(layoutManager);
                     rvCountry.setHasFixedSize(true);
                     CountryAdapter myAdapter = new CountryAdapter(cnt);
@@ -93,8 +91,8 @@ public class SearchByCountry extends AppCompatActivity {
             //Log.w("ID TOPIC", String.valueOf(search));
             assert search != null;
             model.CountriesAPI(getApplicationContext());
-            model.searchByCountry(search.id);
-            hideKeyboard(SearchByCountry.this);
+            model.searchByCountry();
+            hideKeyboard(SearchByCountryFirst.this);
         }
 
         void hideKeyboard(Activity activity) {
@@ -122,15 +120,15 @@ public class SearchByCountry extends AppCompatActivity {
             requestQueue.start();
         }
 
-        void searchByCountry(String s) {
-            String url = "http://api.worldbank.org/v2/country/all/indicator/%s?format=json&per_page=15840";
-            url = String.format(url, s);
+        void searchByCountry() {
+            String url = "http://api.worldbank.org/v2/country?format=json&per_page=304";
+            //url = String.format(url, s);
             apiCall(url);
         }
 
         private void apiCall(String url) {
             //RequestQueue requestQueue;
-            requestQueue = Volley.newRequestQueue(SearchByCountry.this);
+            requestQueue = Volley.newRequestQueue(SearchByCountryFirst.this);
             StringRequest stringRequest = new StringRequest(Request.Method.GET,
                     url,
                     this,
@@ -141,7 +139,7 @@ public class SearchByCountry extends AppCompatActivity {
 
         @Override
         public void onErrorResponse(VolleyError error) {
-            Toast.makeText(SearchByCountry.this, "Some Thing Goes Wrong", Toast.LENGTH_LONG).show();//
+            Toast.makeText(SearchByCountryFirst.this, "Some Thing Goes Wrong", Toast.LENGTH_LONG).show();//
             error.printStackTrace();//
         }
 
@@ -178,7 +176,7 @@ public class SearchByCountry extends AppCompatActivity {
         public List<Countries> countries;
 
         public CountryAdapter(List<Countries> cnt) {
-             countries = cnt;
+            countries = cnt;
         }
 
 
@@ -196,8 +194,8 @@ public class SearchByCountry extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            if(!countries.get(position).countryiso3code.equals("")) {
-                holder.tvIsoCode.setText(countries.get(position).getCountryiso3code());
+            if(!countries.get(position).name.equals("")) {
+                holder.tvIsoCode.setText(countries.get(position).getName());
             }
         }
 
