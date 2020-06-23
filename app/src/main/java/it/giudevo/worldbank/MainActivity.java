@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import it.giudevo.worldbank.searchApi.SearchByArg;
-import it.giudevo.worldbank.searchApi.SearchByCountry;
+import it.giudevo.worldbank.searchApi.SearchByCountryFirst;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
              if(v.getId() == R.id.btnCountry){
-                 Intent intent = new Intent(MainActivity.this, SearchByCountry.class);
+                 Intent intent = new Intent(MainActivity.this, SearchByCountryFirst.class);
                  MainActivity.this.startActivity(intent);
              }
              if(v.getId() == R.id.btnArg){
