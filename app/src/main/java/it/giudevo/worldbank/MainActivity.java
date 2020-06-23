@@ -11,6 +11,7 @@ import it.giudevo.worldbank.searchApi.SearchByArg;
 import it.giudevo.worldbank.searchApi.SearchByCountryFirst;
 
 public class MainActivity extends AppCompatActivity {
+    public boolean intero;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
                  MainActivity.this.startActivity(intent);
              }
              if(v.getId() == R.id.btnArg){
+                 intero = false;
                  Intent intent = new Intent(MainActivity.this, SearchByArg.class);
+                 intent.putExtra("intero", intero);
                  MainActivity.this.startActivity(intent);
              }
              if(v.getId() == R.id.btnFavorites){
