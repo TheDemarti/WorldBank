@@ -205,12 +205,12 @@ public class SearchByCountryFirst extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            boolean var = true;
+            boolean choice = true;
             int position = ((RecyclerView) v.getParent()).getChildAdapterPosition(v);
             Countries cou = countries.get(position);
             Intent intent = new Intent(SearchByCountryFirst.this, SearchByArg.class);
             intent.putExtra("countries",cou);
-            intent.putExtra("intero", var);
+            intent.putExtra("choice", choice);
             SearchByCountryFirst.this.startActivity(intent);
 
         }

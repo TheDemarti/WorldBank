@@ -49,6 +49,7 @@ import it.giudevo.worldbank.database.Arguments.Indicators.Indicators;
 
 public class SearchByCountry extends AppCompatActivity {
     AppCountriesDatabase db;
+    public Indicators search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +90,7 @@ public class SearchByCountry extends AppCompatActivity {
             };
 
             Intent data = getIntent();
-            Indicators search = data.getParcelableExtra("indicators");
+            search = data.getParcelableExtra("indicators");
             //Log.w("ID TOPIC", String.valueOf(search));
             assert search != null;
             model.CountriesAPI(getApplicationContext());
@@ -173,7 +174,7 @@ public class SearchByCountry extends AppCompatActivity {
         }
     }
 
-    public static class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHolder>{// implements View.OnClickListener{
+    public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHolder> implements View.OnClickListener{
 
         public List<Countries> countries;
 
@@ -206,17 +207,18 @@ public class SearchByCountry extends AppCompatActivity {
             return countries.size();
         }
 
-//        @Override
-//        public void onClick(View v) {
-//            int position = ((RecyclerView) v.getParent()).getChildAdapterPosition(v);
-//            Countries cou = countries.get(position);
-//            Intent intent = new Intent(SearchByCountry.this, SearchByArg.class);
-//            intent.putExtra("countries",cou);
-//            SearchByCountry.this.startActivity(intent);
-//
-//        }
+        @Override
+        public void onClick(View v) {
+            int position = ((RecyclerView) v.getParent()).getChildAdapterPosition(v);
+            Countries cou = countries.get(position);
+            Intent intent = new Intent(SearchByCountry.this, FinalSearch.class);
+            intent.putExtra("countries",cou);
+            intent.putExtra("indicators", search);
+            SearchByCountry.this.startActivity(intent);
 
-        public static class ViewHolder extends RecyclerView.ViewHolder {
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
             TextView tvIsoCode;
             CardView cvCountry;
 

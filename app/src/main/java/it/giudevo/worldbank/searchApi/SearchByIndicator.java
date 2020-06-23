@@ -36,9 +36,12 @@ import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.Arguments.Arguments.Arguments;
 import it.giudevo.worldbank.database.Arguments.Indicators.AppIndicatorsDatabase;
 import it.giudevo.worldbank.database.Arguments.Indicators.Indicators;
+import it.giudevo.worldbank.database.Country.Countries.Countries;
 
 public class SearchByIndicator extends AppCompatActivity {
     AppIndicatorsDatabase db;
+    public boolean choice;
+    public Countries country;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +83,12 @@ public class SearchByIndicator extends AppCompatActivity {
             };
             Intent data = getIntent();
             Arguments search = data.getParcelableExtra("arguments");
+
+            choice = data.getBooleanExtra("choice",false);
+            if(choice) {
+                country = data.getParcelableExtra("countries");
+            }
+
             //Log.w("ID TOPIC", String.valueOf(search));
             assert search != null;
             model.searchByInd(search.id);
