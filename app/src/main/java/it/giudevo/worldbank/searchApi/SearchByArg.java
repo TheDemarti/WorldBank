@@ -37,9 +37,12 @@ import java.util.List;
 import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.Arguments.Arguments.Arguments;
 import it.giudevo.worldbank.database.Arguments.Arguments.AppArgumentsDatabase;
+import it.giudevo.worldbank.database.Country.Countries.Countries;
 
 public class SearchByArg extends AppCompatActivity {
     AppArgumentsDatabase db;
+    public boolean choice;
+    public Countries country;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +81,11 @@ public class SearchByArg extends AppCompatActivity {
                     rvArguments.setAdapter(myAdapter);
                 }
             };
+            Intent data = getIntent();
+            choice = data.getBooleanExtra("choice",false);
+            if(choice) {
+                country = data.getParcelableExtra("countries");
+            }
 
             model.searchByArg();
             hideKeyboard(SearchByArg.this);
@@ -188,6 +196,10 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
             Arguments arg = arguments.get(position);
             Intent intent = new Intent(SearchByArg.this, SearchByIndicator.class);
             intent.putExtra("arguments", arg);
+            if(choice){
+                intent.putExtra("choice", choice);
+                intent.putExtra("countries", country);
+            }
             SearchByArg.this.startActivity(intent);
         }
 

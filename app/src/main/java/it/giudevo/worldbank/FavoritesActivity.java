@@ -16,7 +16,6 @@ public class FavoritesActivity extends AppCompatActivity {
         new Holder();
     }
 
-
     class Holder implements View.OnClickListener {
 
         Button btnData, btnGraph;
