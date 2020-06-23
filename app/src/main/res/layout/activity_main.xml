@@ -49,8 +49,8 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="242dp"
-                android:layout_height="269dp"
+                android:layout_width="@dimen/MainActivityImageWidth"
+                android:layout_height="@dimen/MainActivityImageHeight"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="@dimen/pidLogo"
                 android:layout_marginTop="@dimen/pidLogo"

@@ -3,17 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".searchApi.SearchByCountryFirst">
+    android:layout_height="wrap_content">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCountryFirst"
+    <TextView
+        android:id="@+id/tvProva"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="@dimen/PidRecyclerView"
-        android:layout_marginTop="@dimen/PidRecyclerView"
-        android:layout_marginEnd="@dimen/PidRecyclerView"
-        android:layout_marginBottom="@dimen/PidRecyclerView"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/PidTextView"
+        android:layout_marginTop="@dimen/PidTextView"
+        android:layout_marginEnd="@dimen/PidTextView"
+        android:layout_marginBottom="@dimen/PidTextView"
+        android:text="@string/information"
+        android:textSize="@dimen/TitleSize"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

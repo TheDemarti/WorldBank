@@ -1,12 +1,18 @@
 package it.giudevo.worldbank.searchApi;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,30 +37,44 @@ import it.giudevo.worldbank.database.Arguments.Countries.Countries;
 import it.giudevo.worldbank.database.Arguments.Indicators.Indicators;
 import it.giudevo.worldbank.database.Country.Countries.Country;
 
-public class FinalSearch extends AppCompatActivity {
-    public List<Countries> cnt;//forse il problema è qui
+public class FinalSearchFromCountry extends AppCompatActivity {
     public boolean choice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_final_search);
+        setContentView(R.layout.activity_final_search_from_country);
 
         new Holder();
     }
 
     private class Holder {
         VolleyCountries model;
-        TextView tvProva;
+        RecyclerView rvFinalFromCountry;
 
         Holder() {
-            tvProva = findViewById(R.id.tvProva);
+            rvFinalFromCountry = findViewById(R.id.rvFinalFromCountry);
             this.model = new VolleyCountries() {
+
+                @Override
+                void fill(List<Countries> cnt) {
+                    Log.w("CA", "fill");
+                    fillList(cnt);
+                }
+
+                private void fillList(List<Countries> cnt) {
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(FinalSearchFromCountry.this);
+                    rvFinalFromCountry.setLayoutManager(layoutManager);
+                    rvFinalFromCountry.setHasFixedSize(true);
+                    FinalAdapter myAdapter = new FinalAdapter(cnt);
+                    rvFinalFromCountry.setAdapter(myAdapter);
+                }
+
             };
 
             Intent data = getIntent();
             Indicators search = data.getParcelableExtra("indicators");
-            choice = data.getBooleanExtra("choice", false);
+            choice = data.getBooleanExtra("choice", true);
             if(choice) {
                 Country countries = data.getParcelableExtra("countries");
                 assert search != null;
@@ -68,15 +88,10 @@ public class FinalSearch extends AppCompatActivity {
                 //model.CountriesAPI(getApplicationContext());
                 assert countries != null;
                 model.searchByCountry(countries.getCountryiso3code(), search.getId());
-            }
-            //Log.w("ID TOPIC", String.valueOf(search));
-//            assert search != null;
-//            //model.CountriesAPI(getApplicationContext());
-//            assert countries != null;
-//            model.searchByCountry(countries.getCountryiso3code(), search.getId());
-            hideKeyboard(FinalSearch.this);
+            }///////////////////////////////////////////
+            hideKeyboard(FinalSearchFromCountry.this);
 
-            //tvProva.setText(cnt.get(0).getCountryiso3code());
+            //tvProva.setText(cnt.get(0).getIso2Code());
         }
 
         void hideKeyboard(Activity activity) {
@@ -91,7 +106,8 @@ public class FinalSearch extends AppCompatActivity {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
 
-        private abstract class VolleyCountries implements Response.ErrorListener, Response.Listener<String> {
+        private abstract class VolleyCountries implements Response.ErrorListener, Response.Listener<String>{
+            abstract void fill(List<Countries> cnt);
 
             RequestQueue requestQueue;
 
@@ -103,14 +119,14 @@ public class FinalSearch extends AppCompatActivity {
 //        }
 
             void searchByCountry(String s, String r) {
-                String url = "http://api.worldbank.org/v2/country/%s/indicator/%s?format=json&per_page=1000";
+                String url = "http://api.worldbank.org/v2/country/%s/indicator/%s?format=json&per_page=500";
                 url = String.format(url, s, r);
                 apiCall(url);
             }
 
             private void apiCall(String url) {
                 //RequestQueue requestQueue;
-                requestQueue = Volley.newRequestQueue(FinalSearch.this);
+                requestQueue = Volley.newRequestQueue(FinalSearchFromCountry.this);
                 StringRequest stringRequest = new StringRequest(Request.Method.GET,
                         url,
                         this,
@@ -121,7 +137,7 @@ public class FinalSearch extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(FinalSearch.this, "Some Thing Goes Wrong", Toast.LENGTH_LONG).show();//
+                Toast.makeText(FinalSearchFromCountry.this, "Some Thing Goes Wrong", Toast.LENGTH_LONG).show();//
                 error.printStackTrace();//
             }
 
@@ -133,15 +149,14 @@ public class FinalSearch extends AppCompatActivity {
                 try {
                     JSONArray jsonArray = new JSONArray(response);
                     JSONArray json = jsonArray.getJSONArray(1);
-
                     countries = json.toString();
                     Type listType = new TypeToken<List<Countries>>() {
                     }.getType();
-                    cnt = gson.fromJson(countries, listType);
+                    List<Countries> cnt = gson.fromJson(countries, listType);
                     if (cnt != null && cnt.size() > 0) {
                         Log.w("CA", "" + cnt.size());
                         //db.countriesDAO().insertAll();
-                        //fill(cnt);
+                        fill(cnt);
                     }
                 } catch (JSONException e) {
                     Log.d("Prova", "errore");
@@ -150,4 +165,44 @@ public class FinalSearch extends AppCompatActivity {
             }
         }
     }
-}
+
+    private static class FinalAdapter extends RecyclerView.Adapter<Holder2> {
+        public List<Countries> ultimate;
+
+        public FinalAdapter(List<Countries> cnt) {
+            ultimate = cnt;
+        }
+
+
+        @NonNull
+        @Override
+        public Holder2 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            ConstraintLayout cl;
+            cl = (ConstraintLayout) LayoutInflater
+                    .from(parent.getContext())
+                    .inflate(R.layout.raw_final_from_country, parent, false);
+            return new Holder2(cl);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull Holder2 holder, int position) {
+            if(ultimate.get(position).getValue() != null) {
+                holder.tvProva.setText(ultimate.get(position).getValue());
+            }
+        }
+
+
+        @Override
+        public int getItemCount() {
+            return ultimate.size();
+        }
+    }
+
+    private static class Holder2 extends RecyclerView.ViewHolder {
+        TextView tvProva;
+        Holder2(ConstraintLayout cl){
+            super(cl);
+            tvProva = cl.findViewById(R.id.tvProva);
+        }
+    }
+    }

@@ -179,14 +179,16 @@ public class SearchByIndicator extends AppCompatActivity {
             int position = ((RecyclerView) v.getParent()).getChildAdapterPosition(v);
             Indicators ind = indicators.get(position);
             if(choice){
-                Intent intent = new Intent(SearchByIndicator.this, FinalSearch.class);
+                Intent intent = new Intent(SearchByIndicator.this, FinalSearchFromCountry.class);
                 intent.putExtra("indicators", ind);
                 intent.putExtra("countries", country);
+                intent.putExtra("choice", choice);
                 SearchByIndicator.this.startActivity(intent);
             }
             else{
-                Intent intent = new Intent(SearchByIndicator.this, SearchByCountry.class);
+                Intent intent = new Intent(SearchByIndicator.this, SearchByCountryFirst.class);///////////////////////
                 intent.putExtra("indicators", ind);
+                intent.putExtra("choice", choice);
                 SearchByIndicator.this.startActivity(intent);
             }
         }

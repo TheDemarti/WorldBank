@@ -5,4 +5,5 @@
     <string name="buttonFavorites">Favorites</string>
     <string name="data">Data</string>
     <string name="graphs">Graphs</string>
+    <string name="information">Information</string>
 </resources>

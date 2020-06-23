@@ -50,6 +50,7 @@ import it.giudevo.worldbank.database.Arguments.Indicators.Indicators;
 public class SearchByCountry extends AppCompatActivity {
     AppCountriesDatabase db;
     public Indicators search;
+    public boolean choice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +91,9 @@ public class SearchByCountry extends AppCompatActivity {
             };
 
             Intent data = getIntent();
+
             search = data.getParcelableExtra("indicators");
+            choice = data.getBooleanExtra("choice", false);
             //Log.w("ID TOPIC", String.valueOf(search));
             assert search != null;
             model.CountriesAPI(getApplicationContext());
@@ -117,7 +120,7 @@ public class SearchByCountry extends AppCompatActivity {
         RequestQueue requestQueue;
 
         void CountriesAPI(Context context) {
-            Cache cache = new DiskBasedCache(context.getCacheDir(), 20 * 1024 * 1024); // 20MB
+            Cache cache = new DiskBasedCache(context.getCacheDir(), 50 * 1024 * 1024); // 50MB
             Network network = new BasicNetwork(new HurlStack());
             requestQueue = new RequestQueue(cache, network);
             requestQueue.start();
@@ -192,7 +195,6 @@ public class SearchByCountry extends AppCompatActivity {
                     .inflate(R.layout.raw_countries, parent, false);
             cl.setOnClickListener(this);
             return new ViewHolder(cl);
-
         }
 
         @Override
@@ -211,9 +213,10 @@ public class SearchByCountry extends AppCompatActivity {
         public void onClick(View v) {
             int position = ((RecyclerView) v.getParent()).getChildAdapterPosition(v);
             Countries cou = countries.get(position);
-            Intent intent = new Intent(SearchByCountry.this, FinalSearch.class);
+            Intent intent = new Intent(SearchByCountry.this, FinalSearchFromCountry.class);
             intent.putExtra("countries",cou);
             intent.putExtra("indicators", search);
+            intent.putExtra("choice", choice);
             SearchByCountry.this.startActivity(intent);
 
         }

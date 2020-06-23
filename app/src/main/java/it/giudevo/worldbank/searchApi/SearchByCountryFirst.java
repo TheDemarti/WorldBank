@@ -41,12 +41,14 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import it.giudevo.worldbank.R;
+import it.giudevo.worldbank.database.Arguments.Indicators.Indicators;
 import it.giudevo.worldbank.database.Country.Countries.AppCountriesDatabase;
 import it.giudevo.worldbank.database.Country.Countries.Country;
 
 public class SearchByCountryFirst extends AppCompatActivity {
     AppCountriesDatabase db;
     public boolean choice;
+    public Indicators indicators;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,13 +89,25 @@ public class SearchByCountryFirst extends AppCompatActivity {
             };
 
             Intent data = getIntent();
-            choice = data.getBooleanExtra("choice", true);
+            choice = data.getBooleanExtra("choice", false);
+            Log.w("CA", String.valueOf(choice));
+            if(choice){
+                model.CountriesAPI(getApplicationContext());
+                model.searchByCountry();
+                hideKeyboard(SearchByCountryFirst.this);
+            }
+            else{
+                indicators = data.getParcelableExtra("indicators");
+                model.CountriesAPI(getApplicationContext());
+                model.searchByCountry();
+                hideKeyboard(SearchByCountryFirst.this);
+            }
             //Indicators search = data.getParcelableExtra("indicators");
             //Log.w("ID TOPIC", String.valueOf(search));
             //assert search != null;
-            model.CountriesAPI(getApplicationContext());
-            model.searchByCountry();
-            hideKeyboard(SearchByCountryFirst.this);
+//            model.CountriesAPI(getApplicationContext());
+//            model.searchByCountry();
+//            hideKeyboard(SearchByCountryFirst.this);
         }
 
         void hideKeyboard(Activity activity) {
@@ -209,6 +223,20 @@ public class SearchByCountryFirst extends AppCompatActivity {
         public void onClick(View v) {
             int position = ((RecyclerView) v.getParent()).getChildAdapterPosition(v);
             Country cou = countries.get(position);
+            if(choice){
+                Intent intent = new Intent(SearchByCountryFirst.this, SearchByArg.class);
+                intent.putExtra("countries",cou);
+                intent.putExtra("choice", choice);
+                SearchByCountryFirst.this.startActivity(intent);
+            }
+            else {
+                Intent intent = new Intent(SearchByCountryFirst.this, FinalSearchFromCountry.class);
+                intent.putExtra("countries",cou);
+                intent.putExtra("indicators", indicators);
+                intent.putExtra("choice", choice);
+                SearchByCountryFirst.this.startActivity(intent);
+            }
+
             Intent intent = new Intent(SearchByCountryFirst.this, SearchByArg.class);
             intent.putExtra("countries",cou);
             intent.putExtra("choice", choice);
