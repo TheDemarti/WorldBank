@@ -190,7 +190,7 @@ public class SearchByCountry extends AppCompatActivity {
             cl = (ConstraintLayout) LayoutInflater
                     .from(parent.getContext())
                     .inflate(R.layout.raw_countries, parent, false);
-            //cl.setOnClickListener(this);
+            cl.setOnClickListener(this);
             return new ViewHolder(cl);
 
         }

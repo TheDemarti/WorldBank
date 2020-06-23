@@ -1,11 +1,8 @@
 package it.giudevo.worldbank.searchApi;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,15 +11,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Cache;
-import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.BasicNetwork;
-import com.android.volley.toolbox.DiskBasedCache;
-import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
@@ -37,9 +29,11 @@ import java.util.List;
 import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.Arguments.Countries.Countries;
 import it.giudevo.worldbank.database.Arguments.Indicators.Indicators;
+import it.giudevo.worldbank.database.Country.Countries.Country;
 
 public class FinalSearch extends AppCompatActivity {
     public List<Countries> cnt;
+    public boolean choice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,15 +54,31 @@ public class FinalSearch extends AppCompatActivity {
 
             Intent data = getIntent();
             Indicators search = data.getParcelableExtra("indicators");
-            Countries countries = data.getParcelableExtra("countries");
+            choice = data.getBooleanExtra("choice", false);
+            if(!choice) {
+                Countries countries = data.getParcelableExtra("countries");
+                assert search != null;
+                //model.CountriesAPI(getApplicationContext());
+                assert countries != null;
+                model.searchByCountry(countries.getCountryiso3code(), search.getId());
+                hideKeyboard(FinalSearch.this);
+            }
+            else{
+                Country country = data.getParcelableExtra("countries");
+                assert search != null;
+                //model.CountriesAPI(getApplicationContext());
+                assert country != null;
+                model.searchByCountry(country.getIso2Code(), search.getId());
+                hideKeyboard(FinalSearch.this);
+            }
             //Log.w("ID TOPIC", String.valueOf(search));
-            assert search != null;
-            //model.CountriesAPI(getApplicationContext());
-            assert countries != null;
-            model.searchByCountry(countries.getCountryiso3code(), search.getId());
-            hideKeyboard(FinalSearch.this);
+//            assert search != null;
+//            //model.CountriesAPI(getApplicationContext());
+//            assert countries != null;
+//            model.searchByCountry(countries.getCountryiso3code(), search.getId());
+//            hideKeyboard(FinalSearch.this);
 
-            tvProva.setText((CharSequence) cnt.get(1));
+            //tvProva.setText(cnt.get(0).getCountryiso3code());
         }
 
         void hideKeyboard(Activity activity) {
@@ -95,7 +105,7 @@ public class FinalSearch extends AppCompatActivity {
 //        }
 
             void searchByCountry(String s, String r) {
-                String url = "http://api.worldbank.org/v2/country/%s/indicator/%s?format=json&per_page=20000";
+                String url = "http://api.worldbank.org/v2/country/%s/indicator/%s?format=json&per_page=2000";
                 url = String.format(url, s, r);
                 apiCall(url);
             }

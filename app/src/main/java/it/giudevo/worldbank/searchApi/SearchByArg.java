@@ -37,12 +37,12 @@ import java.util.List;
 import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.Arguments.Arguments.Arguments;
 import it.giudevo.worldbank.database.Arguments.Arguments.AppArgumentsDatabase;
-import it.giudevo.worldbank.database.Country.Countries.Countries;
+import it.giudevo.worldbank.database.Country.Countries.Country;
 
 public class SearchByArg extends AppCompatActivity {
     AppArgumentsDatabase db;
-    public boolean choice;
-    public Countries country;
+    public boolean choice = false;
+    public Country country;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

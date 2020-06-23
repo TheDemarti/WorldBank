@@ -10,24 +10,24 @@ import java.util.List;
 
 @Dao
 public interface CountriesDAO {
-    @Query("SELECT * FROM Countries")
-    List<Countries> getAll();
+    @Query("SELECT * FROM Country")
+    List<Country> getAll();
 
-    @Query("SELECT * FROM Countries WHERE id IN (:ids)")
-    List<Countries> loadAllByIds(int[] ids);
+    @Query("SELECT * FROM Country WHERE id IN (:ids)")
+    List<Country> loadAllByIds(int[] ids);
 
-    @Query("SELECT * FROM Countries WHERE iso2Code LIKE :name ORDER BY iso2Code")
-    List<Countries> findByCountryName(String name);
+    @Query("SELECT * FROM Country WHERE iso2Code LIKE :name ORDER BY iso2Code")
+    List<Country> findByCountryName(String name);
 
-    @Query("SELECT count(*) FROM Countries")
+    @Query("SELECT count(*) FROM Country")
     int size();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(Countries... countries);
+    void insertAll(Country... countries);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(List<Countries>countries);
+    void insertAll(List<Country>countries);
 
     @Delete
-    void delete(Countries countries);
+    void delete(Country country);
 }

@@ -36,12 +36,12 @@ import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.Arguments.Arguments.Arguments;
 import it.giudevo.worldbank.database.Arguments.Indicators.AppIndicatorsDatabase;
 import it.giudevo.worldbank.database.Arguments.Indicators.Indicators;
-import it.giudevo.worldbank.database.Country.Countries.Countries;
+import it.giudevo.worldbank.database.Country.Countries.Country;
 
 public class SearchByIndicator extends AppCompatActivity {
     AppIndicatorsDatabase db;
     public boolean choice;
-    public Countries country;
+    public Country country;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,9 +178,17 @@ public class SearchByIndicator extends AppCompatActivity {
         public void onClick(View v) {
             int position = ((RecyclerView) v.getParent()).getChildAdapterPosition(v);
             Indicators ind = indicators.get(position);
-            Intent intent = new Intent(SearchByIndicator.this, SearchByCountry.class);
-            intent.putExtra("indicators", ind);
-            SearchByIndicator.this.startActivity(intent);
+            if(choice){
+                Intent intent = new Intent(SearchByIndicator.this, FinalSearch.class);
+                intent.putExtra("indicators", ind);
+                intent.putExtra("countries", country);
+                SearchByIndicator.this.startActivity(intent);
+            }
+            else{
+                Intent intent = new Intent(SearchByIndicator.this, SearchByCountry.class);
+                intent.putExtra("indicators", ind);
+                SearchByIndicator.this.startActivity(intent);
+            }
         }
     }
 

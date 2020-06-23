@@ -8,7 +8,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Countries implements Parcelable {
+public class Country implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "number")
     public int number;
@@ -25,7 +25,7 @@ public class Countries implements Parcelable {
     @ColumnInfo(name="latitude")
     public String latitude;
 
-    public Countries(String id, String iso2Code, String name, String capitalCity, String longitude, String latitude) {
+    public Country(String id, String iso2Code, String name, String capitalCity, String longitude, String latitude) {
         this.id = id;
         this.iso2Code = iso2Code;
         this.name = name;
@@ -34,7 +34,7 @@ public class Countries implements Parcelable {
         this.latitude = latitude;
     }
 
-    protected Countries(Parcel in) {
+    protected Country(Parcel in) {
         number = in.readInt();
         id = in.readString();
         iso2Code = in.readString();
@@ -44,15 +44,15 @@ public class Countries implements Parcelable {
         latitude = in.readString();
     }
 
-    public static final Creator<Countries> CREATOR = new Creator<Countries>() {
+    public static final Creator<Country> CREATOR = new Creator<Country>() {
         @Override
-        public Countries createFromParcel(Parcel in) {
-            return new Countries(in);
+        public Country createFromParcel(Parcel in) {
+            return new Country(in);
         }
 
         @Override
-        public Countries[] newArray(int size) {
-            return new Countries[size];
+        public Country[] newArray(int size) {
+            return new Country[size];
         }
     };
 
