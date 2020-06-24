@@ -37,7 +37,7 @@ import java.util.List;
 import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.Arguments.Arguments.Arguments;
 import it.giudevo.worldbank.database.Arguments.Arguments.AppArgumentsDatabase;
-import it.giudevo.worldbank.database.Country.Countries.Country;
+import it.giudevo.worldbank.database.Arguments.Countries.Country;
 
 public class SearchByArg extends AppCompatActivity {
     AppArgumentsDatabase db;

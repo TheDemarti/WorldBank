@@ -1,4 +1,4 @@
-package it.giudevo.worldbank.database.Country.Countries;
+package it.giudevo.worldbank.database.Arguments.Countries;
 
 import android.os.Parcel;
 import android.os.Parcelable;

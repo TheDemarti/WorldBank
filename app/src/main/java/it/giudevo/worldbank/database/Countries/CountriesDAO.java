@@ -1,4 +1,4 @@
-package it.giudevo.worldbank.database.Country.Countries;
+package it.giudevo.worldbank.database.Arguments.Countries;
 
 import androidx.room.Dao;
 import androidx.room.Delete;

@@ -36,7 +36,7 @@ import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.Arguments.Arguments.Arguments;
 import it.giudevo.worldbank.database.Arguments.Indicators.AppIndicatorsDatabase;
 import it.giudevo.worldbank.database.Arguments.Indicators.Indicators;
-import it.giudevo.worldbank.database.Country.Countries.Country;
+import it.giudevo.worldbank.database.Arguments.Countries.Country;
 
 public class SearchByIndicator extends AppCompatActivity {
     AppIndicatorsDatabase db;
@@ -186,7 +186,7 @@ public class SearchByIndicator extends AppCompatActivity {
                 SearchByIndicator.this.startActivity(intent);
             }
             else{
-                Intent intent = new Intent(SearchByIndicator.this, SearchByCountryFirst.class);///////////////////////
+                Intent intent = new Intent(SearchByIndicator.this, SearchByCountry.class);///////////////////////
                 intent.putExtra("indicators", ind);
                 intent.putExtra("choice", choice);
                 SearchByIndicator.this.startActivity(intent);

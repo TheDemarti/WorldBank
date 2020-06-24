@@ -1,4 +1,4 @@
-package it.giudevo.worldbank.database.Arguments.Countries;
+package it.giudevo.worldbank.database.Arguments.FinalSearch;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -8,7 +8,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Countries implements Parcelable {
+public class FinalSearch implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     public int id;
@@ -25,7 +25,7 @@ public class Countries implements Parcelable {
     @ColumnInfo(name = "decimal")
     public String decimal;
 
-    public Countries(String countryiso3code, String date, String value, String unit, String obs_status, String decimal) {
+    public FinalSearch(String countryiso3code, String date, String value, String unit, String obs_status, String decimal) {
         this.countryiso3code = countryiso3code;
         this.date = date;
         this.value = value;
@@ -34,7 +34,7 @@ public class Countries implements Parcelable {
         this.decimal = decimal;
     }
 
-    protected Countries(Parcel in) {
+    protected FinalSearch(Parcel in) {
         id = in.readInt();
         countryiso3code = in.readString();
         date = in.readString();
@@ -44,15 +44,15 @@ public class Countries implements Parcelable {
         decimal = in.readString();
     }
 
-    public static final Creator<Countries> CREATOR = new Creator<Countries>() {
+    public static final Creator<FinalSearch> CREATOR = new Creator<FinalSearch>() {
         @Override
-        public Countries createFromParcel(Parcel in) {
-            return new Countries(in);
+        public FinalSearch createFromParcel(Parcel in) {
+            return new FinalSearch(in);
         }
 
         @Override
-        public Countries[] newArray(int size) {
-            return new Countries[size];
+        public FinalSearch[] newArray(int size) {
+            return new FinalSearch[size];
         }
     };
 

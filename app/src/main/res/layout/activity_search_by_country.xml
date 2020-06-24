@@ -7,8 +7,8 @@
     tools:context=".searchApi.SearchByCountry">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCountry"
-        android:layout_width="match_parent"
+        android:id="@+id/rvCountryFirst"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/PidRecyclerView"
         android:layout_marginTop="@dimen/PidRecyclerView"
@@ -18,5 +18,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
