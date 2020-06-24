@@ -48,6 +48,7 @@ import it.giudevo.worldbank.database.Indicators.Indicators;
 public class FinalSearch extends AppCompatActivity  {
     public boolean choice;
     public LineChart mChart;
+    public ArrayList<Entry> value = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +66,7 @@ public class FinalSearch extends AppCompatActivity  {
         @SuppressLint("WrongViewCast")
         Holder() {
             rvFinalFromCountry = findViewById(R.id.rvFinalFromCountry);
-            mChart = findViewById(R.id.lgGraph);
+            mChart = findViewById(R.id.lineChart);
 
 
             this.model = new VolleyCountries() {
@@ -181,14 +182,26 @@ public class FinalSearch extends AppCompatActivity  {
         }
     }
 
-    private void creategraph(List<it.giudevo.worldbank.database.FinalSearch.FinalSearch> cnt) {
+    public void creategraph(List<it.giudevo.worldbank.database.FinalSearch.FinalSearch> cnt) {
         //mChart.setOnChartGestureListener(FinalSearch.this);
         mChart.setDragEnabled(true);
         mChart.setScaleEnabled(false);
-        ArrayList<Entry> value = new ArrayList<>();
-        for(int i = 0; i < cnt.size(); i++){
-            value.add(new Entry(Float.parseFloat(cnt.get(i).value),i) );
-        }
+
+      /*  for(int i = 0; i < cnt.size(); i++){
+            if(cnt.get(i).value != null){
+                String valore = cnt.get(i).value;
+                 value.add(new Entry(i, Float.parseFloat(valore)) );
+        }}*/
+        value.add(new Entry(0, 23));
+        value.add(new Entry(1, 24));
+        value.add(new Entry(2, 22));
+        value.add(new Entry(3, 10));
+        value.add(new Entry(4, 14));
+        value.add(new Entry(5, 45));
+        value.add(new Entry(6, 23));
+        value.add(new Entry(7, 22));
+
+
         LineDataSet assey = new LineDataSet(value,"prova");
         assey.setFillAlpha(110);
 
@@ -221,7 +234,11 @@ public class FinalSearch extends AppCompatActivity  {
         @Override
         public void onBindViewHolder(@NonNull Holder2 holder, int position) {
             if(ultimate.get(position).getValue() != null) {
+
                 holder.tvProva.setText(ultimate.get(position).getValue());
+
+
+
             }
         }
 
