@@ -41,9 +41,9 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import it.giudevo.worldbank.R;
-import it.giudevo.worldbank.database.Arguments.Indicators.Indicators;
-import it.giudevo.worldbank.database.Arguments.Countries.AppCountriesDatabase;
-import it.giudevo.worldbank.database.Arguments.Countries.Country;
+import it.giudevo.worldbank.database.Countries.Countries;
+import it.giudevo.worldbank.database.Indicators.Indicators;
+import it.giudevo.worldbank.database.Countries.AppCountriesDatabase;
 
 public class SearchByCountry extends AppCompatActivity {
     AppCountriesDatabase db;
@@ -74,12 +74,12 @@ public class SearchByCountry extends AppCompatActivity {
 
 
                 @Override
-                void fill(List<Country> cnt) {
+                void fill(List<Countries> cnt) {
                     Log.w("CA", "fill");
                     fillList(cnt);
                 }
 
-                private void fillList(List<Country> cnt) {
+                private void fillList(List<Countries> cnt) {
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SearchByCountry.this);
                     rvCountryFirst.setLayoutManager(layoutManager);
                     rvCountryFirst.setHasFixedSize(true);
@@ -124,7 +124,7 @@ public class SearchByCountry extends AppCompatActivity {
     }
 
     private abstract class VolleyCountries implements Response.ErrorListener, Response.Listener<String> {
-        abstract void fill(List<Country> cnt);
+        abstract void fill(List<Countries> cnt);
 
         RequestQueue requestQueue;
 
@@ -172,8 +172,8 @@ public class SearchByCountry extends AppCompatActivity {
                 //String sourceNote = jsonObject.getString("sourceNote");
 
                 countries = json.toString();
-                Type listType = new TypeToken<List<Country>>() {}.getType();
-                List<Country> cnt = gson.fromJson(countries, listType);
+                Type listType = new TypeToken<List<Countries>>() {}.getType();
+                List<Countries> cnt = gson.fromJson(countries, listType);
                 if (cnt != null && cnt.size() > 0) {
                     Log.w("CA", "" + cnt.size());
                     //db.countriesDAO().insertAll();
@@ -188,9 +188,9 @@ public class SearchByCountry extends AppCompatActivity {
 
     public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHolder> implements View.OnClickListener{// implements View.OnClickListener{
 
-        public List<Country> countries;
+        public List<Countries> countries;
 
-        public CountryAdapter(List<Country> cnt) {
+        public CountryAdapter(List<Countries> cnt) {
             countries = cnt;
         }
 
@@ -222,7 +222,7 @@ public class SearchByCountry extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             int position = ((RecyclerView) v.getParent()).getChildAdapterPosition(v);
-            Country cou = countries.get(position);
+            Countries cou = countries.get(position);
             if(choice){
                 Intent intent = new Intent(SearchByCountry.this, SearchByArg.class);
                 intent.putExtra("countries", cou);
@@ -230,7 +230,7 @@ public class SearchByCountry extends AppCompatActivity {
                 SearchByCountry.this.startActivity(intent);
             }
             else {
-                Intent intent = new Intent(SearchByCountry.this, FinalSearchFromCountry.class);
+                Intent intent = new Intent(SearchByCountry.this, FinalSearch.class);
                 intent.putExtra("countries",cou);
                 intent.putExtra("indicators", indicators);
                 intent.putExtra("choice", choice);

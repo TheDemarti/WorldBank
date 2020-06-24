@@ -1,4 +1,4 @@
-package it.giudevo.worldbank.database.Arguments.FinalSearch;
+package it.giudevo.worldbank.database.FinalSearch;
 
 import android.os.Parcel;
 import android.os.Parcelable;

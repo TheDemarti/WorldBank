@@ -33,15 +33,15 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import it.giudevo.worldbank.R;
-import it.giudevo.worldbank.database.Arguments.Arguments.Arguments;
-import it.giudevo.worldbank.database.Arguments.Indicators.AppIndicatorsDatabase;
-import it.giudevo.worldbank.database.Arguments.Indicators.Indicators;
-import it.giudevo.worldbank.database.Arguments.Countries.Country;
+import it.giudevo.worldbank.database.Arguments.Arguments;
+import it.giudevo.worldbank.database.Countries.Countries;
+import it.giudevo.worldbank.database.Indicators.AppIndicatorsDatabase;
+import it.giudevo.worldbank.database.Indicators.Indicators;
 
 public class SearchByIndicator extends AppCompatActivity {
     AppIndicatorsDatabase db;
     public boolean choice;
-    public Country country;
+    public Countries countries;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +86,7 @@ public class SearchByIndicator extends AppCompatActivity {
 
             choice = data.getBooleanExtra("choice",false);
             if(choice) {
-                country = data.getParcelableExtra("countries");
+                countries = data.getParcelableExtra("countries");
             }
 
             //Log.w("ID TOPIC", String.valueOf(search));
@@ -179,9 +179,9 @@ public class SearchByIndicator extends AppCompatActivity {
             int position = ((RecyclerView) v.getParent()).getChildAdapterPosition(v);
             Indicators ind = indicators.get(position);
             if(choice){
-                Intent intent = new Intent(SearchByIndicator.this, FinalSearchFromCountry.class);
+                Intent intent = new Intent(SearchByIndicator.this, FinalSearch.class);
                 intent.putExtra("indicators", ind);
-                intent.putExtra("countries", country);
+                intent.putExtra("countries", countries);
                 intent.putExtra("choice", choice);
                 SearchByIndicator.this.startActivity(intent);
             }

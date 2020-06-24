@@ -1,4 +1,4 @@
-package it.giudevo.worldbank.database.Arguments.Indicators;
+package it.giudevo.worldbank.database.Indicators;
 
 import androidx.room.Dao;
 import androidx.room.Delete;

@@ -1,4 +1,4 @@
-package it.giudevo.worldbank.database.Arguments.Countries;
+package it.giudevo.worldbank.database.Countries;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -8,7 +8,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Country implements Parcelable {
+public class Countries implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "number")
     public int number;
@@ -25,7 +25,7 @@ public class Country implements Parcelable {
     @ColumnInfo(name="latitude")
     public String latitude;
 
-    public Country(String id, String iso2Code, String name, String capitalCity, String longitude, String latitude) {
+    public Countries(String id, String iso2Code, String name, String capitalCity, String longitude, String latitude) {
         this.id = id;
         this.iso2Code = iso2Code;
         this.name = name;
@@ -34,7 +34,7 @@ public class Country implements Parcelable {
         this.latitude = latitude;
     }
 
-    protected Country(Parcel in) {
+    protected Countries(Parcel in) {
         number = in.readInt();
         id = in.readString();
         iso2Code = in.readString();
@@ -44,15 +44,15 @@ public class Country implements Parcelable {
         latitude = in.readString();
     }
 
-    public static final Creator<Country> CREATOR = new Creator<Country>() {
+    public static final Creator<Countries> CREATOR = new Creator<Countries>() {
         @Override
-        public Country createFromParcel(Parcel in) {
-            return new Country(in);
+        public Countries createFromParcel(Parcel in) {
+            return new Countries(in);
         }
 
         @Override
-        public Country[] newArray(int size) {
-            return new Country[size];
+        public Countries[] newArray(int size) {
+            return new Countries[size];
         }
     };
 

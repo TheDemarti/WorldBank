@@ -1,4 +1,4 @@
-package it.giudevo.worldbank.database.Arguments.Arguments;
+package it.giudevo.worldbank.database.Arguments;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;

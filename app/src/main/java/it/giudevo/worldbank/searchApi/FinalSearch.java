@@ -33,11 +33,10 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import it.giudevo.worldbank.R;
-import it.giudevo.worldbank.database.Arguments.FinalSearch.FinalSearch;
-import it.giudevo.worldbank.database.Arguments.Indicators.Indicators;
-import it.giudevo.worldbank.database.Arguments.Countries.Country;
+import it.giudevo.worldbank.database.Countries.Countries;
+import it.giudevo.worldbank.database.Indicators.Indicators;
 
-public class FinalSearchFromCountry extends AppCompatActivity {
+public class FinalSearch extends AppCompatActivity {
     public boolean choice;
 
     @Override
@@ -57,13 +56,13 @@ public class FinalSearchFromCountry extends AppCompatActivity {
             this.model = new VolleyCountries() {
 
                 @Override
-                void fill(List<FinalSearch> cnt) {
+                void fill(List<it.giudevo.worldbank.database.FinalSearch.FinalSearch> cnt) {
                     Log.w("CA", "fill");
                     fillList(cnt);
                 }
 
-                private void fillList(List<FinalSearch> cnt) {
-                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(FinalSearchFromCountry.this);
+                private void fillList(List<it.giudevo.worldbank.database.FinalSearch.FinalSearch> cnt) {
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(FinalSearch.this);
                     rvFinalFromCountry.setLayoutManager(layoutManager);
                     rvFinalFromCountry.setHasFixedSize(true);
                     FinalAdapter myAdapter = new FinalAdapter(cnt);
@@ -76,20 +75,20 @@ public class FinalSearchFromCountry extends AppCompatActivity {
             Indicators search = data.getParcelableExtra("indicators");
             choice = data.getBooleanExtra("choice", true);
             if(choice) {
-                Country countries = data.getParcelableExtra("countries");
+                Countries countries = data.getParcelableExtra("countries");
                 assert search != null;
                 //model.CountriesAPI(getApplicationContext());
                 assert countries != null;
                 model.searchByCountry(countries.getIso2Code(), search.getId());
             }
             else{
-                Country countries = data.getParcelableExtra("countries");
+                Countries countries = data.getParcelableExtra("countries");
                 assert search != null;
                 //model.CountriesAPI(getApplicationContext());
                 assert countries != null;
                 model.searchByCountry(countries.getIso2Code(), search.getId());
             }///////////////////////////////////////////
-            hideKeyboard(FinalSearchFromCountry.this);
+            hideKeyboard(FinalSearch.this);
 
             //tvProva.setText(cnt.get(0).getIso2Code());
         }
@@ -107,7 +106,7 @@ public class FinalSearchFromCountry extends AppCompatActivity {
         }
 
         private abstract class VolleyCountries implements Response.ErrorListener, Response.Listener<String>{
-            abstract void fill(List<FinalSearch> cnt);
+            abstract void fill(List<it.giudevo.worldbank.database.FinalSearch.FinalSearch> cnt);
 
             RequestQueue requestQueue;
 
@@ -126,7 +125,7 @@ public class FinalSearchFromCountry extends AppCompatActivity {
 
             private void apiCall(String url) {
                 //RequestQueue requestQueue;
-                requestQueue = Volley.newRequestQueue(FinalSearchFromCountry.this);
+                requestQueue = Volley.newRequestQueue(FinalSearch.this);
                 StringRequest stringRequest = new StringRequest(Request.Method.GET,
                         url,
                         this,
@@ -137,7 +136,7 @@ public class FinalSearchFromCountry extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(FinalSearchFromCountry.this, "Some Thing Goes Wrong", Toast.LENGTH_LONG).show();//
+                Toast.makeText(FinalSearch.this, "Some Thing Goes Wrong", Toast.LENGTH_LONG).show();//
                 error.printStackTrace();//
             }
 
@@ -150,9 +149,9 @@ public class FinalSearchFromCountry extends AppCompatActivity {
                     JSONArray jsonArray = new JSONArray(response);
                     JSONArray json = jsonArray.getJSONArray(1);
                     countries = json.toString();
-                    Type listType = new TypeToken<List<FinalSearch>>() {
+                    Type listType = new TypeToken<List<it.giudevo.worldbank.database.FinalSearch.FinalSearch>>() {
                     }.getType();
-                    List<FinalSearch> cnt = gson.fromJson(countries, listType);
+                    List<it.giudevo.worldbank.database.FinalSearch.FinalSearch> cnt = gson.fromJson(countries, listType);
                     if (cnt != null && cnt.size() > 0) {
                         Log.w("CA", "" + cnt.size());
                         //db.countriesDAO().insertAll();
@@ -167,9 +166,9 @@ public class FinalSearchFromCountry extends AppCompatActivity {
     }
 
     private static class FinalAdapter extends RecyclerView.Adapter<Holder2> {
-        public List<FinalSearch> ultimate;
+        public List<it.giudevo.worldbank.database.FinalSearch.FinalSearch> ultimate;
 
-        public FinalAdapter(List<FinalSearch> cnt) {
+        public FinalAdapter(List<it.giudevo.worldbank.database.FinalSearch.FinalSearch> cnt) {
             ultimate = cnt;
         }
 
