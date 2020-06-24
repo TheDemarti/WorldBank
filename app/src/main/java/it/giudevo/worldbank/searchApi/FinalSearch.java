@@ -6,11 +6,13 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -23,6 +25,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -30,29 +38,36 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.Countries.Countries;
 import it.giudevo.worldbank.database.Indicators.Indicators;
 
-public class FinalSearch extends AppCompatActivity {
+public class FinalSearch extends AppCompatActivity  {
     public boolean choice;
-
+    public LineChart mChart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final_search);
-
         new Holder();
+
     }
+
+
 
     private class Holder {
         VolleyCountries model;
         RecyclerView rvFinalFromCountry;
 
+        @SuppressLint("WrongViewCast")
         Holder() {
             rvFinalFromCountry = findViewById(R.id.rvFinalFromCountry);
+            mChart = findViewById(R.id.lgGraph);
+
+
             this.model = new VolleyCountries() {
 
                 @Override
@@ -87,7 +102,7 @@ public class FinalSearch extends AppCompatActivity {
                 //model.CountriesAPI(getApplicationContext());
                 assert countries != null;
                 model.searchByCountry(countries.getIso2Code(), search.getId());
-            }///////////////////////////////////////////
+            }
             hideKeyboard(FinalSearch.this);
 
             //tvProva.setText(cnt.get(0).getIso2Code());
@@ -155,6 +170,7 @@ public class FinalSearch extends AppCompatActivity {
                     if (cnt != null && cnt.size() > 0) {
                         Log.w("CA", "" + cnt.size());
                         //db.countriesDAO().insertAll();
+                        creategraph(cnt);
                         fill(cnt);
                     }
                 } catch (JSONException e) {
@@ -165,7 +181,26 @@ public class FinalSearch extends AppCompatActivity {
         }
     }
 
-    private static class FinalAdapter extends RecyclerView.Adapter<Holder2> {
+    private void creategraph(List<it.giudevo.worldbank.database.FinalSearch.FinalSearch> cnt) {
+        //mChart.setOnChartGestureListener(FinalSearch.this);
+        mChart.setDragEnabled(true);
+        mChart.setScaleEnabled(false);
+        ArrayList<Entry> value = new ArrayList<>();
+        for(int i = 0; i < cnt.size(); i++){
+            value.add(new Entry(Float.parseFloat(cnt.get(i).value),i) );
+        }
+        LineDataSet assey = new LineDataSet(value,"prova");
+        assey.setFillAlpha(110);
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(assey);
+
+        LineData data = new LineData(dataSets);
+        mChart.setData(data);
+
+    }
+
+    public static class FinalAdapter extends RecyclerView.Adapter<Holder2> {
         public List<it.giudevo.worldbank.database.FinalSearch.FinalSearch> ultimate;
 
         public FinalAdapter(List<it.giudevo.worldbank.database.FinalSearch.FinalSearch> cnt) {
