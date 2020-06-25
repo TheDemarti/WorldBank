@@ -7,16 +7,22 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.media.AudioManager;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,9 +33,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IFillFormatter;
+import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
+import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -48,17 +59,18 @@ import it.giudevo.worldbank.database.Indicators.Indicators;
 
 public class FinalSearch extends AppCompatActivity  {
     public boolean choice;
-    public LineChart mChart;
+    public LineChart lcGraph;
+    public SeekBar seekBarX, seekBarY;
     public ArrayList<Entry> value = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final_search);
+
         new Holder();
 
     }
-
-
 
     private class Holder {
         VolleyCountries model;
@@ -67,7 +79,7 @@ public class FinalSearch extends AppCompatActivity  {
         @SuppressLint("WrongViewCast")
         Holder() {
             rvFinal = findViewById(R.id.rvFinal);
-            mChart = findViewById(R.id.lcGraph);
+            //mChart = findViewById(R.id.lcGraph);
 
 
             this.model = new VolleyCountries() {
@@ -106,8 +118,6 @@ public class FinalSearch extends AppCompatActivity  {
                 model.searchByCountry(countries.getIso2Code(), search.getId());
             }
             hideKeyboard(FinalSearch.this);
-
-            //tvProva.setText(cnt.get(0).getIso2Code());
         }
 
         void hideKeyboard(Activity activity) {
@@ -165,11 +175,29 @@ public class FinalSearch extends AppCompatActivity  {
                 try {
                     JSONArray jsonArray = new JSONArray(response);
                     JSONArray json = jsonArray.getJSONArray(1);
+                    Log.w("CA", String.valueOf(json));
+
+                    Log.w("CA", String.valueOf(json.getJSONObject(0).get("value")));
+                    int i = 0;
+                    while(i < json.length()){
+                        if(String.valueOf(json.getJSONObject(i).get("value")).equals("null")){
+                            json.remove(i);
+                        }
+                        else{
+                            i++;
+                        }
+                    }
+                    Log.w("CA", String.valueOf(json));
+                    Log.w("CA", "" + json.length());
+
+
                     countries = json.toString();
                     Type listType = new TypeToken<List<Final>>() {
                     }.getType();
                     List<Final> cnt = gson.fromJson(countries, listType);
                     if (cnt != null && cnt.size() > 0) {
+                        Log.w("CA", String.valueOf(cnt.get(cnt.size()-1).date));
+                        Log.w("CA", String.valueOf(cnt.get(cnt.size()-1).value));
                         Log.w("CA", "" + cnt.size());
                         //db.Final.DAO().insertAll();
                         CreateGraph(cnt);
@@ -184,18 +212,318 @@ public class FinalSearch extends AppCompatActivity  {
     }
 
     public void CreateGraph(List<Final> cnt) {
-        //mChart.setOnChartGestureListener(FinalSearch.this);
-        mChart.setDragEnabled(true);
-        mChart.setScaleEnabled(false);
 
-        for(int i = 0; i < cnt.size(); i++){
-            if(cnt.get(i).value != null){
-                String valore = cnt.get(i).value;
-                String xValue = cnt.get(i).date;
-                value.add(new Entry(Float.parseFloat(xValue), Float.parseFloat(valore)));
-                Log.w("CA", xValue);
-            }
+        //tvX = findViewById(R.id.tvXMax);
+        //tvY = findViewById(R.id.tvYMax);
+
+        seekBarX = findViewById(R.id.seekBarX);
+        seekBarY = findViewById(R.id.seekBarY);
+
+        lcGraph = findViewById(R.id.lcGraph);
+        lcGraph.setViewPortOffsets(0, 0, 0, 0);
+        lcGraph.setBackgroundColor(Color.rgb(104, 241, 175));
+
+        // no description text
+        lcGraph.getDescription().setEnabled(false);
+
+        // enable touch gestures
+        lcGraph.setTouchEnabled(true);
+
+        // enable scaling and dragging
+        lcGraph.setDragEnabled(true);
+        lcGraph.setScaleEnabled(true);
+
+        // if disabled, scaling can be done on x- and y-axis separately
+        lcGraph.setPinchZoom(false);
+
+        lcGraph.setDrawGridBackground(false);
+        lcGraph.setMaxHighlightDistance(300);
+
+        XAxis x = lcGraph.getXAxis();
+        x.setEnabled(false);
+
+        YAxis y = lcGraph.getAxisLeft();
+        //y.setTypeface(tfLight);
+        y.setLabelCount(6, false);
+        y.setTextColor(Color.WHITE);
+        y.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
+        y.setDrawGridLines(false);
+        y.setAxisLineColor(Color.WHITE);
+
+        lcGraph.getAxisRight().setEnabled(false);
+/////////////////////////////////////////////////////////
+        setData(cnt);
+
+        // add data
+        //seekBarY.setOnSeekBarChangeListener((SeekBar.OnSeekBarChangeListener) this);
+        //seekBarX.setOnSeekBarChangeListener((SeekBar.OnSeekBarChangeListener) this);
+
+        // lower max, as cubic runs significantly slower than linear
+        seekBarX.setMax(cnt.size());////////////////////////////////////////////////////////////////////////////////////
+        Log.w("CA", String.valueOf(cnt.size()));
+
+        seekBarX.setProgress(45);
+        seekBarY.setProgress(100);
+
+        lcGraph.getLegend().setEnabled(false);
+
+        lcGraph.animateXY(2000, 2000);
+
+        // don't forget to refresh the drawing
+        lcGraph.invalidate();
+    }
+
+    private void setData(List<Final> cnt) {
+
+        ArrayList<Entry> values = new ArrayList<>();
+
+        for(int i = 0; i < cnt.size()-1; i++) {
+            Log.w("CA", String.valueOf(cnt.get(i).getValue()));
+                float val = (float)(cnt.get(i).value);
+                Log.w("CA", String.valueOf(val));
+                values.add(new Entry(i, val));
+
+
+
+//            float val = (float) (Math.random() * (range + 1)) + 20;
+//            values.add(new Entry(i, val));
         }
+
+        LineDataSet set1;
+
+        if (lcGraph.getData() != null &&
+                lcGraph.getData().getDataSetCount() > 0) {
+            set1 = (LineDataSet) lcGraph.getData().getDataSetByIndex(0);
+            set1.setValues(values);
+            lcGraph.getData().notifyDataChanged();
+            lcGraph.notifyDataSetChanged();
+        } else {
+            // create a dataset and give it a type
+            set1 = new LineDataSet(values, "DataSet 1");
+
+            set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+            set1.setCubicIntensity(0.2f);
+            set1.setDrawFilled(true);
+            set1.setDrawCircles(false);
+            set1.setLineWidth(1.8f);
+            set1.setCircleRadius(4f);
+            set1.setCircleColor(Color.WHITE);
+            set1.setHighLightColor(Color.rgb(244, 117, 117));
+            set1.setColor(Color.WHITE);
+            set1.setFillColor(Color.WHITE);
+            set1.setFillAlpha(100);
+            set1.setDrawHorizontalHighlightIndicator(false);
+            set1.setFillFormatter(new IFillFormatter() {
+                @Override
+                public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {
+                    return lcGraph.getAxisLeft().getAxisMinimum();
+                }
+            });
+
+            // create a data object with the data sets
+            LineData data = new LineData(set1);
+            //data.setValueTypeface(tfLight);
+            data.setValueTextSize(9f);
+            data.setDrawValues(false);
+
+            // set data
+            lcGraph.setData(data);
+        }
+    }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.line, menu);
+//        return true;
+//    }
+
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//
+//        switch (item.getItemId()) {
+//            case R.id.viewGithub: {
+//                Intent i = new Intent(Intent.ACTION_VIEW);
+//                i.setData(Uri.parse("https://github.com/PhilJay/MPAndroidChart/blob/master/MPChartExample/src/com/xxmassdeveloper/mpchartexample/CubicLineChartActivity.java"));
+//                startActivity(i);
+//                break;
+//            }
+//            case R.id.actionToggleValues: {
+//                for (IDataSet set : lcGraph.getData().getDataSets())
+//                    set.setDrawValues(!set.isDrawValuesEnabled());
+//
+//                lcGraph.invalidate();
+//                break;
+//            }
+//            case R.id.actionToggleHighlight: {
+//                if(lcGraph.getData() != null) {
+//                    lcGraph.getData().setHighlightEnabled(!lcGraph.getData().isHighlightEnabled());
+//                    lcGraph.invalidate();
+//                }
+//                break;
+//            }
+//            case R.id.actionToggleFilled: {
+//
+//                List<ILineDataSet> sets = lcGraph.getData()
+//                        .getDataSets();
+//
+//                for (ILineDataSet iSet : sets) {
+//
+//                    LineDataSet set = (LineDataSet) iSet;
+//
+//                    if (set.isDrawFilledEnabled())
+//                        set.setDrawFilled(false);
+//                    else
+//                        set.setDrawFilled(true);
+//                }
+//                lcGraph.invalidate();
+//                break;
+//            }
+//            case R.id.actionToggleCircles: {
+//                List<ILineDataSet> sets = lcGraph.getData()
+//                        .getDataSets();
+//
+//                for (ILineDataSet iSet : sets) {
+//
+//                    LineDataSet set = (LineDataSet) iSet;
+//                    if (set.isDrawCirclesEnabled())
+//                        set.setDrawCircles(false);
+//                    else
+//                        set.setDrawCircles(true);
+//                }
+//                lcGraph.invalidate();
+//                break;
+//            }
+//            case R.id.actionToggleCubic: {
+//                List<ILineDataSet> sets = lcGraph.getData()
+//                        .getDataSets();
+//
+//                for (ILineDataSet iSet : sets) {
+//
+//                    LineDataSet set = (LineDataSet) iSet;
+//                    set.setMode(set.getMode() == LineDataSet.Mode.CUBIC_BEZIER
+//                            ? LineDataSet.Mode.LINEAR
+//                            :  LineDataSet.Mode.CUBIC_BEZIER);
+//                }
+//                lcGraph.invalidate();
+//                break;
+//            }
+//            case R.id.actionToggleStepped: {
+//                List<ILineDataSet> sets = lcGraph.getData()
+//                        .getDataSets();
+//
+//                for (ILineDataSet iSet : sets) {
+//
+//                    LineDataSet set = (LineDataSet) iSet;
+//                    set.setMode(set.getMode() == LineDataSet.Mode.STEPPED
+//                            ? LineDataSet.Mode.LINEAR
+//                            :  LineDataSet.Mode.STEPPED);
+//                }
+//                lcGraph.invalidate();
+//                break;
+//            }
+//            case R.id.actionToggleHorizontalCubic: {
+//                List<ILineDataSet> sets = lcGraph.getData()
+//                        .getDataSets();
+//
+//                for (ILineDataSet iSet : sets) {
+//
+//                    LineDataSet set = (LineDataSet) iSet;
+//                    set.setMode(set.getMode() == LineDataSet.Mode.HORIZONTAL_BEZIER
+//                            ? LineDataSet.Mode.LINEAR
+//                            :  LineDataSet.Mode.HORIZONTAL_BEZIER);
+//                }
+//                lcGraph.invalidate();
+//                break;
+//            }
+//            case R.id.actionTogglePinch: {
+//                if (lcGraph.isPinchZoomEnabled())
+//                    lcGraph.setPinchZoom(false);
+//                else
+//                    lcGraph.setPinchZoom(true);
+//
+//                lcGraph.invalidate();
+//                break;
+//            }
+//            case R.id.actionToggleAutoScaleMinMax: {
+//                lcGraph.setAutoScaleMinMaxEnabled(!lcGraph.isAutoScaleMinMaxEnabled());
+//                lcGraph.notifyDataSetChanged();
+//                break;
+//            }
+//            case R.id.animateX: {
+//                lcGraph.animateX(2000);
+//                break;
+//            }
+//            case R.id.animateY: {
+//                lcGraph.animateY(2000);
+//                break;
+//            }
+//            case R.id.animateXY: {
+//                lcGraph.animateXY(2000, 2000);
+//                break;
+//            }
+//            case R.id.actionSave: {
+//                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+//                    saveToGallery();
+//                } else {
+//                    requestStoragePermission(lcGraph);
+//                }
+//                break;
+//            }
+//        }
+//        return true;
+    }
+
+//    @Override
+//    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//
+//        tvX.setText(String.valueOf(seekBarX.getProgress()));
+//        tvY.setText(String.valueOf(seekBarY.getProgress()));
+//
+//        setData(seekBarX.getProgress(), seekBarY.getProgress());
+//
+//        // redraw
+//        lcGraph.invalidate();
+//    }
+//
+//    @Override
+//    protected void saveToGallery() {
+//        saveToGallery(lcGraph, "CubicLineChartActivity");
+//    }
+//
+//    @Override
+//    public void onStartTrackingTouch(SeekBar seekBar) {}
+//
+//    @Override
+//    public void onStopTrackingTouch(SeekBar seekBar) {}
+
+        ////////////////////////////////////////////////////////////////////////////////
+        //mChart.setOnChartGestureListener(FinalSearch.this);
+//        mChart.setDragEnabled(true);
+//        mChart.setScaleEnabled(false);
+//
+//        for(int i = 0; i < cnt.size(); i++){
+//            if(cnt.get(i).value != null){
+//                String valore = cnt.get(i).value;
+//                String xValue = cnt.get(i).date;
+//                value.add(new Entry(1050+i, Float.parseFloat(valore)));
+//                Log.w("CA", xValue);
+//            }
+//        }
+//
+//        LineDataSet assey = new LineDataSet(value,"Grafico");
+//        assey.setFillAlpha(110);
+//
+//        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+//        dataSets.add(assey);
+//
+//        LineData data = new LineData(dataSets);
+//        mChart.setData(data);
+//        assey.setDrawFilled(true);
+//        assey.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+//        assey.setDrawFilled(true);
+//        data.setDrawValues(false);
+//        mChart.invalidate();
+/////////////////////////////////////////////////////////////////////
 
         /*value.add(new Entry(0, 23));
         value.add(new Entry(1, 24));
@@ -207,23 +535,7 @@ public class FinalSearch extends AppCompatActivity  {
         value.add(new Entry(7, 22));*/
 
 
-        LineDataSet assey = new LineDataSet(value,"Grafico");
-        assey.setFillAlpha(110);
-
-        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(assey);
-
-        LineData data = new LineData(dataSets);
-        mChart.setData(data);
-        assey.setDrawFilled(true);
-        assey.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-        assey.setDrawFilled(true);
-        data.setDrawValues(false);
-        mChart.invalidate();
-
-    }
-
-    public static class FinalAdapter extends RecyclerView.Adapter<Holder2> {
+    class FinalAdapter extends RecyclerView.Adapter<Holder2> {
         public List<Final> ultimate;
 
         public FinalAdapter(List<Final> cnt) {
@@ -243,13 +555,7 @@ public class FinalSearch extends AppCompatActivity  {
 
         @Override
         public void onBindViewHolder(@NonNull Holder2 holder, int position) {
-            if(ultimate.get(position).getValue() != null) {
-
-                holder.tvProva.setText(ultimate.get(position).getValue());
-
-
-
-            }
+                holder.tvProva.setText(String.valueOf(ultimate.get(position).getValue()));
         }
 
 
@@ -259,11 +565,10 @@ public class FinalSearch extends AppCompatActivity  {
         }
     }
 
-    private static class Holder2 extends RecyclerView.ViewHolder {
+    class Holder2 extends RecyclerView.ViewHolder {
         TextView tvProva;
         Holder2(ConstraintLayout cl){
             super(cl);
             tvProva = cl.findViewById(R.id.tvProva);
         }
-    }
     }

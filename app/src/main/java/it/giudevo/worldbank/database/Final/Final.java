@@ -15,9 +15,9 @@ public class Final implements Parcelable {
     @ColumnInfo(name = "countryiso3code")
     public String countryiso3code;
     @ColumnInfo(name = "date")
-    public String date;
+    public int date;
     @ColumnInfo(name ="value")
-    public String value;
+    public int value;
     @ColumnInfo(name="unit")
     public String unit;
     @ColumnInfo(name="obs_status")
@@ -25,7 +25,7 @@ public class Final implements Parcelable {
     @ColumnInfo(name = "decimal")
     public String decimal;
 
-    public Final(String countryiso3code, String date, String value, String unit, String obs_status, String decimal) {
+    public Final(String countryiso3code, int date, int value, String unit, String obs_status, String decimal) {
         this.countryiso3code = countryiso3code;
         this.date = date;
         this.value = value;
@@ -37,8 +37,8 @@ public class Final implements Parcelable {
     protected Final(Parcel in) {
         id = in.readInt();
         countryiso3code = in.readString();
-        date = in.readString();
-        value = in.readString();
+        date = in.readInt();
+        value = in.readInt();
         unit = in.readString();
         obs_status = in.readString();
         decimal = in.readString();
@@ -65,8 +65,8 @@ public class Final implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(countryiso3code);
-        dest.writeString(date);
-        dest.writeString(value);
+        dest.writeInt(date);
+        dest.writeInt(value);
         dest.writeString(unit);
         dest.writeString(obs_status);
         dest.writeString(decimal);
@@ -80,19 +80,19 @@ public class Final implements Parcelable {
         this.countryiso3code = countryiso3code;
     }
 
-    public String getDate() {
+    public int getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(int date) {
         this.date = date;
     }
 
-    public String getValue() {
+    public int getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(int value) {
         this.value = value;
     }
 

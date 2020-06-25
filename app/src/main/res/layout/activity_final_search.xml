@@ -11,24 +11,38 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/PidRecyclerView"
-        android:layout_marginTop="@dimen/PidRecyclerView"
         android:layout_marginEnd="@dimen/PidRecyclerView"
         android:layout_marginBottom="@dimen/PidRecyclerView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lcGraph" />
+        app:layout_constraintTop_toBottomOf="@+id/seekBarX" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/lcGraph"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="300dp"
-        android:layout_marginStart="@dimen/PidGraph"
         android:layout_marginTop="@dimen/PidGraph"
         android:layout_marginEnd="@dimen/PidGraph"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/seekBarY"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <SeekBar
+        android:id="@+id/seekBarX"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lcGraph" />
+
+    <SeekBar
+        android:id="@+id/seekBarY"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

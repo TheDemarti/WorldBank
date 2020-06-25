@@ -30,6 +30,7 @@ import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -136,7 +137,7 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
             String arguments;
             try {
                 JSONArray jsonArray = new JSONArray(response);
-                    JSONArray json = jsonArray.getJSONArray(1);/////modificato
+                JSONArray json = jsonArray.getJSONArray(1);/////modificato
                     //JSONObject jsonObject1 = jsonObject.getJSONObject("value");
                     //String id = jsonObject.getString("id");
                     //String value = jsonObject.getString("value");
@@ -145,7 +146,7 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
                 arguments = json.toString();
                 Type listType = new TypeToken<List<Arguments>>() {}.getType();
                 List<Arguments> cnt = gson.fromJson(arguments, listType);
-                if (cnt != null && cnt.size() > 0) {
+                if (cnt != null && cnt.size() > 0 && cnt.get(0).value != null) {
                     Log.w("CA", "" + cnt.size());
                     db.argumentsDAO().insertAll();
                     fill(cnt);
