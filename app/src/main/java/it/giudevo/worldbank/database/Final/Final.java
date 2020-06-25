@@ -1,4 +1,4 @@
-package it.giudevo.worldbank.database.FinalSearch;
+package it.giudevo.worldbank.database.Final;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -8,7 +8,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class FinalSearch implements Parcelable {
+public class Final implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     public int id;
@@ -25,7 +25,7 @@ public class FinalSearch implements Parcelable {
     @ColumnInfo(name = "decimal")
     public String decimal;
 
-    public FinalSearch(String countryiso3code, String date, String value, String unit, String obs_status, String decimal) {
+    public Final(String countryiso3code, String date, String value, String unit, String obs_status, String decimal) {
         this.countryiso3code = countryiso3code;
         this.date = date;
         this.value = value;
@@ -34,7 +34,7 @@ public class FinalSearch implements Parcelable {
         this.decimal = decimal;
     }
 
-    protected FinalSearch(Parcel in) {
+    protected Final(Parcel in) {
         id = in.readInt();
         countryiso3code = in.readString();
         date = in.readString();
@@ -44,15 +44,15 @@ public class FinalSearch implements Parcelable {
         decimal = in.readString();
     }
 
-    public static final Creator<FinalSearch> CREATOR = new Creator<FinalSearch>() {
+    public static final Creator<Final> CREATOR = new Creator<Final>() {
         @Override
-        public FinalSearch createFromParcel(Parcel in) {
-            return new FinalSearch(in);
+        public Final createFromParcel(Parcel in) {
+            return new Final(in);
         }
 
         @Override
-        public FinalSearch[] newArray(int size) {
-            return new FinalSearch[size];
+        public Final[] newArray(int size) {
+            return new Final[size];
         }
     };
 

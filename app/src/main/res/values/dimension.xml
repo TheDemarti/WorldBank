@@ -9,4 +9,5 @@
     <dimen name="TitleSize">30sp</dimen>
     <dimen name="DescriptionSize">20sp</dimen>
     <dimen name="PidTextView">8dp</dimen>
+    <dimen name="PidGraph">10dp</dimen>
 </resources>

@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -30,7 +29,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -43,6 +41,7 @@ import java.util.List;
 
 import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.Countries.Countries;
+import it.giudevo.worldbank.database.Final.Final;
 import it.giudevo.worldbank.database.Indicators.Indicators;
 
 public class FinalSearch extends AppCompatActivity  {
@@ -61,28 +60,28 @@ public class FinalSearch extends AppCompatActivity  {
 
     private class Holder {
         VolleyCountries model;
-        RecyclerView rvFinalFromCountry;
+        RecyclerView rvFinal;
 
         @SuppressLint("WrongViewCast")
         Holder() {
-            rvFinalFromCountry = findViewById(R.id.rvFinalFromCountry);
-            mChart = findViewById(R.id.lineChart);
+            rvFinal = findViewById(R.id.rvFinal);
+            mChart = findViewById(R.id.lcGraph);
 
 
             this.model = new VolleyCountries() {
 
                 @Override
-                void fill(List<it.giudevo.worldbank.database.FinalSearch.FinalSearch> cnt) {
+                void fill(List<Final> cnt) {
                     Log.w("CA", "fill");
                     fillList(cnt);
                 }
 
-                private void fillList(List<it.giudevo.worldbank.database.FinalSearch.FinalSearch> cnt) {
+                private void fillList(List<Final> cnt) {
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(FinalSearch.this);
-                    rvFinalFromCountry.setLayoutManager(layoutManager);
-                    rvFinalFromCountry.setHasFixedSize(true);
+                    rvFinal.setLayoutManager(layoutManager);
+                    rvFinal.setHasFixedSize(true);
                     FinalAdapter myAdapter = new FinalAdapter(cnt);
-                    rvFinalFromCountry.setAdapter(myAdapter);
+                    rvFinal.setAdapter(myAdapter);
                 }
 
             };
@@ -122,7 +121,7 @@ public class FinalSearch extends AppCompatActivity  {
         }
 
         private abstract class VolleyCountries implements Response.ErrorListener, Response.Listener<String>{
-            abstract void fill(List<it.giudevo.worldbank.database.FinalSearch.FinalSearch> cnt);
+            abstract void fill(List<Final> cnt);
 
             RequestQueue requestQueue;
 
@@ -165,13 +164,13 @@ public class FinalSearch extends AppCompatActivity  {
                     JSONArray jsonArray = new JSONArray(response);
                     JSONArray json = jsonArray.getJSONArray(1);
                     countries = json.toString();
-                    Type listType = new TypeToken<List<it.giudevo.worldbank.database.FinalSearch.FinalSearch>>() {
+                    Type listType = new TypeToken<List<Final>>() {
                     }.getType();
-                    List<it.giudevo.worldbank.database.FinalSearch.FinalSearch> cnt = gson.fromJson(countries, listType);
+                    List<Final> cnt = gson.fromJson(countries, listType);
                     if (cnt != null && cnt.size() > 0) {
                         Log.w("CA", "" + cnt.size());
-                        //db.countriesDAO().insertAll();
-                        creategraph(cnt);
+                        //db.Final.DAO().insertAll();
+                        CreateGraph(cnt);
                         fill(cnt);
                     }
                 } catch (JSONException e) {
@@ -182,7 +181,7 @@ public class FinalSearch extends AppCompatActivity  {
         }
     }
 
-    public void creategraph(List<it.giudevo.worldbank.database.FinalSearch.FinalSearch> cnt) {
+    public void CreateGraph(List<Final> cnt) {
         //mChart.setOnChartGestureListener(FinalSearch.this);
         mChart.setDragEnabled(true);
         mChart.setScaleEnabled(false);
@@ -202,7 +201,7 @@ public class FinalSearch extends AppCompatActivity  {
         value.add(new Entry(7, 22));
 
 
-        LineDataSet assey = new LineDataSet(value,"prova");
+        LineDataSet assey = new LineDataSet(value,"Grafico");
         assey.setFillAlpha(110);
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
@@ -214,9 +213,9 @@ public class FinalSearch extends AppCompatActivity  {
     }
 
     public static class FinalAdapter extends RecyclerView.Adapter<Holder2> {
-        public List<it.giudevo.worldbank.database.FinalSearch.FinalSearch> ultimate;
+        public List<Final> ultimate;
 
-        public FinalAdapter(List<it.giudevo.worldbank.database.FinalSearch.FinalSearch> cnt) {
+        public FinalAdapter(List<Final> cnt) {
             ultimate = cnt;
         }
 
