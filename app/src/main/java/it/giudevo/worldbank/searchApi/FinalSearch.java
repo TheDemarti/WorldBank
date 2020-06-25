@@ -3,12 +3,14 @@ package it.giudevo.worldbank.searchApi;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -186,19 +188,23 @@ public class FinalSearch extends AppCompatActivity  {
         mChart.setDragEnabled(true);
         mChart.setScaleEnabled(false);
 
-      /*  for(int i = 0; i < cnt.size(); i++){
+        for(int i = 0; i < cnt.size(); i++){
             if(cnt.get(i).value != null){
                 String valore = cnt.get(i).value;
-                 value.add(new Entry(i, Float.parseFloat(valore)) );
-        }}*/
-        value.add(new Entry(0, 23));
+                String xValue = cnt.get(i).date;
+                value.add(new Entry(Float.parseFloat(xValue), Float.parseFloat(valore)));
+                Log.w("CA", xValue);
+            }
+        }
+
+        /*value.add(new Entry(0, 23));
         value.add(new Entry(1, 24));
         value.add(new Entry(2, 22));
         value.add(new Entry(3, 10));
         value.add(new Entry(4, 14));
         value.add(new Entry(5, 45));
         value.add(new Entry(6, 23));
-        value.add(new Entry(7, 22));
+        value.add(new Entry(7, 22));*/
 
 
         LineDataSet assey = new LineDataSet(value,"Grafico");
@@ -209,6 +215,11 @@ public class FinalSearch extends AppCompatActivity  {
 
         LineData data = new LineData(dataSets);
         mChart.setData(data);
+        assey.setDrawFilled(true);
+        assey.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        assey.setDrawFilled(true);
+        data.setDrawValues(false);
+        mChart.invalidate();
 
     }
 
