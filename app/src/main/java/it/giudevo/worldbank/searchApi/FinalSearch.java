@@ -234,6 +234,7 @@ public class FinalSearch extends AppCompatActivity  {
         lcGraph.setMaxHighlightDistance(300);
 
         XAxis x = lcGraph.getXAxis();
+        x.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
         x.setEnabled(true);
         x.setLabelCount(6, false);
         x.setTextColor(Color.BLACK);
@@ -292,9 +293,8 @@ public class FinalSearch extends AppCompatActivity  {
 
         LineDataSet set1;
 
-        if (lcGraph.getData() != null &&
-                lcGraph.getData().getDataSetCount() > 0) {
-            set1 = (LineDataSet) lcGraph.getData().getDataSetByIndex(0);
+        if (lcGraph.getData() != null && lcGraph.getData().getDataSetCount() > 0) {
+            set1 = (LineDataSet) lcGraph.getData().getDataSetByIndex(1990);
             set1.setValues(values);
             lcGraph.getData().notifyDataChanged();
             lcGraph.notifyDataSetChanged();
