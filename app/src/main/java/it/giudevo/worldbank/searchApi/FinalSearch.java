@@ -238,7 +238,7 @@ public class FinalSearch extends AppCompatActivity  {
         x.setEnabled(true);
         x.setLabelCount(6, false);
         x.setTextColor(Color.BLACK);
-        x.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
+        x.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
         x.setDrawGridLines(false);
         x.setAxisLineColor(Color.BLACK);
 
@@ -277,13 +277,14 @@ public class FinalSearch extends AppCompatActivity  {
 
         ArrayList<Entry> values = new ArrayList<>();
 
-        for(int i = 0; i < cnt.size()-1; i++) {
+        for(int i = 0; i < cnt.size(); i++) {
             Log.w("CA", String.valueOf(cnt.get(i).getValue()));
             Log.w("CA", String.valueOf(cnt.get(i).getDate()));
-                float date = (float) (cnt.get(i).getDate());
+                float date = (float) (cnt.get(cnt.size()-1 -i).getDate());
                 float val = (float) (cnt.get(i).getValue());
                 //Log.w("CA", String.valueOf(val));
                 values.add(new Entry(date, val));
+                ;
 
 
 
