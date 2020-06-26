@@ -3,22 +3,16 @@ package it.giudevo.worldbank.searchApi;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -40,7 +34,6 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IFillFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
-import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -61,6 +54,7 @@ public class FinalSearch extends AppCompatActivity  {
     public boolean choice;
     public LineChart lcGraph;
     public SeekBar seekBarX, seekBarY;
+    public TextView tvX, tvY;
     public ArrayList<Entry> value = new ArrayList<>();
 
     @Override
@@ -211,10 +205,10 @@ public class FinalSearch extends AppCompatActivity  {
         }
     }
 
-    public void CreateGraph(List<Final> cnt) {
+    public void CreateGraph(List<Final> cnt){
 
-        //tvX = findViewById(R.id.tvXMax);
-        //tvY = findViewById(R.id.tvYMax);
+        tvX = findViewById(R.id.tvX);
+        tvY = findViewById(R.id.tvY);
 
         seekBarX = findViewById(R.id.seekBarX);
         seekBarY = findViewById(R.id.seekBarY);
@@ -279,7 +273,7 @@ public class FinalSearch extends AppCompatActivity  {
 
         for(int i = 0; i < cnt.size()-1; i++) {
             Log.w("CA", String.valueOf(cnt.get(i).getValue()));
-                float val = (float)(cnt.get(i).value);
+                float val = (float) (cnt.get(i).value);
                 Log.w("CA", String.valueOf(val));
                 values.add(new Entry(i, val));
 
@@ -471,19 +465,18 @@ public class FinalSearch extends AppCompatActivity  {
 //            }
 //        }
 //        return true;
-    }
-
-//    @Override
-//    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//
-//        tvX.setText(String.valueOf(seekBarX.getProgress()));
-//        tvY.setText(String.valueOf(seekBarY.getProgress()));
-//
-//        setData(seekBarX.getProgress(), seekBarY.getProgress());
-//
-//        // redraw
-//        lcGraph.invalidate();
 //    }
+
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+        tvX.setText(String.valueOf(seekBarX.getProgress()));
+        tvY.setText(String.valueOf(seekBarY.getProgress()));
+
+        //setData(seekBarX.getProgress(), seekBarY.getProgress());
+
+        // redraw
+        lcGraph.invalidate();
+    }
 //
 //    @Override
 //    protected void saveToGallery() {
@@ -572,3 +565,4 @@ public class FinalSearch extends AppCompatActivity  {
             tvProva = cl.findViewById(R.id.tvProva);
         }
     }
+}

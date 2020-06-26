@@ -16,12 +16,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBarX" />
+        app:layout_constraintTop_toBottomOf="@+id/seekBarY" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/lcGraph"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="300dp"
+        android:layout_marginStart="@dimen/PidGraph"
         android:layout_marginTop="@dimen/PidGraph"
         android:layout_marginEnd="@dimen/PidGraph"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,16 +34,33 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvX"
         app:layout_constraintTop_toBottomOf="@+id/lcGraph" />
 
     <SeekBar
         android:id="@+id/seekBarY"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvY"
+        app:layout_constraintTop_toBottomOf="@+id/seekBarX" />
+
+    <TextView
+        android:id="@+id/tvX"
         android:layout_width="wrap_content"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
+        android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="vertical"/>
+        app:layout_constraintTop_toBottomOf="@+id/lcGraph" />
+
+    <TextView
+        android:id="@+id/tvY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvX" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
