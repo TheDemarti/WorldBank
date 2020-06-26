@@ -234,24 +234,28 @@ public class FinalSearch extends AppCompatActivity  {
         lcGraph.setMaxHighlightDistance(300);
 
         XAxis x = lcGraph.getXAxis();
-        x.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
-        x.setEnabled(true); //
+        x.setEnabled(true);
+        x.setLabelCount(6, false);
+        x.setTextColor(Color.BLACK);
+        x.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
+        x.setDrawGridLines(false);
+        x.setAxisLineColor(Color.BLACK);
 
         YAxis y = lcGraph.getAxisLeft();
         //y.setTypeface(tfLight);
         y.setLabelCount(6, false);
-        y.setTextColor(Color.WHITE);
+        y.setTextColor(Color.BLACK);
         y.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
         y.setDrawGridLines(false);
-        y.setAxisLineColor(Color.WHITE);
+        y.setAxisLineColor(Color.BLACK);
 
         lcGraph.getAxisRight().setEnabled(false);
 /////////////////////////////////////////////////////////
         setData(cnt);
 
         // add data
-        //seekBarY.setOnSeekBarChangeListener((SeekBar.OnSeekBarChangeListener) this);
-        //seekBarX.setOnSeekBarChangeListener((SeekBar.OnSeekBarChangeListener) this);
+ //       seekBarY.setOnSeekBarChangeListener((SeekBar.OnSeekBarChangeListener) this);
+ //       seekBarX.setOnSeekBarChangeListener((SeekBar.OnSeekBarChangeListener) this);
 
         // lower max, as cubic runs significantly slower than linear
         seekBarX.setMax(cnt.size());////////////////////////////////////////////////////////////////////////////////////
@@ -274,9 +278,11 @@ public class FinalSearch extends AppCompatActivity  {
 
         for(int i = 0; i < cnt.size()-1; i++) {
             Log.w("CA", String.valueOf(cnt.get(i).getValue()));
-                float val = (float) (cnt.get(i).value);
-                Log.w("CA", String.valueOf(val));
-                values.add(new Entry(i, val));
+            Log.w("CA", String.valueOf(cnt.get(i).getDate()));
+                float date = (float) (cnt.get(i).getDate());
+                float val = (float) (cnt.get(i).getValue());
+                //Log.w("CA", String.valueOf(val));
+                values.add(new Entry(date, val));
 
 
 
@@ -286,7 +292,8 @@ public class FinalSearch extends AppCompatActivity  {
 
         LineDataSet set1;
 
-        if (lcGraph.getData() != null && lcGraph.getData().getDataSetCount() > 0) {
+        if (lcGraph.getData() != null &&
+                lcGraph.getData().getDataSetCount() > 0) {
             set1 = (LineDataSet) lcGraph.getData().getDataSetByIndex(0);
             set1.setValues(values);
             lcGraph.getData().notifyDataChanged();

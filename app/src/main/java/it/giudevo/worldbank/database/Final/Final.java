@@ -15,7 +15,7 @@ public class Final implements Parcelable {
     @ColumnInfo(name = "countryiso3code")
     public String countryiso3code;
     @ColumnInfo(name = "date")
-    public int date;
+    public float date;
     @ColumnInfo(name ="value")
     public float value;
     @ColumnInfo(name="unit")
@@ -25,7 +25,7 @@ public class Final implements Parcelable {
     @ColumnInfo(name = "decimal")
     public String decimal;
 
-    public Final(String countryiso3code, int date, float value, String unit, String obs_status, String decimal) {
+    public Final(String countryiso3code, float date, float value, String unit, String obs_status, String decimal) {
         this.countryiso3code = countryiso3code;
         this.date = date;
         this.value = value;
@@ -65,7 +65,7 @@ public class Final implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(countryiso3code);
-        dest.writeInt(date);
+        dest.writeFloat(date);
         dest.writeFloat(value);
         dest.writeString(unit);
         dest.writeString(obs_status);
@@ -80,11 +80,11 @@ public class Final implements Parcelable {
         this.countryiso3code = countryiso3code;
     }
 
-    public int getDate() {
+    public float getDate() {
         return date;
     }
 
-    public void setDate(int date) {
+    public void setDate(float date) {
         this.date = date;
     }
 
