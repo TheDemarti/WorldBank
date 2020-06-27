@@ -3,12 +3,16 @@ package it.giudevo.worldbank.searchApi;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -87,8 +91,29 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         //String newEntry = "100";
-        //AddData(newEntry);
-        lcGraph.saveToGallery("grafico di prova");
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            lcGraph.saveToGallery("grafico di prova");
+            Toast.makeText(this, "successo", Toast.LENGTH_LONG).show();
+        }
+        else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == 0){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(this, "Permission Granted", Toast.LENGTH_LONG).show();
+                }
+            }
+            else{
+                Toast.makeText(this, "denied", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     private class Holder {
