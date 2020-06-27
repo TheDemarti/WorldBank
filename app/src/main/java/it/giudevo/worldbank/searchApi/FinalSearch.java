@@ -86,8 +86,9 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        String newEntry = "100";
-        AddData(newEntry);
+        //String newEntry = "100";
+        //AddData(newEntry);
+        lcGraph.saveToGallery("grafico di prova");
     }
 
     private class Holder {
@@ -322,7 +323,7 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
             set1.setHighLightColor(Color.rgb(244, 117, 117));
             set1.setColor(Color.WHITE);
             set1.setFillColor(Color.WHITE);
-            set1.setFillAlpha(225);
+            set1.setFillAlpha(100);
             set1.setDrawHorizontalHighlightIndicator(true);
             set1.setFillFormatter(new IFillFormatter() {
                 @Override
