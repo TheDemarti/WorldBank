@@ -16,7 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.SeekBar;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,16 +45,19 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.giudevo.worldbank.DataBaseHelper;
 import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.Countries.Countries;
 import it.giudevo.worldbank.database.Final.Final;
 import it.giudevo.worldbank.database.Indicators.Indicators;
 
-public class FinalSearch extends AppCompatActivity  {
+public class FinalSearch extends AppCompatActivity implements View.OnClickListener {
+    DataBaseHelper mDatabaseHelper;
+
+
     public boolean choice;
     public LineChart lcGraph;
-    public SeekBar seekBarX, seekBarY;
-    public TextView tvX, tvY;
+    public Button btnSaveData, btnSaveGraph;
     public ArrayList<Entry> value = new ArrayList<>();
 
     @Override
@@ -62,8 +65,29 @@ public class FinalSearch extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final_search);
 
+        btnSaveData = findViewById(R.id.btnSaveData);
+        btnSaveData.setOnClickListener(this);
+
         new Holder();
 
+        mDatabaseHelper = new DataBaseHelper(this);
+    }
+
+    public  void AddData(String newEntry){
+        boolean insertData = mDatabaseHelper.addData(newEntry);
+
+        if(insertData){
+            Toast.makeText(getApplicationContext(), "saved", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        String newEntry = "100";
+        AddData(newEntry);
     }
 
     private class Holder {
@@ -207,12 +231,6 @@ public class FinalSearch extends AppCompatActivity  {
 
     public void CreateGraph(List<Final> cnt){
 
-        tvX = findViewById(R.id.tvX);
-        tvY = findViewById(R.id.tvY);
-
-        seekBarX = findViewById(R.id.seekBarX);
-        seekBarY = findViewById(R.id.seekBarY);
-
         lcGraph = findViewById(R.id.lcGraph);
         lcGraph.setViewPortOffsets(0, 0, 0, 0);
         lcGraph.setBackgroundColor(Color.rgb(104, 241, 175));
@@ -234,20 +252,22 @@ public class FinalSearch extends AppCompatActivity  {
         lcGraph.setMaxHighlightDistance(300);
 
         XAxis x = lcGraph.getXAxis();
+        //x.setLabelRotationAngle(25);
+        x.setAvoidFirstLastClipping(true);
+        x.setDrawLabels(true);
         x.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
         x.setEnabled(true);
-        x.setLabelCount(6, false);
+        x.setLabelCount(6, true);
         x.setTextColor(Color.BLACK);
-        x.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
-        x.setDrawGridLines(false);
+        x.setDrawGridLines(true);
         x.setAxisLineColor(Color.BLACK);
 
         YAxis y = lcGraph.getAxisLeft();
         //y.setTypeface(tfLight);
-        y.setLabelCount(6, false);
+        y.setLabelCount(6, true);
         y.setTextColor(Color.BLACK);
         y.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
-        y.setDrawGridLines(false);
+        y.setDrawGridLines(true);
         y.setAxisLineColor(Color.BLACK);
 
         lcGraph.getAxisRight().setEnabled(false);
@@ -259,11 +279,7 @@ public class FinalSearch extends AppCompatActivity  {
  //       seekBarX.setOnSeekBarChangeListener((SeekBar.OnSeekBarChangeListener) this);
 
         // lower max, as cubic runs significantly slower than linear
-        seekBarX.setMax(cnt.size());////////////////////////////////////////////////////////////////////////////////////
-        Log.w("CA", String.valueOf(cnt.size()));
-
-        seekBarX.setProgress(45);
-        seekBarY.setProgress(100);
+        //Log.w("CA", String.valueOf(cnt.size()));
 
         lcGraph.getLegend().setEnabled(false);
 
@@ -278,24 +294,17 @@ public class FinalSearch extends AppCompatActivity  {
         ArrayList<Entry> values = new ArrayList<>();
 
         for(int i = 0; i < cnt.size(); i++) {
-            Log.w("CA", String.valueOf(cnt.get(i).getValue()));
-            Log.w("CA", String.valueOf(cnt.get(i).getDate()));
-                float date = (float) (cnt.get(cnt.size()-1 -i).getDate());
-                float val = (float) (cnt.get(i).getValue());
-                //Log.w("CA", String.valueOf(val));
+            //Log.w("CA", String.valueOf(cnt.get(i).getValue()));
+            //Log.w("CA", String.valueOf(cnt.get(i).getDate()));
+                int date = (cnt.get(cnt.size()-1 -i).getDate());
+                float val = cnt.get(cnt.size()-1-i).getValue();
                 values.add(new Entry(date, val));
-                ;
-
-
-
-//            float val = (float) (Math.random() * (range + 1)) + 20;
-//            values.add(new Entry(i, val));
         }
 
         LineDataSet set1;
 
         if (lcGraph.getData() != null && lcGraph.getData().getDataSetCount() > 0) {
-            set1 = (LineDataSet) lcGraph.getData().getDataSetByIndex(1990);
+            set1 = (LineDataSet) lcGraph.getData().getDataSetByIndex(0);
             set1.setValues(values);
             lcGraph.getData().notifyDataChanged();
             lcGraph.notifyDataSetChanged();
@@ -313,8 +322,8 @@ public class FinalSearch extends AppCompatActivity  {
             set1.setHighLightColor(Color.rgb(244, 117, 117));
             set1.setColor(Color.WHITE);
             set1.setFillColor(Color.WHITE);
-            set1.setFillAlpha(100);
-            set1.setDrawHorizontalHighlightIndicator(false);
+            set1.setFillAlpha(225);
+            set1.setDrawHorizontalHighlightIndicator(true);
             set1.setFillFormatter(new IFillFormatter() {
                 @Override
                 public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {
@@ -474,17 +483,6 @@ public class FinalSearch extends AppCompatActivity  {
 //        }
 //        return true;
 //    }
-
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-        tvX.setText(String.valueOf(seekBarX.getProgress()));
-        tvY.setText(String.valueOf(seekBarY.getProgress()));
-
-        //setData(seekBarX.getProgress(), seekBarY.getProgress());
-
-        // redraw
-        lcGraph.invalidate();
-    }
 //
 //    @Override
 //    protected void saveToGallery() {
@@ -526,17 +524,7 @@ public class FinalSearch extends AppCompatActivity  {
 //        mChart.invalidate();
 /////////////////////////////////////////////////////////////////////
 
-        /*value.add(new Entry(0, 23));
-        value.add(new Entry(1, 24));
-        value.add(new Entry(2, 22));
-        value.add(new Entry(3, 10));
-        value.add(new Entry(4, 14));
-        value.add(new Entry(5, 45));
-        value.add(new Entry(6, 23));
-        value.add(new Entry(7, 22));*/
-
-
-    class FinalAdapter extends RecyclerView.Adapter<Holder2> {
+    static class FinalAdapter extends RecyclerView.Adapter<Holder2> {
         public List<Final> ultimate;
 
         public FinalAdapter(List<Final> cnt) {
@@ -556,7 +544,7 @@ public class FinalSearch extends AppCompatActivity  {
 
         @Override
         public void onBindViewHolder(@NonNull Holder2 holder, int position) {
-                holder.tvProva.setText(String.valueOf(ultimate.get(position).getValue()));
+                holder.tvProva.setText(String.valueOf(ultimate.get(position).getValue()+"+"+ultimate.get(position).getDate()));
         }
 
 
@@ -566,7 +554,7 @@ public class FinalSearch extends AppCompatActivity  {
         }
     }
 
-    class Holder2 extends RecyclerView.ViewHolder {
+    static class Holder2 extends RecyclerView.ViewHolder {
         TextView tvProva;
         Holder2(ConstraintLayout cl){
             super(cl);
