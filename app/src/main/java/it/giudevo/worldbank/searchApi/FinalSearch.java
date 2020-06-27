@@ -90,10 +90,9 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        //String newEntry = "100";
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            lcGraph.saveToGallery("grafico di prova");
+            lcGraph.saveToGallery("grafico di prova" + Math.random());
             Toast.makeText(this, "successo", Toast.LENGTH_LONG).show();
         }
         else {
