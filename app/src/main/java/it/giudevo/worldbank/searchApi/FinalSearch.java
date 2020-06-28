@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.giudevo.worldbank.DataBaseHelper;
+import it.giudevo.worldbank.DataBaseHelper;
 import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.Countries.Countries;
 import it.giudevo.worldbank.database.Final.Final;
@@ -79,23 +80,22 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
 
         new Holder();
 
-        mDatabaseHelper = new DataBaseHelper(this);
+      mDatabaseHelper = new DataBaseHelper(this);
     }
 
-    public  void AddData(String newEntry){
-        boolean insertData = mDatabaseHelper.addData(newEntry);
+   public  void AddData(String newEntry){
+       boolean insertData = mDatabaseHelper.addData(newEntry);
 
         if(insertData){
             Toast.makeText(getApplicationContext(), "saved", Toast.LENGTH_LONG).show();
-        }
-        else {
-            Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG).show();
-        }
+        }   else {
+          Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG).show();
+       }
     }
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.btnGraph) {
+        if(v.getId() == R.id.btnSaveGraph) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 lcGraph.saveToGallery("grafico di prova" + Math.random());
                 Toast.makeText(this, "successo", Toast.LENGTH_LONG).show();
@@ -103,8 +103,8 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
             }
         }
-        else if(v.getId() == R.id.btnData){
-            String newEntry = "ciao";
+        if(v.getId() == R.id.btnSaveData){
+            String newEntry = "cao";
             if(!newEntry.equals("ciao")){
                 AddData(newEntry);
 

@@ -10,44 +10,38 @@ import android.util.Log;
 import it.giudevo.worldbank.searchApi.FinalSearch;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "DatabaseHelper";
-    private  static final String TABLE_NAME = "people_table";
-    private static final String COL1 = "ID";
-    private static final String COL2 = "name";
+    public static final String DATABASE_NAME = "DatabaseHelper.db";
+    public  static final String TABLE_NAME = "people_table";
+    public static final String COL1 = "ID";
+    public static final String COL2 = "NAME";
 
 
     public DataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        SQLiteDatabase db = this.getWritableDatabase();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTable = "CREATE TABLE " + TABLE_NAME + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                COL2 + "TEXT)";
-        db.execSQL(createTable);
+        db.execSQL("create table " + TABLE_NAME + "(ID INTEGER PRIMARY KEY AUTOINCREMENT,NAME TEXT)");
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(" DROP TABLE EXISTS" + TABLE_NAME);
+    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+        db.execSQL(" DROP TABLE IF EXISTS  " + TABLE_NAME);
         onCreate(db);
     }
 
-    public boolean addData(String item){
+    public boolean addData(String name){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL2, item);
+        contentValues.put(COL2, name);
 
-        Log.w("CA", "addData: Adding" + item + "to" + TABLE_NAME);
+        Log.w("CA", "addData: Adding" + name + "to" + TABLE_NAME);
 
         long result = db.insert(TABLE_NAME, null, contentValues);
 
-        if(result == -1){
-            return false;
-        }
-        else {
-            return true;
-        }
+        return result != -1;
     }
 
     public Cursor getListContents(){
