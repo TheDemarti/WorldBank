@@ -69,6 +69,11 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final_search);
 
+        lcGraph = findViewById(R.id.lcGraph);
+
+        btnSaveGraph = findViewById(R.id.btnSaveGraph);
+        btnSaveGraph.setOnClickListener(this);
+
         btnSaveData = findViewById(R.id.btnSaveData);
         btnSaveData.setOnClickListener(this);
 
@@ -90,13 +95,22 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            lcGraph.saveToGallery("grafico di prova" + Math.random());
-            Toast.makeText(this, "successo", Toast.LENGTH_LONG).show();
+        if(v.getId() == R.id.btnGraph) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                lcGraph.saveToGallery("grafico di prova" + Math.random());
+                Toast.makeText(this, "successo", Toast.LENGTH_LONG).show();
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+            }
         }
-        else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+        else{
+            String newEntry = "1000";
+            if(!newEntry.equals("1000")){
+                AddData(newEntry);
+
+            }else{
+                Toast.makeText(FinalSearch.this, "You must put something in the text field!", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -256,7 +270,6 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
 
     public void CreateGraph(List<Final> cnt){
 
-        lcGraph = findViewById(R.id.lcGraph);
         lcGraph.setViewPortOffsets(0, 0, 0, 0);
         lcGraph.setBackgroundColor(Color.rgb(104, 241, 175));
 
@@ -298,13 +311,6 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
         lcGraph.getAxisRight().setEnabled(false);
 /////////////////////////////////////////////////////////
         setData(cnt);
-
-        // add data
- //       seekBarY.setOnSeekBarChangeListener((SeekBar.OnSeekBarChangeListener) this);
- //       seekBarX.setOnSeekBarChangeListener((SeekBar.OnSeekBarChangeListener) this);
-
-        // lower max, as cubic runs significantly slower than linear
-        //Log.w("CA", String.valueOf(cnt.size()));
 
         lcGraph.getLegend().setEnabled(false);
 
@@ -549,7 +555,7 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
 //        mChart.invalidate();
 /////////////////////////////////////////////////////////////////////
 
-    static class FinalAdapter extends RecyclerView.Adapter<Holder2> {
+    static class FinalAdapter extends RecyclerView.Adapter<Holder2>{
         public List<Final> ultimate;
 
         public FinalAdapter(List<Final> cnt) {
@@ -567,9 +573,10 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
             return new Holder2(cl);
         }
 
+        @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(@NonNull Holder2 holder, int position) {
-                holder.tvProva.setText(String.valueOf(ultimate.get(position).getValue()+"+"+ultimate.get(position).getDate()));
+                holder.tvProva.setText(ultimate.get(position).getValue() + "+" + ultimate.get(position).getDate());
         }
 
 
@@ -577,6 +584,7 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
         public int getItemCount() {
             return ultimate.size();
         }
+
     }
 
     static class Holder2 extends RecyclerView.ViewHolder {

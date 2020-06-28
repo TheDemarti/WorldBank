@@ -32,11 +32,11 @@ public class FavoritesActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-//
-//            if(v.getId() == R.id.btnData) {
-//                Intent intent = new Intent(FavoritesActivity.this);
-//                startActivity(intent);
-//            }
+
+            if(v.getId() == R.id.btnData) {
+                Intent intent = new Intent(FavoritesActivity.this, ViewListContents.class);
+                startActivity(intent);
+            }
 //
 //            if(v.getId() == R.id.btnGraph) {
 //                Intent intent = new Intent(FavoritesActivity.this);
