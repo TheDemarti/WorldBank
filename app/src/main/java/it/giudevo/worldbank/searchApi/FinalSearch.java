@@ -103,9 +103,9 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
             }
         }
-        else{
-            String newEntry = "1000";
-            if(!newEntry.equals("1000")){
+        else if(v.getId() == R.id.btnData){
+            String newEntry = "ciao";
+            if(!newEntry.equals("ciao")){
                 AddData(newEntry);
 
             }else{
