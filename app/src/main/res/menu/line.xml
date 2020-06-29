@@ -44,8 +44,9 @@
     </item>
     <item
         android:id="@+id/graphSave"
-        app:showAsAction="ifRoom"
-        android:title="graphSave">
+        android:title="graphSave"
+        app:showAsAction="ifRoom">
+
     </item>
     <item
         android:id="@+id/dataSave"
