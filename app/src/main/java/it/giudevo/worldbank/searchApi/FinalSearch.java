@@ -2,8 +2,8 @@ package it.giudevo.worldbank.searchApi;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,9 +14,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -38,6 +41,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IFillFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
+import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -50,7 +54,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.giudevo.worldbank.DataBaseHelper;
-import it.giudevo.worldbank.DataBaseHelper;
 import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.Countries.Countries;
 import it.giudevo.worldbank.database.Final.Final;
@@ -59,59 +62,52 @@ import it.giudevo.worldbank.database.Indicators.Indicators;
 public class FinalSearch extends AppCompatActivity implements View.OnClickListener {
     DataBaseHelper mDatabaseHelper;
 
-
     public boolean choice;
     public LineChart lcGraph;
-    public Button btnSaveData, btnSaveGraph;
-    public ArrayList<Entry> value = new ArrayList<>();
+    TextView tvResume;
+    public Countries countries;
+    public Indicators indicators;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final_search);
 
-        lcGraph = findViewById(R.id.lcGraph);
-
-        btnSaveGraph = findViewById(R.id.btnSaveGraph);
-        btnSaveGraph.setOnClickListener(this);
-
-        btnSaveData = findViewById(R.id.btnSaveData);
-        btnSaveData.setOnClickListener(this);
-
         new Holder();
 
-      mDatabaseHelper = new DataBaseHelper(this);
+        lcGraph = findViewById(R.id.lcGraph);
+        mDatabaseHelper = new DataBaseHelper(this);
     }
 
-   public  void AddData(String newEntry){
-       boolean insertData = mDatabaseHelper.addData(newEntry);
-
-        if(insertData){
-            Toast.makeText(getApplicationContext(), "saved", Toast.LENGTH_LONG).show();
-        }   else {
-          Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG).show();
-       }
-    }
+//   public  void AddData(List<Final> newEntry){////////////////////////////////////////////////
+//       boolean insertData = mDatabaseHelper.addData(newEntry);
+//
+//        if(insertData){
+//            Toast.makeText(getApplicationContext(), "saved", Toast.LENGTH_LONG).show();
+//        }   else {
+//          Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG).show();
+//       }
+//    }
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.btnSaveGraph) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                lcGraph.saveToGallery("grafico di prova" + Math.random());
-                Toast.makeText(this, "successo", Toast.LENGTH_LONG).show();
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-            }
-        }
-        if(v.getId() == R.id.btnSaveData){
-            String newEntry = "cao";
-            if(!newEntry.equals("ciao")){
-                AddData(newEntry);
-
-            }else{
-                Toast.makeText(FinalSearch.this, "You must put something in the text field!", Toast.LENGTH_LONG).show();
-            }
-        }
+//        if(v.getId() == R.id.btnSaveGraph) {
+//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+//                lcGraph.saveToGallery("grafico di prova" + Math.random());
+//                Toast.makeText(this, "successo", Toast.LENGTH_LONG).show();
+//            } else {
+//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+//            }
+//        }
+//        if(v.getId() == R.id.btnSaveData){
+//            List<Final> newEntry = cnt;
+//            if(newEntry != cnt){
+//                AddData(newEntry);
+//
+//            }else{
+//                Toast.makeText(FinalSearch.this, "You must put something in the text field!", Toast.LENGTH_LONG).show();
+//            }
+//        }
     }
 
     @Override
@@ -129,17 +125,18 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-    private class Holder {
-        VolleyCountries model;
+    private class Holder{
+        VolleyFinal model;
         RecyclerView rvFinal;
 
-        @SuppressLint("WrongViewCast")
+        @SuppressLint({"WrongViewCast", "SetTextI18n"})
         Holder() {
             rvFinal = findViewById(R.id.rvFinal);
-            //mChart = findViewById(R.id.lcGraph);
+            tvResume = findViewById(R.id.tvResume);
 
 
-            this.model = new VolleyCountries() {
+            this.model = new VolleyFinal() {
+
 
                 @Override
                 void fill(List<Final> cnt) {
@@ -158,23 +155,31 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
             };
 
             Intent data = getIntent();
-            Indicators search = data.getParcelableExtra("indicators");
+            //Indicators
+                    indicators = data.getParcelableExtra("indicators");
             choice = data.getBooleanExtra("choice", true);
             if(choice) {
-                Countries countries = data.getParcelableExtra("countries");
-                assert search != null;
+                //Countries
+                 countries = data.getParcelableExtra("countries");
+                assert indicators != null;
                 //model.CountriesAPI(getApplicationContext());
                 assert countries != null;
-                model.searchByCountry(countries.getIso2Code(), search.getId());
+                model.searchByCountry(countries.getIso2Code(), indicators.getId());
             }
             else{
-                Countries countries = data.getParcelableExtra("countries");
-                assert search != null;
+                //Countries
+                        countries = data.getParcelableExtra("countries");
+                assert indicators != null;
                 //model.CountriesAPI(getApplicationContext());
                 assert countries != null;
-                model.searchByCountry(countries.getIso2Code(), search.getId());
+                model.searchByCountry(countries.getIso2Code(), indicators.getId());
             }
             hideKeyboard(FinalSearch.this);
+            Log.w("CA", countries.getName());
+            Log.w("CA", indicators.getName());
+
+            tvResume.setText(countries.getName() + " - " + indicators.getName());
+
         }
 
         void hideKeyboard(Activity activity) {
@@ -189,7 +194,7 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
 
-        private abstract class VolleyCountries implements Response.ErrorListener, Response.Listener<String>{
+        private abstract class VolleyFinal implements Response.ErrorListener, Response.Listener<String>{
             abstract void fill(List<Final> cnt);
 
             RequestQueue requestQueue;
@@ -225,7 +230,7 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
             }
 
             @Override
-            public void onResponse(String response) {
+            public void onResponse(String response){
                 Log.d("Prova", "json approvato");
                 Gson gson = new Gson();
                 String countries;
@@ -251,12 +256,8 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
                     countries = json.toString();
                     Type listType = new TypeToken<List<Final>>() {
                     }.getType();
-                    List<Final> cnt = gson.fromJson(countries, listType);
+                    List<Final>cnt = gson.fromJson(countries, listType);
                     if (cnt != null && cnt.size() > 0) {
-                        Log.w("CA", String.valueOf(cnt.get(cnt.size()-1).date));
-                        Log.w("CA", String.valueOf(cnt.get(cnt.size()-1).value));
-                        Log.w("CA", "" + cnt.size());
-                        //db.Final.DAO().insertAll();
                         CreateGraph(cnt);
                         fill(cnt);
                     }
@@ -265,6 +266,7 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
                     e.printStackTrace();
                 }
             }
+
         }
     }
 
@@ -284,7 +286,7 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
         lcGraph.setScaleEnabled(true);
 
         // if disabled, scaling can be done on x- and y-axis separately
-        lcGraph.setPinchZoom(true);
+        ///////lcGraph.setPinchZoom(true);
 
         lcGraph.setDrawGridBackground(false);
         lcGraph.setMaxHighlightDistance(300);
@@ -373,147 +375,137 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.line, menu);
-//        return true;
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.line, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//
-//        switch (item.getItemId()) {
-//            case R.id.viewGithub: {
-//                Intent i = new Intent(Intent.ACTION_VIEW);
-//                i.setData(Uri.parse("https://github.com/PhilJay/MPAndroidChart/blob/master/MPChartExample/src/com/xxmassdeveloper/mpchartexample/CubicLineChartActivity.java"));
-//                startActivity(i);
-//                break;
-//            }
-//            case R.id.actionToggleValues: {
-//                for (IDataSet set : lcGraph.getData().getDataSets())
-//                    set.setDrawValues(!set.isDrawValuesEnabled());
-//
-//                lcGraph.invalidate();
-//                break;
-//            }
-//            case R.id.actionToggleHighlight: {
-//                if(lcGraph.getData() != null) {
-//                    lcGraph.getData().setHighlightEnabled(!lcGraph.getData().isHighlightEnabled());
-//                    lcGraph.invalidate();
-//                }
-//                break;
-//            }
-//            case R.id.actionToggleFilled: {
-//
-//                List<ILineDataSet> sets = lcGraph.getData()
-//                        .getDataSets();
-//
-//                for (ILineDataSet iSet : sets) {
-//
-//                    LineDataSet set = (LineDataSet) iSet;
-//
-//                    if (set.isDrawFilledEnabled())
-//                        set.setDrawFilled(false);
-//                    else
-//                        set.setDrawFilled(true);
-//                }
-//                lcGraph.invalidate();
-//                break;
-//            }
-//            case R.id.actionToggleCircles: {
-//                List<ILineDataSet> sets = lcGraph.getData()
-//                        .getDataSets();
-//
-//                for (ILineDataSet iSet : sets) {
-//
-//                    LineDataSet set = (LineDataSet) iSet;
-//                    if (set.isDrawCirclesEnabled())
-//                        set.setDrawCircles(false);
-//                    else
-//                        set.setDrawCircles(true);
-//                }
-//                lcGraph.invalidate();
-//                break;
-//            }
-//            case R.id.actionToggleCubic: {
-//                List<ILineDataSet> sets = lcGraph.getData()
-//                        .getDataSets();
-//
-//                for (ILineDataSet iSet : sets) {
-//
-//                    LineDataSet set = (LineDataSet) iSet;
-//                    set.setMode(set.getMode() == LineDataSet.Mode.CUBIC_BEZIER
-//                            ? LineDataSet.Mode.LINEAR
-//                            :  LineDataSet.Mode.CUBIC_BEZIER);
-//                }
-//                lcGraph.invalidate();
-//                break;
-//            }
-//            case R.id.actionToggleStepped: {
-//                List<ILineDataSet> sets = lcGraph.getData()
-//                        .getDataSets();
-//
-//                for (ILineDataSet iSet : sets) {
-//
-//                    LineDataSet set = (LineDataSet) iSet;
-//                    set.setMode(set.getMode() == LineDataSet.Mode.STEPPED
-//                            ? LineDataSet.Mode.LINEAR
-//                            :  LineDataSet.Mode.STEPPED);
-//                }
-//                lcGraph.invalidate();
-//                break;
-//            }
-//            case R.id.actionToggleHorizontalCubic: {
-//                List<ILineDataSet> sets = lcGraph.getData()
-//                        .getDataSets();
-//
-//                for (ILineDataSet iSet : sets) {
-//
-//                    LineDataSet set = (LineDataSet) iSet;
-//                    set.setMode(set.getMode() == LineDataSet.Mode.HORIZONTAL_BEZIER
-//                            ? LineDataSet.Mode.LINEAR
-//                            :  LineDataSet.Mode.HORIZONTAL_BEZIER);
-//                }
-//                lcGraph.invalidate();
-//                break;
-//            }
-//            case R.id.actionTogglePinch: {
-//                if (lcGraph.isPinchZoomEnabled())
-//                    lcGraph.setPinchZoom(false);
-//                else
-//                    lcGraph.setPinchZoom(true);
-//
-//                lcGraph.invalidate();
-//                break;
-//            }
-//            case R.id.actionToggleAutoScaleMinMax: {
-//                lcGraph.setAutoScaleMinMaxEnabled(!lcGraph.isAutoScaleMinMaxEnabled());
-//                lcGraph.notifyDataSetChanged();
-//                break;
-//            }
-//            case R.id.animateX: {
-//                lcGraph.animateX(2000);
-//                break;
-//            }
-//            case R.id.animateY: {
-//                lcGraph.animateY(2000);
-//                break;
-//            }
-//            case R.id.animateXY: {
-//                lcGraph.animateXY(2000, 2000);
-//                break;
-//            }
-//            case R.id.actionSave: {
-//                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-//                    saveToGallery();
-//                } else {
-//                    requestStoragePermission(lcGraph);
-//                }
-//                break;
-//            }
-//        }
-//        return true;
-//    }
+
+        @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.actionToggleValues: {
+                for (IDataSet set : lcGraph.getData().getDataSets())
+                    set.setDrawValues(!set.isDrawValuesEnabled());
+
+                lcGraph.invalidate();
+                break;
+            }
+            case R.id.actionToggleFilled: {
+
+                List<ILineDataSet> sets = lcGraph.getData()
+                        .getDataSets();
+
+                for (ILineDataSet iSet : sets) {
+
+                    LineDataSet set = (LineDataSet) iSet;
+
+                    if (set.isDrawFilledEnabled())
+                        set.setDrawFilled(false);
+                    else
+                        set.setDrawFilled(true);
+                }
+                lcGraph.invalidate();
+                break;
+            }
+            case R.id.actionToggleCircles: {
+                List<ILineDataSet> sets = lcGraph.getData()
+                        .getDataSets();
+
+                for (ILineDataSet iSet : sets) {
+
+                    LineDataSet set = (LineDataSet) iSet;
+                    if (set.isDrawCirclesEnabled())
+                        set.setDrawCircles(false);
+                    else
+                        set.setDrawCircles(true);
+                }
+                lcGraph.invalidate();
+                break;
+            }
+            case R.id.actionToggleCubic: {
+                List<ILineDataSet> sets = lcGraph.getData()
+                        .getDataSets();
+
+                for (ILineDataSet iSet : sets) {
+
+                    LineDataSet set = (LineDataSet) iSet;
+                    set.setMode(set.getMode() == LineDataSet.Mode.CUBIC_BEZIER
+                            ? LineDataSet.Mode.LINEAR
+                            :  LineDataSet.Mode.CUBIC_BEZIER);
+                }
+                lcGraph.invalidate();
+                break;
+            }
+            case R.id.actionToggleStepped: {
+                List<ILineDataSet> sets = lcGraph.getData()
+                        .getDataSets();
+
+                for (ILineDataSet iSet : sets) {
+
+                    LineDataSet set = (LineDataSet) iSet;
+                    set.setMode(set.getMode() == LineDataSet.Mode.STEPPED
+                            ? LineDataSet.Mode.LINEAR
+                            :  LineDataSet.Mode.STEPPED);
+                }
+                lcGraph.invalidate();
+                break;
+            }
+            case R.id.actionToggleHorizontalCubic: {
+                List<ILineDataSet> sets = lcGraph.getData()
+                        .getDataSets();
+
+                for (ILineDataSet iSet : sets) {
+
+                    LineDataSet set = (LineDataSet) iSet;
+                    set.setMode(set.getMode() == LineDataSet.Mode.HORIZONTAL_BEZIER
+                            ? LineDataSet.Mode.LINEAR
+                            :  LineDataSet.Mode.HORIZONTAL_BEZIER);
+                }
+                lcGraph.invalidate();
+                break;
+            }
+            case R.id.actionTogglePinch: {
+                if (lcGraph.isPinchZoomEnabled())
+                    lcGraph.setPinchZoom(false);
+                else
+                    lcGraph.setPinchZoom(true);
+
+                lcGraph.invalidate();
+                break;
+            }
+            case R.id.animateX: {
+                lcGraph.animateX(2000);
+                break;
+            }
+            case R.id.animateY: {
+                lcGraph.animateY(2000);
+                break;
+            }
+            case R.id.animateXY: {
+                lcGraph.animateXY(2000, 2000);
+                break;
+            }
+            case R.id.graphSave: {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    lcGraph.saveToGallery("prova");
+                    Toast.makeText(this, "successo", Toast.LENGTH_LONG).show();
+
+                } else {
+                    //requestStoragePermission(lcGraph);
+                }
+                break;
+            }
+            case R.id.dataSave: {
+
+                FinalAdapter.AddData(getApplicationContext());
+                Toast.makeText(this, "dataaaaaaaaaaaa", Toast.LENGTH_LONG).show();
+            }
+        }
+        return true;
+    }
 //
 //    @Override
 //    protected void saveToGallery() {
@@ -555,43 +547,42 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
 //        mChart.invalidate();
 /////////////////////////////////////////////////////////////////////
 
-    static class FinalAdapter extends RecyclerView.Adapter<Holder2>{
-        public List<Final> ultimate;
-
-        public FinalAdapter(List<Final> cnt) {
-            ultimate = cnt;
-        }
-
-
-        @NonNull
-        @Override
-        public Holder2 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            ConstraintLayout cl;
-            cl = (ConstraintLayout) LayoutInflater
-                    .from(parent.getContext())
-                    .inflate(R.layout.raw_final_search, parent, false);
-            return new Holder2(cl);
-        }
-
-        @SuppressLint("SetTextI18n")
-        @Override
-        public void onBindViewHolder(@NonNull Holder2 holder, int position) {
-                holder.tvProva.setText(ultimate.get(position).getValue() + "+" + ultimate.get(position).getDate());
-        }
-
-
-        @Override
-        public int getItemCount() {
-            return ultimate.size();
-        }
-
-    }
-
-    static class Holder2 extends RecyclerView.ViewHolder {
-        TextView tvProva;
-        Holder2(ConstraintLayout cl){
-            super(cl);
-            tvProva = cl.findViewById(R.id.tvProva);
-        }
-    }
+//    class FinalAdapter extends RecyclerView.Adapter<Holder2>{
+//        public List<Final> ultimate;
+//
+//        public FinalAdapter(List<Final> cnt) {
+//            ultimate = cnt;
+//        }
+//
+//
+//        @NonNull
+//        @Override
+//        public Holder2 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+//            ConstraintLayout cl;
+//            cl = (ConstraintLayout) LayoutInflater
+//                    .from(parent.getContext())
+//                    .inflate(R.layout.raw_final_search, parent, false);
+//            return new Holder2(cl);
+//        }
+//
+//        @SuppressLint("SetTextI18n")
+//        @Override
+//        public void onBindViewHolder(@NonNull Holder2 holder, int position) {
+//                holder.tvProva.setText(ultimate.get(position).getValue() + "+" + ultimate.get(position).getDate());
+//        }
+//
+//
+//        @Override
+//        public int getItemCount() {
+//            return ultimate.size();
+//        }
+//    }
+//
+// static class Holder2 extends RecyclerView.ViewHolder{
+//        TextView tvProva;
+//       //    Holder2(ConstraintLayout cl){
+//            super(cl);
+//            tvProva = cl.findViewById(R.id.tvProva);
+//        }
+//    }
 }

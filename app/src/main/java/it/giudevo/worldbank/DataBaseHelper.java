@@ -7,7 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import it.giudevo.worldbank.searchApi.FinalSearch;
+import java.util.List;
+
+import it.giudevo.worldbank.database.Final.Final;
+import it.giudevo.worldbank.searchApi.FinalAdapter;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "DatabaseHelper.db";
@@ -32,10 +35,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean addData(String name){
+    public boolean addData(List<Final> name){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL2, name);
+        contentValues.put(COL2, String.valueOf(name));
 
         Log.w("CA", "addData: Adding" + name + "to" + TABLE_NAME);
 
@@ -46,8 +49,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public Cursor getListContents(){
         SQLiteDatabase db  = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_NAME;
-        Cursor data = db.rawQuery(query, null);
+        Cursor data = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         return data;
     }
 }

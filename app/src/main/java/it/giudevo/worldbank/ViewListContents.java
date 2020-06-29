@@ -11,6 +11,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import it.giudevo.worldbank.searchApi.FinalAdapter;
+import it.giudevo.worldbank.searchApi.FinalSearch;
+
 public class ViewListContents extends AppCompatActivity {
 
     DataBaseHelper myDB;
@@ -29,6 +32,7 @@ public class ViewListContents extends AppCompatActivity {
         Cursor data = myDB.getListContents();
         if(data.getCount() == 0){
             Toast.makeText(this, "There are no contents in this list!",Toast.LENGTH_LONG).show();
+            return;
         }else{
             while(data.moveToNext()){
                 theList.add(data.getString(1));
