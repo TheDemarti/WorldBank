@@ -20,14 +20,10 @@ import it.giudevo.worldbank.database.Final.Final;
 
 public class FinalAdapter extends RecyclerView.Adapter<FinalAdapter.Holder> {
 
-
-    //private static DataBaseHelper mDatabaseHelper;
     public static List<Final> ultimate;
 
     public FinalAdapter(List<Final> cnt) {
             ultimate = cnt;
-            Log.w("CA", String.valueOf(ultimate.get(1)));
-
     }
 
     public static void AddData(Context context) {

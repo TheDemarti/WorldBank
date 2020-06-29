@@ -7,10 +7,6 @@
         android:title="actionToggleValues">
     </item>
     <item
-        android:id="@+id/actionToggleIcons"
-        android:title="actionToggleIcons">
-    </item>
-    <item
         android:id="@+id/actionToggleFilled"
         android:title="actionToggleFilled">
     </item>
@@ -35,14 +31,6 @@
         android:title="actionTogglePinch">
     </item>
     <item
-        android:id="@+id/actionToggleAutoScaleMinMax"
-        android:title="actionToggleAutoScale">
-    </item>
-    <item
-        android:id="@+id/actionToggleHighlight"
-        android:title="actionToggleHighlight">
-    </item>
-    <item
         android:id="@+id/animateX"
         android:title="animateX">
     </item>
@@ -55,13 +43,13 @@
         android:title="animateXY">
     </item>
     <item
-        android:id="@+id/actionSave"
+        android:id="@+id/graphSave"
         app:showAsAction="ifRoom"
-        android:title="actionSave">
+        android:title="graphSave">
     </item>
     <item
         android:id="@+id/dataSave"
-        app:showAsAction="never"
+        app:showAsAction="ifRoom"
         android:title="dataSave">
     </item>
 

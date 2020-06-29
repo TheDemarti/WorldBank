@@ -62,11 +62,11 @@ import it.giudevo.worldbank.database.Indicators.Indicators;
 public class FinalSearch extends AppCompatActivity implements View.OnClickListener {
     DataBaseHelper mDatabaseHelper;
 
-
     public boolean choice;
     public LineChart lcGraph;
-    public Button btnSaveData, btnSaveGraph;
-
+    TextView tvResume;
+    public Countries countries;
+    public Indicators indicators;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,15 +76,6 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
         new Holder();
 
         lcGraph = findViewById(R.id.lcGraph);
-
-        btnSaveGraph = findViewById(R.id.btnSaveGraph);
-        btnSaveGraph.setOnClickListener(this);
-
-        btnSaveData = findViewById(R.id.btnSaveData);
-        btnSaveData.setOnClickListener(this);
-
-        new Holder();
-
         mDatabaseHelper = new DataBaseHelper(this);
     }
 
@@ -138,9 +129,10 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
         VolleyFinal model;
         RecyclerView rvFinal;
 
-        @SuppressLint("WrongViewCast")
+        @SuppressLint({"WrongViewCast", "SetTextI18n"})
         Holder() {
             rvFinal = findViewById(R.id.rvFinal);
+            tvResume = findViewById(R.id.tvResume);
 
 
             this.model = new VolleyFinal() {
@@ -163,23 +155,31 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
             };
 
             Intent data = getIntent();
-            Indicators search = data.getParcelableExtra("indicators");
+            //Indicators
+                    indicators = data.getParcelableExtra("indicators");
             choice = data.getBooleanExtra("choice", true);
             if(choice) {
-                Countries countries = data.getParcelableExtra("countries");
-                assert search != null;
+                //Countries
+                 countries = data.getParcelableExtra("countries");
+                assert indicators != null;
                 //model.CountriesAPI(getApplicationContext());
                 assert countries != null;
-                model.searchByCountry(countries.getIso2Code(), search.getId());
+                model.searchByCountry(countries.getIso2Code(), indicators.getId());
             }
             else{
-                Countries countries = data.getParcelableExtra("countries");
-                assert search != null;
+                //Countries
+                        countries = data.getParcelableExtra("countries");
+                assert indicators != null;
                 //model.CountriesAPI(getApplicationContext());
                 assert countries != null;
-                model.searchByCountry(countries.getIso2Code(), search.getId());
+                model.searchByCountry(countries.getIso2Code(), indicators.getId());
             }
             hideKeyboard(FinalSearch.this);
+            Log.w("CA", countries.getName());
+            Log.w("CA", indicators.getName());
+
+            tvResume.setText(countries.getName() + " - " + indicators.getName());
+
         }
 
         void hideKeyboard(Activity activity) {
@@ -258,12 +258,7 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
                     }.getType();
                     List<Final>cnt = gson.fromJson(countries, listType);
                     if (cnt != null && cnt.size() > 0) {
-                        Log.w("CA", String.valueOf(cnt.get(cnt.size()-1).date));
-                        Log.w("CA", String.valueOf(cnt.get(cnt.size()-1).value));
-                        Log.w("CA", "" + cnt.size());
-                        //db.Final.DAO().insertAll();
                         CreateGraph(cnt);
-                        //AddData(cnt);
                         fill(cnt);
                     }
                 } catch (JSONException e) {
@@ -291,7 +286,7 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
         lcGraph.setScaleEnabled(true);
 
         // if disabled, scaling can be done on x- and y-axis separately
-        lcGraph.setPinchZoom(true);
+        ///////lcGraph.setPinchZoom(true);
 
         lcGraph.setDrawGridBackground(false);
         lcGraph.setMaxHighlightDistance(300);
@@ -398,13 +393,6 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
                 lcGraph.invalidate();
                 break;
             }
-            case R.id.actionToggleHighlight: {
-                if(lcGraph.getData() != null) {
-                    lcGraph.getData().setHighlightEnabled(!lcGraph.getData().isHighlightEnabled());
-                    lcGraph.invalidate();
-                }
-                break;
-            }
             case R.id.actionToggleFilled: {
 
                 List<ILineDataSet> sets = lcGraph.getData()
@@ -488,11 +476,6 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
                 lcGraph.invalidate();
                 break;
             }
-            case R.id.actionToggleAutoScaleMinMax: {
-                lcGraph.setAutoScaleMinMaxEnabled(!lcGraph.isAutoScaleMinMaxEnabled());
-                lcGraph.notifyDataSetChanged();
-                break;
-            }
             case R.id.animateX: {
                 lcGraph.animateX(2000);
                 break;
@@ -505,7 +488,7 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
                 lcGraph.animateXY(2000, 2000);
                 break;
             }
-            case R.id.actionSave: {
+            case R.id.graphSave: {
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     lcGraph.saveToGallery("prova");
                     Toast.makeText(this, "successo", Toast.LENGTH_LONG).show();
