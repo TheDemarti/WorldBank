@@ -28,6 +28,7 @@ public class ViewListContents extends AppCompatActivity implements View.OnClickL
     DataBaseHelper myDB;
     ListView lvFav;
     public Cursor data;
+    public Cursor res;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,29 +36,34 @@ public class ViewListContents extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_view_list_contents);
 
         lvFav = findViewById(R.id.lvFav);
+
         myDB = new DataBaseHelper(this);
 
         //populate an ArrayList<String> from the database and then view it
         ArrayList<String> theList = new ArrayList<>();
         data = myDB.getListContents();
-        if(data.getCount() == 0){
-            Toast.makeText(this, "There are no contents in this list!",Toast.LENGTH_LONG).show();
-        }else{
-            while(data.moveToNext()){
+        if (data.getCount() == 0) {
+            Toast.makeText(this, "There are no contents in this list!", Toast.LENGTH_LONG).show();
+        } else {
+            while (data.moveToNext()) {
                 theList.add(data.getString(1));
 
+                data.getColumnIndex("NAME");
+                data.getString(1);
+                res = myDB.getOneData("BEL");
 
-                Log.w("CA", String.valueOf(data.getString(1)));
+                Log.w("CA", String.valueOf(res));
 
 
-                ListAdapter listAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, theList);
+                ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, theList);
                 lvFav.setAdapter(listAdapter);
-                Log.w("CA", String.valueOf(listAdapter.getItem(0)));
+                //Log.w("CA", "////////////" + theList.get(0));
+                //Log.w("CA", "/////" + listAdapter.getItem(0));
             }
         }
     }
-
     @Override
-    public void onClick(View v) {
+    public void onClick (View v){
+
     }
 }

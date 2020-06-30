@@ -26,7 +26,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_NAME + "(ID INTEGER PRIMARY KEY AUTOINCREMENT,NAME TEXT)");
+        db.execSQL("create table " + TABLE_NAME + "(" + COL1 + "INTEGER PRIMARY KEY AUTOINCREMENT," + COL2 + "TEXT)");
     }
 
     @Override
@@ -38,6 +38,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public boolean addData(List<Final> name){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        contentValues.put(COL1, name.get(0).countryiso3code);
         contentValues.put(COL2, String.valueOf(name));
 
         Log.w("CA", "addData: Adding" + name + "to" + TABLE_NAME);
@@ -51,5 +52,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db  = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         return data;
+    }
+
+    public Cursor getOneData(String id){
+        SQLiteDatabase db  = this.getWritableDatabase();
+        Cursor res = db.rawQuery("SELECT " + COL1 + " FROM " + TABLE_NAME, null);
+        return res;
     }
 }
