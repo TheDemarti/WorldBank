@@ -44,6 +44,7 @@ public class SearchByIndicator extends AppCompatActivity {
     AppIndicatorsDatabase db;
     public boolean choice;
     public Countries countries;
+    public Arguments arguments;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -85,7 +86,7 @@ public class SearchByIndicator extends AppCompatActivity {
                 }
             };
             Intent data = getIntent();
-            Arguments search = data.getParcelableExtra("arguments");
+            arguments = data.getParcelableExtra("arguments");
 
             choice = data.getBooleanExtra("choice",false);
             if(choice) {
@@ -93,8 +94,8 @@ public class SearchByIndicator extends AppCompatActivity {
             }
 
             //Log.w("ID TOPIC", String.valueOf(search));
-            assert search != null;
-            model.searchByInd(search.id);
+            assert arguments != null;
+            model.searchByInd(arguments.id);
         }
 }
 
@@ -102,7 +103,16 @@ public class SearchByIndicator extends AppCompatActivity {
         abstract void fill(List<Indicators> cnt);
 
         void searchByInd(int s) {
-            String language = Locale.getDefault().getLanguage();
+            String language;
+
+            if(!Locale.getDefault().getLanguage().equals("en") || !Locale.getDefault().getLanguage().equals("es") ||
+                    !Locale.getDefault().getLanguage().equals("fr") || !Locale.getDefault().getLanguage().equals("zh") ||
+                    !Locale.getDefault().getLanguage().equals("ar")){
+                language = "en";
+            }
+            else{
+                language = Locale.getDefault().getLanguage();
+            }
             String url = "http://api.worldbank.org/v2/%s/topic/%s/indicator?format=json&per_page=17447";
             url = String.format(url, language, s);
             apiCall(url);
@@ -184,11 +194,13 @@ public class SearchByIndicator extends AppCompatActivity {
                 intent.putExtra("indicators", ind);
                 intent.putExtra("countries", countries);
                 intent.putExtra("choice", choice);
+                intent.putExtra("arguments", arguments);
                 SearchByIndicator.this.startActivity(intent);
             }
             else{
                 Intent intent = new Intent(SearchByIndicator.this, SearchByCountry.class);///////////////////////
                 intent.putExtra("indicators", ind);
+                intent.putExtra("arguments", arguments);
                 intent.putExtra("choice", choice);
                 SearchByIndicator.this.startActivity(intent);
             }

@@ -26,7 +26,7 @@ public class FavoritesActivity extends AppCompatActivity {
             btnGraph = findViewById(R.id.btnGraph);
 
             btnData.setOnClickListener(this);
-            btnGraph.setOnClickListener(this);
+            //btnGraph.setOnClickListener(this);
         }
 
 

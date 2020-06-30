@@ -109,7 +109,16 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
         abstract void fill(List<Arguments> cnt);
 
         void searchByArg() {
-            String language = Locale.getDefault().getLanguage();
+            String language;
+
+            if(!Locale.getDefault().getLanguage().equals("en") || !Locale.getDefault().getLanguage().equals("es") ||
+                    !Locale.getDefault().getLanguage().equals("fr") || !Locale.getDefault().getLanguage().equals("zh") ||
+                    !Locale.getDefault().getLanguage().equals("ar")){
+                language = "en";
+            }
+            else{
+                language = Locale.getDefault().getLanguage();
+            }
             String url = "http://api.worldbank.org/v2/%s/topic?format=json";
             url = String.format(url, language);
             apiCall(url);

@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Locale;
 
 import it.giudevo.worldbank.R;
+import it.giudevo.worldbank.database.Arguments.Arguments;
 import it.giudevo.worldbank.database.Countries.Countries;
 import it.giudevo.worldbank.database.Indicators.Indicators;
 import it.giudevo.worldbank.database.Countries.AppCountriesDatabase;
@@ -50,6 +51,7 @@ public class SearchByCountry extends AppCompatActivity {
     AppCountriesDatabase db;
     public boolean choice;
     public Indicators indicators;
+    public Arguments arguments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +100,7 @@ public class SearchByCountry extends AppCompatActivity {
                 hideKeyboard(SearchByCountry.this);
             }
             else{
+                arguments = data.getParcelableExtra("arguments");
                 indicators = data.getParcelableExtra("indicators");
                 model.CountriesAPI(getApplicationContext());
                 model.searchByCountry();
@@ -137,7 +140,16 @@ public class SearchByCountry extends AppCompatActivity {
         }
 
         void searchByCountry() {
-            String language = Locale.getDefault().getLanguage();
+            String language;
+
+            if(!Locale.getDefault().getLanguage().equals("en") || !Locale.getDefault().getLanguage().equals("es") ||
+                    !Locale.getDefault().getLanguage().equals("fr") || !Locale.getDefault().getLanguage().equals("zh") ||
+                    !Locale.getDefault().getLanguage().equals("ar")){
+                language = "en";
+            }
+            else{
+                language = Locale.getDefault().getLanguage();
+            }
             String url = "http://api.worldbank.org/v2/%s/country?format=json&per_page=304";
             url = String.format(url, language);
             apiCall(url);
@@ -229,6 +241,7 @@ public class SearchByCountry extends AppCompatActivity {
                 Intent intent = new Intent(SearchByCountry.this, FinalSearch.class);
                 intent.putExtra("countries",cou);
                 intent.putExtra("indicators", indicators);
+                intent.putExtra("arguments", arguments);
                 intent.putExtra("choice", choice);
                 SearchByCountry.this.startActivity(intent);
             }

@@ -51,6 +51,7 @@ import java.util.Locale;
 
 import it.giudevo.worldbank.DataBaseHelper;
 import it.giudevo.worldbank.R;
+import it.giudevo.worldbank.database.Arguments.Arguments;
 import it.giudevo.worldbank.database.Countries.Countries;
 import it.giudevo.worldbank.database.Final.Final;
 import it.giudevo.worldbank.database.Indicators.Indicators;
@@ -63,6 +64,7 @@ public class FinalSearch extends AppCompatActivity  {
     TextView tvResume;
     public Countries countries;
     public Indicators indicators;
+    public Arguments arguments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +123,7 @@ public class FinalSearch extends AppCompatActivity  {
 
             Intent data = getIntent();
             //Indicators
+            arguments = data.getParcelableExtra("arguments");
                     indicators = data.getParcelableExtra("indicators");
             choice = data.getBooleanExtra("choice", true);
             if(choice) {
@@ -143,7 +146,7 @@ public class FinalSearch extends AppCompatActivity  {
             Log.w("CA", countries.getName());
             Log.w("CA", indicators.getName());
 
-            tvResume.setText(countries.getName() + " - " + indicators.getName());
+            tvResume.setText(countries.getName() + " - " + arguments.getValue() + " - " + indicators.getName());
 
         }
 
@@ -170,7 +173,18 @@ public class FinalSearch extends AppCompatActivity  {
 //        }
 
             void searchByCountry(String s, String r) {
-                String language = Locale.getDefault().getLanguage();
+                String language;
+
+                if(!Locale.getDefault().getLanguage().equals("en") || !Locale.getDefault().getLanguage().equals("es") ||
+                        !Locale.getDefault().getLanguage().equals("fr") || !Locale.getDefault().getLanguage().equals("zh") ||
+                        !Locale.getDefault().getLanguage().equals("ar")){
+                    language = "en";
+                }
+                else{
+                    language = Locale.getDefault().getLanguage();
+                }
+
+                Log.w("CA", language);
                 String url = "http://api.worldbank.org/v2/%s/country/%s/indicator/%s?format=json&per_page=500";
                 url = String.format(url, language, s, r);
                 apiCall(url);
@@ -256,14 +270,14 @@ public class FinalSearch extends AppCompatActivity  {
         x.setDrawLabels(true);
         x.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
         x.setEnabled(true);
-        x.setLabelCount(5, true);
+        x.setLabelCount(5, false);
         x.setTextColor(Color.BLACK);
         x.setDrawGridLines(true);
         x.setAxisLineColor(Color.BLACK);
 
         YAxis y = lcGraph.getAxisLeft();
         //y.setTypeface(tfLight);
-        y.setLabelCount(5, true);
+        y.setLabelCount(5, false);
         y.setTextColor(Color.BLACK);
         y.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
         y.setDrawGridLines(true);
@@ -313,7 +327,7 @@ public class FinalSearch extends AppCompatActivity  {
             set1.setColor(Color.WHITE);
             set1.setFillColor(Color.WHITE);
             set1.setFillAlpha(100);
-            set1.setDrawHorizontalHighlightIndicator(true);
+            //set1.setDrawHorizontalHighlightIndicator(true);
             set1.setFillFormatter(new IFillFormatter() {
                 @Override
                 public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {

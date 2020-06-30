@@ -51,7 +51,7 @@ public class FinalAdapter extends RecyclerView.Adapter<FinalAdapter.Holder> {
         @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(@NonNull Holder holder, int position) {
-                holder.tvProva.setText(ultimate.get(position).getValue() + "+" + ultimate.get(position).getDate());
+                holder.tvFinal.setText("Date: " + ultimate.get(position).getDate() + " --> " + ultimate.get(position).getValue());
         }
 
         @Override
@@ -61,11 +61,11 @@ public class FinalAdapter extends RecyclerView.Adapter<FinalAdapter.Holder> {
 
 
         static class Holder extends RecyclerView.ViewHolder{
-        TextView tvProva;
+        TextView tvFinal;
 
         Holder(ConstraintLayout cl){
             super(cl);
-            tvProva = cl.findViewById(R.id.tvProva);
+            tvFinal = cl.findViewById(R.id.tvFinal);
         }
     }
 }
