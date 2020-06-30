@@ -32,6 +32,7 @@ import org.json.JSONException;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Locale;
 
 import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.Arguments.Arguments;
@@ -101,9 +102,9 @@ public class SearchByIndicator extends AppCompatActivity {
         abstract void fill(List<Indicators> cnt);
 
         void searchByInd(int s) {
-
-            String url = "http://api.worldbank.org/v2/topic/%s/indicator?format=json&per_page=17447";
-            url = String.format(url, s);
+            String language = Locale.getDefault().getLanguage();
+            String url = "http://api.worldbank.org/v2/%s/topic/%s/indicator?format=json&per_page=17447";
+            url = String.format(url, language, s);
             apiCall(url);
         }
 
@@ -126,18 +127,16 @@ public class SearchByIndicator extends AppCompatActivity {
 
         @Override
         public void onResponse(String response) {
-            //Log.d("Prova", "json approvato");
             Gson gson = new Gson();
             String indicators;
             try {
                 JSONArray jsonArray = new JSONArray(response);
-                JSONArray json = jsonArray.getJSONArray(1);/////modificato
-                //Log.w("CA", "lunghezza dell'array =" + json.get(0));
+                JSONArray json = jsonArray.getJSONArray(1);
+
                 indicators = json.toString();
                 Type listType = new TypeToken<List<Indicators>>() {}.getType();
                 List<Indicators> cnt = gson.fromJson(indicators, listType);
                 if (cnt != null && cnt.size() > 0) {
-                    //Log.w("CAA", "" + cnt.size());
                     db.indicatorsDAO().insertAll();
                     fill(cnt);
                 }

@@ -39,6 +39,7 @@ import org.json.JSONException;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Locale;
 
 import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.Countries.Countries;
@@ -136,8 +137,9 @@ public class SearchByCountry extends AppCompatActivity {
         }
 
         void searchByCountry() {
-            String url = "http://api.worldbank.org/v2/country?format=json&per_page=304";
-            //url = String.format(url, s);
+            String language = Locale.getDefault().getLanguage();
+            String url = "http://api.worldbank.org/v2/%s/country?format=json&per_page=304";
+            url = String.format(url, language);
             apiCall(url);
         }
 
@@ -155,7 +157,7 @@ public class SearchByCountry extends AppCompatActivity {
         @Override
         public void onErrorResponse(VolleyError error) {
             Toast.makeText(SearchByCountry.this, "Some Thing Goes Wrong", Toast.LENGTH_LONG).show();//
-            error.printStackTrace();//
+            error.printStackTrace();
         }
 
         @Override
@@ -166,10 +168,6 @@ public class SearchByCountry extends AppCompatActivity {
             try {
                 JSONArray jsonArray = new JSONArray(response);
                 JSONArray json = jsonArray.getJSONArray(1);/////modificato
-                //JSONObject jsonObject1 = jsonObject.getJSONObject("value");
-                //String id = jsonObject.getString("id");
-                //String value = jsonObject.getString("value");
-                //String sourceNote = jsonObject.getString("sourceNote");
 
                 countries = json.toString();
                 Type listType = new TypeToken<List<Countries>>() {}.getType();
@@ -209,9 +207,7 @@ public class SearchByCountry extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            //if(!countries.get(position).name.equals("")) {
                 holder.tvIsoCodeFirst.setText(countries.get(position).getName());
-            //}
         }
 
         @Override
@@ -236,12 +232,6 @@ public class SearchByCountry extends AppCompatActivity {
                 intent.putExtra("choice", choice);
                 SearchByCountry.this.startActivity(intent);
             }
-
-//            Intent intent = new Intent(SearchByCountryFirst.this, SearchByArg.class);
-//            intent.putExtra("countries",cou);
-//            intent.putExtra("choice", choice);
-//            SearchByCountryFirst.this.startActivity(intent);
-
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {

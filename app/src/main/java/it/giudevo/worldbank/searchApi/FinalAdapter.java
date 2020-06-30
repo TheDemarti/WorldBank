@@ -38,7 +38,6 @@ public class FinalAdapter extends RecyclerView.Adapter<FinalAdapter.Holder> {
         }
     }
 
-
     @NonNull
         @Override
         public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -55,17 +54,16 @@ public class FinalAdapter extends RecyclerView.Adapter<FinalAdapter.Holder> {
                 holder.tvProva.setText(ultimate.get(position).getValue() + "+" + ultimate.get(position).getDate());
         }
 
-
         @Override
         public int getItemCount() {
             return ultimate.size();
         }
 
 
-
-     static class Holder extends RecyclerView.ViewHolder{
+        static class Holder extends RecyclerView.ViewHolder{
         TextView tvProva;
-           Holder(ConstraintLayout cl){
+
+        Holder(ConstraintLayout cl){
             super(cl);
             tvProva = cl.findViewById(R.id.tvProva);
         }

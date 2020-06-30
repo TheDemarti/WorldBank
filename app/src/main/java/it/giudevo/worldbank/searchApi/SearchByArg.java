@@ -34,6 +34,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Locale;
 
 import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.Arguments.Arguments;
@@ -108,8 +109,9 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
         abstract void fill(List<Arguments> cnt);
 
         void searchByArg() {
-            String url = "http://api.worldbank.org/v2/topic?format=json";
-            //url = String.format(url);
+            String language = Locale.getDefault().getLanguage();
+            String url = "http://api.worldbank.org/v2/%s/topic?format=json";
+            url = String.format(url, language);
             apiCall(url);
         }
 

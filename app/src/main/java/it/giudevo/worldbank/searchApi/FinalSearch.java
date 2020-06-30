@@ -2,8 +2,7 @@ package it.giudevo.worldbank.searchApi;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.ActionMode;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,16 +13,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +47,7 @@ import org.json.JSONException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import it.giudevo.worldbank.DataBaseHelper;
 import it.giudevo.worldbank.R;
@@ -59,7 +55,7 @@ import it.giudevo.worldbank.database.Countries.Countries;
 import it.giudevo.worldbank.database.Final.Final;
 import it.giudevo.worldbank.database.Indicators.Indicators;
 
-public class FinalSearch extends AppCompatActivity implements View.OnClickListener {
+public class FinalSearch extends AppCompatActivity  {
     DataBaseHelper mDatabaseHelper;
 
     public boolean choice;
@@ -79,37 +75,6 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
         mDatabaseHelper = new DataBaseHelper(this);
     }
 
-//   public  void AddData(List<Final> newEntry){////////////////////////////////////////////////
-//       boolean insertData = mDatabaseHelper.addData(newEntry);
-//
-//        if(insertData){
-//            Toast.makeText(getApplicationContext(), "saved", Toast.LENGTH_LONG).show();
-//        }   else {
-//          Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG).show();
-//       }
-//    }
-
-    @Override
-    public void onClick(View v) {
-//        if(v.getId() == R.id.btnSaveGraph) {
-//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-//                lcGraph.saveToGallery("grafico di prova" + Math.random());
-//                Toast.makeText(this, "successo", Toast.LENGTH_LONG).show();
-//            } else {
-//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-//            }
-//        }
-//        if(v.getId() == R.id.btnSaveData){
-//            List<Final> newEntry = cnt;
-//            if(newEntry != cnt){
-//                AddData(newEntry);
-//
-//            }else{
-//                Toast.makeText(FinalSearch.this, "You must put something in the text field!", Toast.LENGTH_LONG).show();
-//            }
-//        }
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -120,7 +85,7 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
                 }
             }
             else{
-                Toast.makeText(this, "denied", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Permission Denied", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -197,8 +162,6 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
         private abstract class VolleyFinal implements Response.ErrorListener, Response.Listener<String>{
             abstract void fill(List<Final> cnt);
 
-            RequestQueue requestQueue;
-
 //        void CountriesAPI(Context context) {
 //            Cache cache = new DiskBasedCache(context.getCacheDir(), 20 * 1024 * 1024); // 20MB
 //            Network network = new BasicNetwork(new HurlStack());
@@ -207,13 +170,14 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
 //        }
 
             void searchByCountry(String s, String r) {
-                String url = "http://api.worldbank.org/v2/country/%s/indicator/%s?format=json&per_page=500";
-                url = String.format(url, s, r);
+                String language = Locale.getDefault().getLanguage();
+                String url = "http://api.worldbank.org/v2/%s/country/%s/indicator/%s?format=json&per_page=500";
+                url = String.format(url, language, s, r);
                 apiCall(url);
             }
 
             private void apiCall(String url) {
-                //RequestQueue requestQueue;
+                RequestQueue requestQueue;
                 requestQueue = Volley.newRequestQueue(FinalSearch.this);
                 StringRequest stringRequest = new StringRequest(Request.Method.GET,
                         url,
@@ -226,20 +190,17 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(FinalSearch.this, "Some Thing Goes Wrong", Toast.LENGTH_LONG).show();//
-                error.printStackTrace();//
+                error.printStackTrace();
             }
 
             @Override
             public void onResponse(String response){
-                Log.d("Prova", "json approvato");
                 Gson gson = new Gson();
                 String countries;
                 try {
                     JSONArray jsonArray = new JSONArray(response);
                     JSONArray json = jsonArray.getJSONArray(1);
-                    Log.w("CA", String.valueOf(json));
 
-                    Log.w("CA", String.valueOf(json.getJSONObject(0).get("value")));
                     int i = 0;
                     while(i < json.length()){
                         if(String.valueOf(json.getJSONObject(i).get("value")).equals("null")){
@@ -249,9 +210,6 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
                             i++;
                         }
                     }
-                    Log.w("CA", String.valueOf(json));
-                    Log.w("CA", "" + json.length());
-
 
                     countries = json.toString();
                     Type listType = new TypeToken<List<Final>>() {
@@ -263,6 +221,7 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
                     }
                 } catch (JSONException e) {
                     Log.d("Prova", "errore");
+                    Toast.makeText(FinalSearch.this, "No Data Available", Toast.LENGTH_LONG).show();//////////////
                     e.printStackTrace();
                 }
             }
@@ -297,14 +256,14 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
         x.setDrawLabels(true);
         x.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
         x.setEnabled(true);
-        x.setLabelCount(6, true);
+        x.setLabelCount(5, true);
         x.setTextColor(Color.BLACK);
         x.setDrawGridLines(true);
         x.setAxisLineColor(Color.BLACK);
 
         YAxis y = lcGraph.getAxisLeft();
         //y.setTypeface(tfLight);
-        y.setLabelCount(6, true);
+        y.setLabelCount(5, true);
         y.setTextColor(Color.BLACK);
         y.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
         y.setDrawGridLines(true);
@@ -327,10 +286,8 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
         ArrayList<Entry> values = new ArrayList<>();
 
         for(int i = 0; i < cnt.size(); i++) {
-            //Log.w("CA", String.valueOf(cnt.get(i).getValue()));
-            //Log.w("CA", String.valueOf(cnt.get(i).getDate()));
-                int date = (cnt.get(cnt.size()-1 -i).getDate());
-                float val = cnt.get(cnt.size()-1-i).getValue();
+                int date = (cnt.get(cnt.size() - 1 - i).getDate());
+                float val = cnt.get(cnt.size() - 1 - i).getValue();
                 values.add(new Entry(date, val));
         }
 
@@ -389,19 +346,14 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
             case R.id.actionToggleValues: {
                 for (IDataSet set : lcGraph.getData().getDataSets())
                     set.setDrawValues(!set.isDrawValuesEnabled());
-
                 lcGraph.invalidate();
                 break;
             }
             case R.id.actionToggleFilled: {
-
                 List<ILineDataSet> sets = lcGraph.getData()
                         .getDataSets();
-
                 for (ILineDataSet iSet : sets) {
-
                     LineDataSet set = (LineDataSet) iSet;
-
                     if (set.isDrawFilledEnabled())
                         set.setDrawFilled(false);
                     else
@@ -413,9 +365,7 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
             case R.id.actionToggleCircles: {
                 List<ILineDataSet> sets = lcGraph.getData()
                         .getDataSets();
-
                 for (ILineDataSet iSet : sets) {
-
                     LineDataSet set = (LineDataSet) iSet;
                     if (set.isDrawCirclesEnabled())
                         set.setDrawCircles(false);
@@ -428,9 +378,7 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
             case R.id.actionToggleCubic: {
                 List<ILineDataSet> sets = lcGraph.getData()
                         .getDataSets();
-
                 for (ILineDataSet iSet : sets) {
-
                     LineDataSet set = (LineDataSet) iSet;
                     set.setMode(set.getMode() == LineDataSet.Mode.CUBIC_BEZIER
                             ? LineDataSet.Mode.LINEAR
@@ -442,9 +390,7 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
             case R.id.actionToggleStepped: {
                 List<ILineDataSet> sets = lcGraph.getData()
                         .getDataSets();
-
                 for (ILineDataSet iSet : sets) {
-
                     LineDataSet set = (LineDataSet) iSet;
                     set.setMode(set.getMode() == LineDataSet.Mode.STEPPED
                             ? LineDataSet.Mode.LINEAR
@@ -456,9 +402,7 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
             case R.id.actionToggleHorizontalCubic: {
                 List<ILineDataSet> sets = lcGraph.getData()
                         .getDataSets();
-
                 for (ILineDataSet iSet : sets) {
-
                     LineDataSet set = (LineDataSet) iSet;
                     set.setMode(set.getMode() == LineDataSet.Mode.HORIZONTAL_BEZIER
                             ? LineDataSet.Mode.LINEAR
@@ -472,7 +416,6 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
                     lcGraph.setPinchZoom(false);
                 else
                     lcGraph.setPinchZoom(true);
-
                 lcGraph.invalidate();
                 break;
             }
@@ -489,100 +432,18 @@ public class FinalSearch extends AppCompatActivity implements View.OnClickListen
                 break;
             }
             case R.id.graphSave: {
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    lcGraph.saveToGallery("prova");
-                    Toast.makeText(this, "successo", Toast.LENGTH_LONG).show();
-
-                } else {
-                    //requestStoragePermission(lcGraph);
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
                 }
+                lcGraph.saveToGallery("prova");
+                Toast.makeText(this, "Grafico Salvato", Toast.LENGTH_LONG).show();
                 break;
             }
             case R.id.dataSave: {
-
                 FinalAdapter.AddData(getApplicationContext());
-                Toast.makeText(this, "dataaaaaaaaaaaa", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Dati Salvati", Toast.LENGTH_LONG).show();
             }
         }
         return true;
     }
-//
-//    @Override
-//    protected void saveToGallery() {
-//        saveToGallery(lcGraph, "CubicLineChartActivity");
-//    }
-//
-//    @Override
-//    public void onStartTrackingTouch(SeekBar seekBar) {}
-//
-//    @Override
-//    public void onStopTrackingTouch(SeekBar seekBar) {}
-
-        ////////////////////////////////////////////////////////////////////////////////
-        //mChart.setOnChartGestureListener(FinalSearch.this);
-//        mChart.setDragEnabled(true);
-//        mChart.setScaleEnabled(false);
-//
-//        for(int i = 0; i < cnt.size(); i++){
-//            if(cnt.get(i).value != null){
-//                String valore = cnt.get(i).value;
-//                String xValue = cnt.get(i).date;
-//                value.add(new Entry(1050+i, Float.parseFloat(valore)));
-//                Log.w("CA", xValue);
-//            }
-//        }
-//
-//        LineDataSet assey = new LineDataSet(value,"Grafico");
-//        assey.setFillAlpha(110);
-//
-//        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-//        dataSets.add(assey);
-//
-//        LineData data = new LineData(dataSets);
-//        mChart.setData(data);
-//        assey.setDrawFilled(true);
-//        assey.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-//        assey.setDrawFilled(true);
-//        data.setDrawValues(false);
-//        mChart.invalidate();
-/////////////////////////////////////////////////////////////////////
-
-//    class FinalAdapter extends RecyclerView.Adapter<Holder2>{
-//        public List<Final> ultimate;
-//
-//        public FinalAdapter(List<Final> cnt) {
-//            ultimate = cnt;
-//        }
-//
-//
-//        @NonNull
-//        @Override
-//        public Holder2 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//            ConstraintLayout cl;
-//            cl = (ConstraintLayout) LayoutInflater
-//                    .from(parent.getContext())
-//                    .inflate(R.layout.raw_final_search, parent, false);
-//            return new Holder2(cl);
-//        }
-//
-//        @SuppressLint("SetTextI18n")
-//        @Override
-//        public void onBindViewHolder(@NonNull Holder2 holder, int position) {
-//                holder.tvProva.setText(ultimate.get(position).getValue() + "+" + ultimate.get(position).getDate());
-//        }
-//
-//
-//        @Override
-//        public int getItemCount() {
-//            return ultimate.size();
-//        }
-//    }
-//
-// static class Holder2 extends RecyclerView.ViewHolder{
-//        TextView tvProva;
-//       //    Holder2(ConstraintLayout cl){
-//            super(cl);
-//            tvProva = cl.findViewById(R.id.tvProva);
-//        }
-//    }
 }
