@@ -37,7 +37,6 @@ public class ViewListContents extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_view_list_contents);
 
         lvFav = findViewById(R.id.lvFav);
-
         myDB = new DataBaseHelper(this);
 
         //populate an ArrayList<String> from the database and then view it
@@ -47,8 +46,8 @@ public class ViewListContents extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this, "There are no contents in this list!", Toast.LENGTH_LONG).show();
         } else {
             while (data.moveToNext()) {
-                theList.add(data.getString(1));
-                Log.w("CA", data.getString(1));
+                theList.add(data.getString(0));
+                Log.w("CA", data.getString(0));
                 //theList.add(data.getString(2));
 
                 //data.getColumnIndex("DATE");

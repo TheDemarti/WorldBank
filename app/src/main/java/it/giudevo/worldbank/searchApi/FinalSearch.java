@@ -458,7 +458,7 @@ public class FinalSearch extends AppCompatActivity  {
             }
             case R.id.dataSave: {
                 FinalAdapter.AddData(FinalSearch.this);
-                Toast.makeText(this, "Dati Salvati", Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, "Dati Salvati", Toast.LENGTH_LONG).show();
             }
         }
         return true;

@@ -21,13 +21,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public DataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
-        SQLiteDatabase db = this.getWritableDatabase();
+        //SQLiteDatabase db = this.getWritableDatabase();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_NAME + "(" + COL1 + "INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + COL2 + "STRING NOT NULL)");
+        db.execSQL("CREATE TABLE " + TABLE_NAME + "(" + COL1 + "INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COL2 + "TEXT )");
     }
 
     @Override
@@ -58,10 +58,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         ContentValues contentValues = new ContentValues();
         //contentValues.put(COL1, name.get(0).countryiso3code);
-        for(int i = 0; i < name.size(); i++) {
-            contentValues.put(COL2, String.valueOf(name.get(i).getDate()));
+        //for(int i = 0; i < name.size(); i++) {
+            contentValues.put(COL1, 1);
+            contentValues.put(COL2, String.valueOf(name));
             Log.w("CA", "addData: Adding" + contentValues + "to " + TABLE_NAME);
-        }
+        //}
 
         //Log.w("CA", "addData: Adding " + name + "to " + TABLE_NAME);
         //Log.w("CA", "addData: Adding" + contentValues + "to " + TABLE_NAME);
@@ -77,9 +78,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-    public Cursor getOneData(String id){
-        SQLiteDatabase db  = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT " + COL1 + " FROM " + TABLE_NAME, null);
-        return res;
-    }
+//    public Cursor getOneData(String id){
+//        SQLiteDatabase db  = this.getWritableDatabase();
+//        Cursor res = db.rawQuery("SELECT " + COL1 + " FROM " + TABLE_NAME, null);
+//        return res;
+//    }
 }
