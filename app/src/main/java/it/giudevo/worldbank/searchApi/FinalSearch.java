@@ -12,8 +12,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,6 +48,7 @@ import org.json.JSONException;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -72,7 +75,6 @@ public class FinalSearch extends AppCompatActivity  {
         setContentView(R.layout.activity_final_search);
 
         new Holder();
-
         lcGraph = findViewById(R.id.lcGraph);
         mDatabaseHelper = new DataBaseHelper(this);
     }
@@ -449,12 +451,13 @@ public class FinalSearch extends AppCompatActivity  {
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
                 }
-                lcGraph.saveToGallery("prova");
+                lcGraph.saveToGallery(String.valueOf(tvResume.getText()) + Calendar.getInstance().getTime(),
+                        "storage/emulated/0/WorldBank", null, Bitmap.CompressFormat.PNG, 75);
                 Toast.makeText(this, "Grafico Salvato", Toast.LENGTH_LONG).show();
                 break;
             }
             case R.id.dataSave: {
-                FinalAdapter.AddData(getApplicationContext());
+                FinalAdapter.AddData(FinalSearch.this);
                 Toast.makeText(this, "Dati Salvati", Toast.LENGTH_LONG).show();
             }
         }

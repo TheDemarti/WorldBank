@@ -10,13 +10,13 @@ import android.util.Log;
 import java.util.List;
 
 import it.giudevo.worldbank.database.Final.Final;
-import it.giudevo.worldbank.searchApi.FinalAdapter;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "DatabaseHelper.db";
     public  static final String TABLE_NAME = "people_table";
     public static final String COL1 = "ID";
     public static final String COL2 = "NAME";
+    //public static final String COL3 = "VALUE";
 
 
     public DataBaseHelper(Context context) {
@@ -26,7 +26,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_NAME + "(" + COL1 + "INTEGER PRIMARY KEY AUTOINCREMENT," + COL2 + "TEXT)");
+        db.execSQL("create table " + TABLE_NAME + "(" + COL1 + "INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COL2 + "STRING NOT NULL)");
     }
 
     @Override
@@ -35,13 +36,35 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean addData(List<Final> name){
+    public boolean addData(List<Final> name) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(COL1, name.get(0).countryiso3code);
-        contentValues.put(COL2, String.valueOf(name));
 
-        Log.w("CA", "addData: Adding" + name + "to" + TABLE_NAME);
+//        db.beginTransaction();
+//        try {
+//            ContentValues values = new ContentValues();
+//            for(int i = 0; i < name.size()-1; i++) {
+//                values.put(String.valueOf(COL2), name.get(i).getDate());
+//                values.put(String.valueOf(COL3), name.get(i).getValue());
+//                Log.w("CA", String.valueOf(name.get(i).getDate()));
+//                Log.w("CA", String.valueOf(name.get(i).getValue()));
+//                db.insert(TABLE_NAME, null, values);
+//            }
+//            db.setTransactionSuccessful();
+//        } finally {
+//            db.endTransaction();
+//        }
+//    }
+
+
+        ContentValues contentValues = new ContentValues();
+        //contentValues.put(COL1, name.get(0).countryiso3code);
+        for(int i = 0; i < name.size(); i++) {
+            contentValues.put(COL2, String.valueOf(name.get(i).getDate()));
+            Log.w("CA", "addData: Adding" + contentValues + "to " + TABLE_NAME);
+        }
+
+        //Log.w("CA", "addData: Adding " + name + "to " + TABLE_NAME);
+        //Log.w("CA", "addData: Adding" + contentValues + "to " + TABLE_NAME);
 
         long result = db.insert(TABLE_NAME, null, contentValues);
 

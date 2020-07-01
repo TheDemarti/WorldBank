@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import it.giudevo.worldbank.database.Arguments.Arguments;
 import it.giudevo.worldbank.database.Final.Final;
@@ -27,7 +28,7 @@ public class ViewListContents extends AppCompatActivity implements View.OnClickL
 
     DataBaseHelper myDB;
     ListView lvFav;
-    public Cursor data;
+    //public Cursor data;
     public Cursor res;
 
     @Override
@@ -41,18 +42,20 @@ public class ViewListContents extends AppCompatActivity implements View.OnClickL
 
         //populate an ArrayList<String> from the database and then view it
         ArrayList<String> theList = new ArrayList<>();
-        data = myDB.getListContents();
+        Cursor data = myDB.getListContents();
         if (data.getCount() == 0) {
             Toast.makeText(this, "There are no contents in this list!", Toast.LENGTH_LONG).show();
         } else {
             while (data.moveToNext()) {
                 theList.add(data.getString(1));
+                Log.w("CA", data.getString(1));
+                //theList.add(data.getString(2));
 
-                data.getColumnIndex("NAME");
-                data.getString(1);
-                res = myDB.getOneData("BEL");
+                //data.getColumnIndex("DATE");
+                //data.getString(1);
+                //res = myDB.getOneData("BEL");
 
-                Log.w("CA", String.valueOf(res));
+                //Log.w("CA", String.valueOf(res));
 
 
                 ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, theList);
