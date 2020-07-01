@@ -14,8 +14,8 @@ import it.giudevo.worldbank.database.Final.Final;
 public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "DatabaseHelper.db";
     public  static final String TABLE_NAME = "people_table";
-    public static final String COL1 = "ID";
-    public static final String COL2 = "NAME";
+    public static final String ID = "id";
+    public static final String NAME = "name";
     //public static final String COL3 = "VALUE";
 
 
@@ -26,18 +26,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + TABLE_NAME + "(" + COL1 + "INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + COL2 + "TEXT )");
+        String CREATE_TABLE = "create table TABLE_NAME " + "( id integer primary key, name text )";
+        db.execSQL(CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        db.execSQL(" DROP TABLE IF EXISTS  " + TABLE_NAME);
+        db.execSQL(" DROP TABLE IF EXISTS  TABLE_NAME" );
         onCreate(db);
     }
 
     public boolean addData(List<Final> name) {
-        SQLiteDatabase db = this.getWritableDatabase();
+
 
 //        db.beginTransaction();
 //        try {
@@ -59,22 +59,26 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         //contentValues.put(COL1, name.get(0).countryiso3code);
         //for(int i = 0; i < name.size(); i++) {
-            contentValues.put(COL1, 1);
-            contentValues.put(COL2, String.valueOf(name));
+            contentValues.put("id", 12);
+            contentValues.put("name", String.valueOf(name.get(1).getDate()));
             Log.w("CA", "addData: Adding" + contentValues + "to " + TABLE_NAME);
+        SQLiteDatabase db = this.getWritableDatabase();
+
         //}
 
         //Log.w("CA", "addData: Adding " + name + "to " + TABLE_NAME);
         //Log.w("CA", "addData: Adding" + contentValues + "to " + TABLE_NAME);
 
-        long result = db.insert(TABLE_NAME, null, contentValues);
+        db.insert("TABLE_NAME", null, contentValues);
 
-        return result != -1;
+
+        db.close();
+        return true;
     }
 
     public Cursor getListContents(){
         SQLiteDatabase db  = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        Cursor data = db.rawQuery("SELECT * FROM TABLE_NAME ", null);
         return data;
     }
 
