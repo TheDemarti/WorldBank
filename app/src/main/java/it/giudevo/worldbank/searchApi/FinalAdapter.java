@@ -21,16 +21,18 @@ import it.giudevo.worldbank.database.Final.Final;
 public class FinalAdapter extends RecyclerView.Adapter<FinalAdapter.Holder> {
 
     public static List<Final> ultimate;
+    public static String resume;
 
-    public FinalAdapter(List<Final> cnt) {
+    public FinalAdapter(List<Final> cnt, String string) {
             ultimate = cnt;
+            resume = string;
     }
 
     public static void AddData(Context context) {
         DataBaseHelper mDatabaseHelper = new DataBaseHelper(context);
-        boolean insertData = mDatabaseHelper.addData(ultimate);
+        boolean insertData = mDatabaseHelper.addData(ultimate, resume);
 
-        Log.w("CA", String.valueOf(insertData));
+        //Log.w("CA", String.valueOf(insertData));
 
         if(insertData){
             Toast.makeText(context, "saved", Toast.LENGTH_LONG).show();

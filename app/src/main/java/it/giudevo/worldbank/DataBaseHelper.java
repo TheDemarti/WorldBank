@@ -26,7 +26,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_TABLE = "create table TABLE_NAME " + "( id integer primary key, name text )";
+        String CREATE_TABLE = "create table TABLE_NAME " + "( id string primary key, name text )";
         db.execSQL(CREATE_TABLE);
     }
 
@@ -36,9 +36,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean addData(List<Final> name) {
+    public boolean addData(List<Final> name, String string) {
 
-
+    Log.w("CA", string);
 //        db.beginTransaction();
 //        try {
 //            ContentValues values = new ContentValues();
@@ -56,23 +56,27 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 //    }
 
 
-        ContentValues contentValues = new ContentValues();
+        //ContentValues contentValues = new ContentValues();
         //contentValues.put(COL1, name.get(0).countryiso3code);
         //for(int i = 0; i < name.size(); i++) {
-            contentValues.put("id", 12);
-            contentValues.put("name", String.valueOf(name.get(1).getDate()));
+        ContentValues contentValues = new ContentValues();
+            contentValues.put("id", string);
+            contentValues.put("name", String.valueOf(name));
             Log.w("CA", "addData: Adding" + contentValues + "to " + TABLE_NAME);
         SQLiteDatabase db = this.getWritableDatabase();
 
-        //}
+            db.insert("TABLE_NAME", null, contentValues);
+
+
+            db.close();
+        //
 
         //Log.w("CA", "addData: Adding " + name + "to " + TABLE_NAME);
         //Log.w("CA", "addData: Adding" + contentValues + "to " + TABLE_NAME);
-
-        db.insert("TABLE_NAME", null, contentValues);
-
-
-        db.close();
+//        db.insert("TABLE_NAME", null, contentValues);
+//
+//
+//        db.close();
         return true;
     }
 
@@ -82,9 +86,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-//    public Cursor getOneData(String id){
-//        SQLiteDatabase db  = this.getWritableDatabase();
-//        Cursor res = db.rawQuery("SELECT " + COL1 + " FROM " + TABLE_NAME, null);
-//        return res;
-//    }
+    public Cursor getOneData(String id){
+        SQLiteDatabase db  = this.getWritableDatabase();
+        Cursor res = db.rawQuery("SELECT id FROM " + TABLE_NAME, null);
+        return res;
+    }
 }

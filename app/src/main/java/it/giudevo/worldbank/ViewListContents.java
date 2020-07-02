@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import it.giudevo.worldbank.database.Arguments.Arguments;
 import it.giudevo.worldbank.database.Final.Final;
@@ -28,7 +30,6 @@ public class ViewListContents extends AppCompatActivity implements View.OnClickL
 
     DataBaseHelper myDB;
     ListView lvFav;
-    //public Cursor data;
     public Cursor res;
 
     @Override
@@ -46,8 +47,8 @@ public class ViewListContents extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this, "There are no contents in this list!", Toast.LENGTH_LONG).show();
         } else {
             while (data.moveToNext()) {
-                theList.add(data.getString(0));
-                Log.w("CA", data.getString(0));
+                theList.add(data.getString(0) + data.getString(1));
+                //Log.w("CA", data.getString(0));
                 //theList.add(data.getString(2));
 
                 //data.getColumnIndex("DATE");
@@ -59,6 +60,15 @@ public class ViewListContents extends AppCompatActivity implements View.OnClickL
 
                 ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, theList);
                 lvFav.setAdapter(listAdapter);
+                ///////////////////////////////////////////////////////////
+                lvFav.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        String fn= (String) parent.getAdapter().getItem(position);
+                        Log.w("CA", String.valueOf(fn));
+                    }
+                });
+                ///////////////////////////////////////
                 //Log.w("CA", "////////////" + theList.get(0));
                 //Log.w("CA", "/////" + listAdapter.getItem(0));
             }

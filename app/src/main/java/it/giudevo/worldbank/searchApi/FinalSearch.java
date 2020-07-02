@@ -68,6 +68,7 @@ public class FinalSearch extends AppCompatActivity  {
     public Countries countries;
     public Indicators indicators;
     public Arguments arguments;
+    public  String string;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,16 +109,16 @@ public class FinalSearch extends AppCompatActivity  {
 
 
                 @Override
-                void fill(List<Final> cnt) {
+                void fill(List<Final> cnt, String s) {
                     Log.w("CA", "fill");
-                    fillList(cnt);
+                    fillList(cnt, s);
                 }
 
-                private void fillList(List<Final> cnt) {
+                private void fillList(List<Final> cnt, String string) {
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(FinalSearch.this);
                     rvFinal.setLayoutManager(layoutManager);
                     rvFinal.setHasFixedSize(true);
-                    FinalAdapter myAdapter = new FinalAdapter(cnt);
+                    FinalAdapter myAdapter = new FinalAdapter(cnt, string);
                     rvFinal.setAdapter(myAdapter);
                 }
 
@@ -148,7 +149,9 @@ public class FinalSearch extends AppCompatActivity  {
             Log.w("CA", countries.getName());
             Log.w("CA", indicators.getName());
 
-            tvResume.setText(countries.getName() + " - " + arguments.getValue() + " - " + indicators.getName());
+            string = countries.getName() + " - " + arguments.getValue() + " - " + indicators.getName();
+
+            tvResume.setText(string);
 
         }
 
@@ -165,7 +168,7 @@ public class FinalSearch extends AppCompatActivity  {
         }
 
         private abstract class VolleyFinal implements Response.ErrorListener, Response.Listener<String>{
-            abstract void fill(List<Final> cnt);
+            abstract void fill(List<Final> cnt, String s);
 
 //        void CountriesAPI(Context context) {
 //            Cache cache = new DiskBasedCache(context.getCacheDir(), 20 * 1024 * 1024); // 20MB
@@ -233,7 +236,7 @@ public class FinalSearch extends AppCompatActivity  {
                     List<Final>cnt = gson.fromJson(countries, listType);
                     if (cnt != null && cnt.size() > 0) {
                         CreateGraph(cnt);
-                        fill(cnt);
+                        fill(cnt, string);
                     }
                 } catch (JSONException e) {
                     Log.d("Prova", "errore");
@@ -457,7 +460,7 @@ public class FinalSearch extends AppCompatActivity  {
                 break;
             }
             case R.id.dataSave: {
-                FinalAdapter.AddData(FinalSearch.this);
+                FinalAdapter.AddData(this);
                 //Toast.makeText(this, "Dati Salvati", Toast.LENGTH_LONG).show();
             }
         }
