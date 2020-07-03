@@ -53,6 +53,7 @@ import java.util.List;
 import java.util.Locale;
 
 import it.giudevo.worldbank.DataBaseHelper;
+import it.giudevo.worldbank.MainActivity;
 import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.Arguments.Arguments;
 import it.giudevo.worldbank.database.Countries.Countries;
@@ -401,7 +402,7 @@ public class FinalSearch extends AppCompatActivity  {
                     LineDataSet set = (LineDataSet) iSet;
                     set.setMode(set.getMode() == LineDataSet.Mode.CUBIC_BEZIER
                             ? LineDataSet.Mode.LINEAR
-                            :  LineDataSet.Mode.CUBIC_BEZIER);
+                            : LineDataSet.Mode.CUBIC_BEZIER);
                 }
                 lcGraph.invalidate();
                 break;
@@ -413,7 +414,7 @@ public class FinalSearch extends AppCompatActivity  {
                     LineDataSet set = (LineDataSet) iSet;
                     set.setMode(set.getMode() == LineDataSet.Mode.STEPPED
                             ? LineDataSet.Mode.LINEAR
-                            :  LineDataSet.Mode.STEPPED);
+                            : LineDataSet.Mode.STEPPED);
                 }
                 lcGraph.invalidate();
                 break;
@@ -425,7 +426,7 @@ public class FinalSearch extends AppCompatActivity  {
                     LineDataSet set = (LineDataSet) iSet;
                     set.setMode(set.getMode() == LineDataSet.Mode.HORIZONTAL_BEZIER
                             ? LineDataSet.Mode.LINEAR
-                            :  LineDataSet.Mode.HORIZONTAL_BEZIER);
+                            : LineDataSet.Mode.HORIZONTAL_BEZIER);
                 }
                 lcGraph.invalidate();
                 break;
@@ -455,13 +456,17 @@ public class FinalSearch extends AppCompatActivity  {
                     ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
                 }
                 lcGraph.saveToGallery(String.valueOf(tvResume.getText()) + Calendar.getInstance().getTime(),
-                        "WorldBank", null, Bitmap.CompressFormat.PNG, 75);
+                        "/WorldBank", null, Bitmap.CompressFormat.PNG, 75);
                 Toast.makeText(this, "Grafico Salvato", Toast.LENGTH_LONG).show();
                 break;
             }
             case R.id.dataSave: {
                 FinalAdapter.AddData(this);
                 //Toast.makeText(this, "Dati Salvati", Toast.LENGTH_LONG).show();
+            }
+            case R.id.home: {
+                Intent intent = new Intent(FinalSearch.this, MainActivity.class);
+                FinalSearch.this.startActivity(intent);
             }
         }
         return true;
