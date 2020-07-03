@@ -53,6 +53,11 @@
         app:showAsAction="ifRoom"
         android:title="dataSave">
     </item>
+    <item
+        android:id="@+id/home"
+        app:showAsAction="ifRoom"
+        android:title="Home"
+        />
 
 
 </menu>
