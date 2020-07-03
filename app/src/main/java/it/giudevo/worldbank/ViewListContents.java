@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,11 +27,12 @@ import it.giudevo.worldbank.searchApi.FinalSearch;
 import it.giudevo.worldbank.searchApi.SearchByArg;
 import it.giudevo.worldbank.searchApi.SearchByIndicator;
 
-public class ViewListContents extends AppCompatActivity implements View.OnClickListener {
+public class ViewListContents extends AppCompatActivity {
 
     DataBaseHelper myDB;
     ListView lvFav;
     public Cursor res;
+    public Cursor data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,18 +44,19 @@ public class ViewListContents extends AppCompatActivity implements View.OnClickL
 
         //populate an ArrayList<String> from the database and then view it
         ArrayList<String> theList = new ArrayList<>();
-        Cursor data = myDB.getListContents();
+        //public final Cursor
+                data = myDB.getListContents();
         if (data.getCount() == 0) {
             Toast.makeText(this, "There are no contents in this list!", Toast.LENGTH_LONG).show();
         } else {
             while (data.moveToNext()) {
-                theList.add(data.getString(0) + data.getString(1));
-                //Log.w("CA", data.getString(0));
+                theList.add(data.getString(1));
+                Log.w("CA", data.getString(1));
                 //theList.add(data.getString(2));
 
                 //data.getColumnIndex("DATE");
                 //data.getString(1);
-                //res = myDB.getOneData("BEL");
+
 
                 //Log.w("CA", String.valueOf(res));
 
@@ -64,8 +67,14 @@ public class ViewListContents extends AppCompatActivity implements View.OnClickL
                 lvFav.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String fn= (String) parent.getAdapter().getItem(position);
-                        Log.w("CA", String.valueOf(fn));
+                        //String fn= (String) parent.getAdapter().getItem(position);
+
+                        Intent intent = new Intent(ViewListContents.this, showDetails.class);
+                        //parent.getAdapter().getItem(position);
+                        intent.putExtra("details", String.valueOf(parent.getAdapter().getItem(position)));
+                        //Log.w("CA", data.getString(0));
+                        ViewListContents.this.startActivity(intent);
+                        Log.w("CA", (String) parent.getAdapter().getItem(position));
                     }
                 });
                 ///////////////////////////////////////
@@ -73,9 +82,5 @@ public class ViewListContents extends AppCompatActivity implements View.OnClickL
                 //Log.w("CA", "/////" + listAdapter.getItem(0));
             }
         }
-    }
-    @Override
-    public void onClick (View v){
-
     }
 }

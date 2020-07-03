@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ViewListContents"></activity>
+        <activity android:name=".showDetails"></activity>
+        <activity android:name=".ViewListContents" />
         <activity android:name=".searchApi.FinalSearch" />
         <activity android:name=".searchApi.SearchByCountry" />
         <activity android:name=".searchApi.SearchByIndicator" />

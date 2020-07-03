@@ -14,9 +14,10 @@ import it.giudevo.worldbank.database.Final.Final;
 public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "DatabaseHelper.db";
     public  static final String TABLE_NAME = "people_table";
+    public  static final String TABLE_NAME_DETAILS = "people_table_details";
     public static final String ID = "id";
     public static final String NAME = "name";
-    //public static final String COL3 = "VALUE";
+    public static final String COL3 = "VALUE";
 
 
     public DataBaseHelper(Context context) {
@@ -27,49 +28,70 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_TABLE = "create table TABLE_NAME " + "( id string primary key, name text )";
+        String CREATE_TABLE_DEATAILS = "create table TABLE_NAME_DETAILS" + "( id string primary key, date text, value text )";
+        db.execSQL(CREATE_TABLE_DEATAILS);
         db.execSQL(CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL(" DROP TABLE IF EXISTS  TABLE_NAME" );
+        db.execSQL(" DROP TABLE IF EXISTS TABLE_NAME_DETAILS");
         onCreate(db);
     }
 
     public boolean addData(List<Final> name, String string) {
 
-    Log.w("CA", string);
-//        db.beginTransaction();
-//        try {
-//            ContentValues values = new ContentValues();
-//            for(int i = 0; i < name.size()-1; i++) {
-//                values.put(String.valueOf(COL2), name.get(i).getDate());
-//                values.put(String.valueOf(COL3), name.get(i).getValue());
-//                Log.w("CA", String.valueOf(name.get(i).getDate()));
-//                Log.w("CA", String.valueOf(name.get(i).getValue()));
-//                db.insert(TABLE_NAME, null, values);
-//            }
-//            db.setTransactionSuccessful();
-//        } finally {
-//            db.endTransaction();
-//        }
-//    }
+            Log.w("CA", string);
 
-
-        //ContentValues contentValues = new ContentValues();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("name", string);
+        //contentValues.put("id", string);
         //contentValues.put(COL1, name.get(0).countryiso3code);
         //for(int i = 0; i < name.size(); i++) {
-        ContentValues contentValues = new ContentValues();
-            contentValues.put("id", string);
-            contentValues.put("name", String.valueOf(name));
+            //ContentValues contentValues = new ContentValues();
+            //contentValues.put("id", String.valueOf(name.get(i).getDate() + name.get(i).getValue()));
+            //contentValues.put("name", string);
             Log.w("CA", "addData: Adding" + contentValues + "to " + TABLE_NAME);
-        SQLiteDatabase db = this.getWritableDatabase();
 
+            SQLiteDatabase db = this.getWritableDatabase();
             db.insert("TABLE_NAME", null, contentValues);
-
-
             db.close();
-        //
+        //}
+
+
+        //Log.w("CA", "addData: Adding " + name + "to " + TABLE_NAME);
+        //Log.w("CA", "addData: Adding" + contentValues + "to " + TABLE_NAME);
+//        db.insert("TABLE_NAME", null, contentValues);
+//
+//
+//        db.close();
+        return true;
+    }
+
+    public boolean addDataDetails(List<Final> name, String string) {
+        SQLiteDatabase dbDet = this.getWritableDatabase();
+        Log.w("CA", string);
+
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put("name", string);
+        //contentValues.put("id", string);
+        //contentValues.put(COL1, name.get(0).countryiso3code);
+        for(int i = 0; i < name.size(); i++) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("id", string);
+            //ContentValues contentValues = new ContentValues();
+            contentValues.put("date", String.valueOf(name.get(i).getDate()));
+            contentValues.put("value", String.valueOf(name.get(i).getValue()));
+            //contentValues.put("name", string);
+            Log.w("CA", "addData: Adding" + contentValues + "to " + TABLE_NAME_DETAILS);
+
+
+            dbDet.insert("TABLE_NAME_DETAILS", null, contentValues);
+
+        }
+        dbDet.close();
+
 
         //Log.w("CA", "addData: Adding " + name + "to " + TABLE_NAME);
         //Log.w("CA", "addData: Adding" + contentValues + "to " + TABLE_NAME);
@@ -87,8 +109,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getOneData(String id){
-        SQLiteDatabase db  = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT id FROM " + TABLE_NAME, null);
+        SQLiteDatabase dbDet  = this.getWritableDatabase();
+        Cursor res = dbDet.rawQuery("SELECT id FROM TABLE_NAME_DETAILS", null);
         return res;
     }
 }
