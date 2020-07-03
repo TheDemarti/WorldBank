@@ -24,9 +24,9 @@ public class showDetails extends AppCompatActivity {
         setContentView(R.layout.activity_show_details);
 
         Intent data = getIntent();
-        //data.getStringExtra("details");
+        String dat = data.getStringExtra("details");
 
-        //Log.w("CA", String.valueOf(data.getStringExtra("details")));
+        Log.w("id show Details", String.valueOf(data.getStringExtra("details")));
 
 
         lvDet = findViewById(R.id.lvDet);
@@ -34,21 +34,13 @@ public class showDetails extends AppCompatActivity {
 
         //populate an ArrayList<String> from the database and then view it
         ArrayList<String> theList = new ArrayList<>();
-        final Cursor det = myDB.getOneData(String.valueOf(data.getStringExtra("details")));
+        final Cursor det = myDB.getOneData(dat);
         if (det.getCount() == 0) {
             Toast.makeText(this, "There are no contents in this list!", Toast.LENGTH_LONG).show();
         } else {
             while (det.moveToNext()) {
-                theList.add(det.getString(1) + det.getString(2));
-                Log.w("CA", det.getString(1));
-                //theList.add(data.getString(2));
-
-                //data.getColumnIndex("DATE");
-                //data.getString(1);
-
-
-                //Log.w("CA", String.valueOf(res));
-
+                theList.add(det.getString(2) + "---->"+ det.getString(3));
+                //Log.w("CA", det.getString(1));
 
                 ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, theList);
                 lvDet.setAdapter(listAdapter);

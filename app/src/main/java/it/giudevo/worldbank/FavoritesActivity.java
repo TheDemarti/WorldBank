@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 
@@ -38,10 +39,14 @@ public class FavoritesActivity extends AppCompatActivity {
                 startActivity(intent);
             }
 //
-//            if(v.getId() == R.id.btnGraph) {
+           if(v.getId() == R.id.btnGraph) {
+            Intent cameraIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+            startActivity(cameraIntent);
+
 //                Intent intent = new Intent(FavoritesActivity.this);
 //                startActivity(intent);
-//            }
+           }
 //
         }
     }

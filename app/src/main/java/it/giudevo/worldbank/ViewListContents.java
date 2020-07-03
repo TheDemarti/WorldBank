@@ -52,18 +52,9 @@ public class ViewListContents extends AppCompatActivity {
             while (data.moveToNext()) {
                 theList.add(data.getString(1));
                 Log.w("CA", data.getString(1));
-                //theList.add(data.getString(2));
-
-                //data.getColumnIndex("DATE");
-                //data.getString(1);
-
-
-                //Log.w("CA", String.valueOf(res));
-
 
                 ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, theList);
                 lvFav.setAdapter(listAdapter);
-                ///////////////////////////////////////////////////////////
                 lvFav.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -77,9 +68,7 @@ public class ViewListContents extends AppCompatActivity {
                         Log.w("CA", (String) parent.getAdapter().getItem(position));
                     }
                 });
-                ///////////////////////////////////////
-                //Log.w("CA", "////////////" + theList.get(0));
-                //Log.w("CA", "/////" + listAdapter.getItem(0));
+
             }
         }
     }

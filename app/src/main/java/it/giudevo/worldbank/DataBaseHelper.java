@@ -22,7 +22,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public DataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
-        //SQLiteDatabase db = this.getWritableDatabase();
+
     }
 
     @Override
@@ -43,29 +43,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public boolean addData(List<Final> name, String string) {
 
             Log.w("CA", string);
-
             ContentValues contentValues = new ContentValues();
             contentValues.put("name", string);
-        //contentValues.put("id", string);
-        //contentValues.put(COL1, name.get(0).countryiso3code);
-        //for(int i = 0; i < name.size(); i++) {
-            //ContentValues contentValues = new ContentValues();
-            //contentValues.put("id", String.valueOf(name.get(i).getDate() + name.get(i).getValue()));
-            //contentValues.put("name", string);
             Log.w("CA", "addData: Adding" + contentValues + "to " + TABLE_NAME);
-
             SQLiteDatabase db = this.getWritableDatabase();
             db.insert("TABLE_NAME", null, contentValues);
             db.close();
-        //}
 
-
-        //Log.w("CA", "addData: Adding " + name + "to " + TABLE_NAME);
-        //Log.w("CA", "addData: Adding" + contentValues + "to " + TABLE_NAME);
-//        db.insert("TABLE_NAME", null, contentValues);
-//
-//
-//        db.close();
         return true;
     }
 
@@ -73,32 +57,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase dbDet = this.getWritableDatabase();
         Log.w("CA", string);
 
-//        ContentValues contentValues = new ContentValues();
-//        contentValues.put("name", string);
-        //contentValues.put("id", string);
-        //contentValues.put(COL1, name.get(0).countryiso3code);
         for(int i = 0; i < name.size(); i++) {
             ContentValues content = new ContentValues();
             content.put("string", string);
-            Log.w("CA", "string ======================" + string);
+            Log.w("string data details", "string ======================" + string);
             //ContentValues contentValues = new ContentValues();
             content.put("date", String.valueOf(name.get(i).getDate()));
             content.put("value", String.valueOf(name.get(i).getValue()));
             //contentValues.put("name", string);
-            Log.w("CA", "addData: Adding" + content + "to " + TABLE_NAME_DETAILS);
-
-
+           // Log.w("CA", "addData: Adding" + content + "to " + TABLE_NAME_DETAILS);
             dbDet.insert("TABLE_NAME_DETAILS", null, content);
         }
         dbDet.close();
 
-
-        //Log.w("CA", "addData: Adding " + name + "to " + TABLE_NAME);
-        //Log.w("CA", "addData: Adding" + contentValues + "to " + TABLE_NAME);
-//        db.insert("TABLE_NAME", null, contentValues);
-//
-//
-//        db.close();
         return true;
     }
 
@@ -110,7 +81,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public Cursor getOneData(String id){
         SQLiteDatabase dbDet  = this.getWritableDatabase();
-        Cursor res = dbDet.rawQuery("SELECT * FROM TABLE_NAME_DETAILS"  , null);
+        String query = "SELECT * FROM TABLE_NAME_DETAILS where string =" + "'"+ id +  "'";
+        Cursor res = dbDet.rawQuery( query , null);
         return res;
     }
 }
