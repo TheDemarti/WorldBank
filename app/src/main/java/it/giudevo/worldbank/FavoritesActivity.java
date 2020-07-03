@@ -40,7 +40,7 @@ public class FavoritesActivity extends AppCompatActivity {
             }
 
            if(v.getId() == R.id.btnGraph) {
-            Intent cameraIntent = new Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            Intent cameraIntent = new Intent(Intent.ACTION_DEFAULT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivity(cameraIntent);
 
 
