@@ -455,7 +455,7 @@ public class FinalSearch extends AppCompatActivity  {
                     ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
                 }
                 lcGraph.saveToGallery(String.valueOf(tvResume.getText()) + Calendar.getInstance().getTime(),
-                        "storage/emulated/0/WorldBank", null, Bitmap.CompressFormat.PNG, 75);
+                        "WorldBank", null, Bitmap.CompressFormat.PNG, 75);
                 Toast.makeText(this, "Grafico Salvato", Toast.LENGTH_LONG).show();
                 break;
             }

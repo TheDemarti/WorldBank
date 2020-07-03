@@ -27,7 +27,7 @@ public class FavoritesActivity extends AppCompatActivity {
             btnGraph = findViewById(R.id.btnGraph);
 
             btnData.setOnClickListener(this);
-            //btnGraph.setOnClickListener(this);
+            btnGraph.setOnClickListener(this);
         }
 
 
@@ -38,16 +38,14 @@ public class FavoritesActivity extends AppCompatActivity {
                 Intent intent = new Intent(FavoritesActivity.this, ViewListContents.class);
                 startActivity(intent);
             }
-//
-           if(v.getId() == R.id.btnGraph) {
-            Intent cameraIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
+           if(v.getId() == R.id.btnGraph) {
+            Intent cameraIntent = new Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivity(cameraIntent);
 
-//                Intent intent = new Intent(FavoritesActivity.this);
-//                startActivity(intent);
+
            }
-//
+
         }
     }
 }
