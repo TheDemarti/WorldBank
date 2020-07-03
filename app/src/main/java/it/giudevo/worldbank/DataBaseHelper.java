@@ -22,7 +22,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public DataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
-
     }
 
     @Override
@@ -61,11 +60,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             ContentValues content = new ContentValues();
             content.put("string", string);
             Log.w("string data details", "string ======================" + string);
-            //ContentValues contentValues = new ContentValues();
             content.put("date", String.valueOf(name.get(i).getDate()));
             content.put("value", String.valueOf(name.get(i).getValue()));
-            //contentValues.put("name", string);
-           // Log.w("CA", "addData: Adding" + content + "to " + TABLE_NAME_DETAILS);
             dbDet.insert("TABLE_NAME_DETAILS", null, content);
         }
         dbDet.close();

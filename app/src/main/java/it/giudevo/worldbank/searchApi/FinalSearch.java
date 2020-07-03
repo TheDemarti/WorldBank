@@ -454,6 +454,8 @@ public class FinalSearch extends AppCompatActivity  {
             case R.id.graphSave: {
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                    lcGraph.saveToGallery(String.valueOf(tvResume.getText()) + Calendar.getInstance().getTime(),
+                            "WorldBank", null, Bitmap.CompressFormat.PNG, 75);
                 }
                 lcGraph.saveToGallery(String.valueOf(tvResume.getText()) + Calendar.getInstance().getTime(),
                         "/WorldBank", null, Bitmap.CompressFormat.PNG, 75);

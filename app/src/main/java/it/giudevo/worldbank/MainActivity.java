@@ -1,12 +1,18 @@
 package it.giudevo.worldbank;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import it.giudevo.worldbank.database.Final.Final;
+import it.giudevo.worldbank.searchApi.FinalSearch;
 import it.giudevo.worldbank.searchApi.SearchByArg;
 import it.giudevo.worldbank.searchApi.SearchByCountry;
 
@@ -18,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         new Holder();
+
     }
 
     class Holder implements View.OnClickListener {
@@ -28,11 +35,12 @@ public class MainActivity extends AppCompatActivity {
         btnArg = findViewById(R.id.btnArg);
         btnCountry = findViewById(R.id.btnCountry);
         btnOff= findViewById(R.id.btnFavorites);
-
         btnCountry.setOnClickListener(this);
         btnArg.setOnClickListener(this);
         btnOff.setOnClickListener(this);
-
+            if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+            }
         }
 
 

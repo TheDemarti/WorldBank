@@ -58,8 +58,6 @@ public class ViewListContents extends AppCompatActivity {
                 lvFav.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        //String fn= (String) parent.getAdapter().getItem(position);
-
                         Intent intent = new Intent(ViewListContents.this, showDetails.class);
                         //parent.getAdapter().getItem(position);
                         intent.putExtra("details", String.valueOf(parent.getAdapter().getItem(position)));
