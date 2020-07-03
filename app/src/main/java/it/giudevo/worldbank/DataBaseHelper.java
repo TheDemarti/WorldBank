@@ -28,7 +28,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_TABLE = "create table TABLE_NAME " + "( id string primary key, name text )";
-        String CREATE_TABLE_DEATAILS = "create table TABLE_NAME_DETAILS" + "( id string primary key, date text, value text )";
+        String CREATE_TABLE_DEATAILS = "create table TABLE_NAME_DETAILS" + "( id string primary key, string text, date text, value text )";
         db.execSQL(CREATE_TABLE_DEATAILS);
         db.execSQL(CREATE_TABLE);
     }
@@ -78,17 +78,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         //contentValues.put("id", string);
         //contentValues.put(COL1, name.get(0).countryiso3code);
         for(int i = 0; i < name.size(); i++) {
-            ContentValues contentValues = new ContentValues();
-            contentValues.put("id", string);
+            ContentValues content = new ContentValues();
+            content.put("string", string);
+            Log.w("CA", "string ======================" + string);
             //ContentValues contentValues = new ContentValues();
-            contentValues.put("date", String.valueOf(name.get(i).getDate()));
-            contentValues.put("value", String.valueOf(name.get(i).getValue()));
+            content.put("date", String.valueOf(name.get(i).getDate()));
+            content.put("value", String.valueOf(name.get(i).getValue()));
             //contentValues.put("name", string);
-            Log.w("CA", "addData: Adding" + contentValues + "to " + TABLE_NAME_DETAILS);
+            Log.w("CA", "addData: Adding" + content + "to " + TABLE_NAME_DETAILS);
 
 
-            dbDet.insert("TABLE_NAME_DETAILS", null, contentValues);
-
+            dbDet.insert("TABLE_NAME_DETAILS", null, content);
         }
         dbDet.close();
 
@@ -110,7 +110,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public Cursor getOneData(String id){
         SQLiteDatabase dbDet  = this.getWritableDatabase();
-        Cursor res = dbDet.rawQuery("SELECT id FROM TABLE_NAME_DETAILS", null);
+        Cursor res = dbDet.rawQuery("SELECT * FROM TABLE_NAME_DETAILS"  , null);
         return res;
     }
 }

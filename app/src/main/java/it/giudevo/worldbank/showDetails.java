@@ -39,7 +39,7 @@ public class showDetails extends AppCompatActivity {
             Toast.makeText(this, "There are no contents in this list!", Toast.LENGTH_LONG).show();
         } else {
             while (det.moveToNext()) {
-                theList.add(det.getString(0) + det.getString(1));
+                theList.add(det.getString(1) + det.getString(2));
                 Log.w("CA", det.getString(1));
                 //theList.add(data.getString(2));
 
