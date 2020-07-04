@@ -15,7 +15,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "DatabaseHelper.db";
     public  static final String TABLE_NAME = "people_table";
     public  static final String TABLE_NAME_DETAILS = "people_table_details";
-    public static final String ID = "id";
+    public static String ID = "id";
     public static final String NAME = "name";
     public static final String COL3 = "VALUE";
 
@@ -80,5 +80,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM TABLE_NAME_DETAILS where string =" + "'" + id + "'";
         Cursor res = dbDet.rawQuery( query , null);
         return res;
+    }
+
+    public void deletedata (String id){
+        Log.w("string",id);
+        SQLiteDatabase dbDet = this.getWritableDatabase();
+        String query = " DELETE FROM TABLE_NAME WHERE name =" + "'"+ id +"'";
+        String query1 = " DELETE FROM TABLE_NAME_DETAILS WHERE string =" + "'"+ id +"'";
+        dbDet.execSQL(query);
+        dbDet.execSQL(query1);
+        Log.w("delete","deleted");
+
+
     }
 }

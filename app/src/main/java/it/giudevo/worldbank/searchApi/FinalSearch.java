@@ -15,7 +15,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.provider.ContactsContract;
+//import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -156,7 +156,7 @@ public class FinalSearch extends AppCompatActivity  {
 
         }
 
-        void hideKeyboard(Activity activity) {
+        void hideKeyboard(Activity activity) {                                                                                              //todo
             InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
             //Find the currently focused view, so we can grab the correct window token from it.
             View view = activity.getCurrentFocus();
@@ -170,13 +170,6 @@ public class FinalSearch extends AppCompatActivity  {
 
         private abstract class VolleyFinal implements Response.ErrorListener, Response.Listener<String>{
             abstract void fill(List<Final> cnt, String s);
-
-//        void CountriesAPI(Context context) {
-//            Cache cache = new DiskBasedCache(context.getCacheDir(), 20 * 1024 * 1024); // 20MB
-//            Network network = new BasicNetwork(new HurlStack());
-//            requestQueue = new RequestQueue(cache, network);
-//            requestQueue.start();
-//        }
 
             void searchByCountry(String s, String r) {
                 String language;
@@ -264,7 +257,7 @@ public class FinalSearch extends AppCompatActivity  {
         lcGraph.setDragEnabled(true);
         lcGraph.setScaleEnabled(true);
 
-        // if disabled, scaling can be done on x- and y-axis separately
+
         ///////lcGraph.setPinchZoom(true);
 
         lcGraph.setDrawGridBackground(false);
@@ -290,14 +283,9 @@ public class FinalSearch extends AppCompatActivity  {
         y.setAxisLineColor(Color.BLACK);
 
         lcGraph.getAxisRight().setEnabled(false);
-/////////////////////////////////////////////////////////
         setData(cnt);
-
         lcGraph.getLegend().setEnabled(false);
-
         lcGraph.animateXY(2000, 2000);
-
-        // don't forget to refresh the drawing
         lcGraph.invalidate();
     }
 
@@ -465,6 +453,7 @@ public class FinalSearch extends AppCompatActivity  {
             case R.id.dataSave: {
                 FinalAdapter.AddData(this);
                 //Toast.makeText(this, "Dati Salvati", Toast.LENGTH_LONG).show();
+                break;
             }
             case R.id.home: {
                 Intent intent = new Intent(FinalSearch.this, MainActivity.class);

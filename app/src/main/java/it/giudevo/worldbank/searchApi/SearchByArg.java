@@ -2,7 +2,6 @@ package it.giudevo.worldbank.searchApi;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -19,7 +17,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -28,15 +25,11 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Locale;
-
 import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.Arguments.Arguments;
 import it.giudevo.worldbank.database.Arguments.AppArgumentsDatabase;
@@ -149,12 +142,7 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
             String arguments;
             try {
                 JSONArray jsonArray = new JSONArray(response);
-                JSONArray json = jsonArray.getJSONArray(1);/////modificato
-                    //JSONObject jsonObject1 = jsonObject.getJSONObject("value");
-                    //String id = jsonObject.getString("id");
-                    //String value = jsonObject.getString("value");
-                    //String sourceNote = jsonObject.getString("sourceNote");
-
+                JSONArray json = jsonArray.getJSONArray(1);
                 arguments = json.toString();
                 Type listType = new TypeToken<List<Arguments>>() {}.getType();
                 List<Arguments> cnt = gson.fromJson(arguments, listType);
@@ -171,13 +159,10 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
     }
 
     public class ArgAdapter extends RecyclerView.Adapter<ArgAdapter.ViewHolder> implements View.OnClickListener{
-
         public List<Arguments> arguments;
-
         public ArgAdapter(List<Arguments> cnt) {
                 arguments = cnt;
             }
-
 
             @NonNull
             @Override
