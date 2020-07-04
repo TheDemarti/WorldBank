@@ -77,7 +77,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public Cursor getOneData(String id){
         SQLiteDatabase dbDet  = this.getWritableDatabase();
-        String query = "SELECT * FROM TABLE_NAME_DETAILS where string =" + "'"+ id +  "'";
+        String query = "SELECT * FROM TABLE_NAME_DETAILS where string =" + "'" + id + "'";
         Cursor res = dbDet.rawQuery( query , null);
         return res;
     }
