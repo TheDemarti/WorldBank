@@ -42,6 +42,7 @@ public class ViewListContents extends AppCompatActivity implements AdapterView.O
     private SparseBooleanArray selectedList = new SparseBooleanArray();
     private SelectMode mListener;
     public ArrayList<String> theList;
+    public ListAdapter listAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,8 @@ public class ViewListContents extends AppCompatActivity implements AdapterView.O
                 theList.add(data.getString(1));
                 Log.w("CA", data.getString(1));
 
-                ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, theList);
+                //ListAdapter
+                        listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, theList);
                 lvFav.setAdapter(listAdapter);
                 lvFav.setOnItemLongClickListener(this);
                 lvFav.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -88,12 +90,11 @@ public class ViewListContents extends AppCompatActivity implements AdapterView.O
 //        if(isSelected) {
 //            parent.setSelected(true);
 //            //setTypeface(null, Typeface.BOLD);
-//            parent.setBackgroundColor(Color.YELLOW);
-//            parent.getAdapter().getItem(position).
+//            parent.getChildAt(position).setBackgroundColor(Color.WHITE);
 //        } else {
 //            parent.setSelected(false);
 //            //setTypeface(null, Typeface.NORMAL);
-//            parent.setBackgroundColor(Color.GRAY);
+//            parent.getChildAt(position).setBackgroundColor(Color.YELLOW);
 //        }
 
 
@@ -102,6 +103,8 @@ public class ViewListContents extends AppCompatActivity implements AdapterView.O
         if(isSel) {
             parent.setSelected(false);
             selectedList.delete(position);
+            parent.getChildAt(position).setBackgroundColor(Color.YELLOW);
+            //view.setBackgroundColor(Color.YELLOW);
         } else {
             parent.setSelected(true);
             selectedList.put(position, true);
@@ -170,7 +173,6 @@ public class ViewListContents extends AppCompatActivity implements AdapterView.O
 
     public void deselectAll() {
         selectedList.clear();
-
         //notifyDataSetChanged();
     }
 
@@ -195,4 +197,6 @@ public class ViewListContents extends AppCompatActivity implements AdapterView.O
         theList.remove(position);
         //notifyItemRemoved(position);
     }
+
+
 }
