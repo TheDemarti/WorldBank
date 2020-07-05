@@ -55,6 +55,7 @@ import java.util.Locale;
 import it.giudevo.worldbank.DataBaseHelper;
 import it.giudevo.worldbank.MainActivity;
 import it.giudevo.worldbank.R;
+import it.giudevo.worldbank.ViewListContents;
 import it.giudevo.worldbank.database.Arguments.Arguments;
 import it.giudevo.worldbank.database.Countries.Countries;
 import it.giudevo.worldbank.database.Final.Final;
@@ -451,6 +452,7 @@ public class FinalSearch extends AppCompatActivity  {
                 break;
             }
             case R.id.dataSave: {
+
                 FinalAdapter.AddData(this);
                 //Toast.makeText(this, "Dati Salvati", Toast.LENGTH_LONG).show();
                 break;

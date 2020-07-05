@@ -16,6 +16,7 @@ import java.util.List;
 
 import it.giudevo.worldbank.DataBaseHelper;
 import it.giudevo.worldbank.R;
+import it.giudevo.worldbank.ViewListContents;
 import it.giudevo.worldbank.database.Final.Final;
 
 public class FinalAdapter extends RecyclerView.Adapter<FinalAdapter.Holder> {
@@ -30,8 +31,9 @@ public class FinalAdapter extends RecyclerView.Adapter<FinalAdapter.Holder> {
 
     public static void AddData(Context context) {
         DataBaseHelper mDatabaseHelper = new DataBaseHelper(context);
-        boolean insertData = mDatabaseHelper.addData(ultimate, resume);
-        mDatabaseHelper.addDataDetails(ultimate, resume);
+        if(mDatabaseHelper.getData(resume).getCount()== 0 ){
+               boolean insertData = mDatabaseHelper.addData(ultimate, resume);
+                mDatabaseHelper.addDataDetails(ultimate, resume);
 
         //Log.w("CA", String.valueOf(insertData));
 
@@ -39,7 +41,7 @@ public class FinalAdapter extends RecyclerView.Adapter<FinalAdapter.Holder> {
             Toast.makeText(context, "saved", Toast.LENGTH_LONG).show();
         }   else {
             Toast.makeText(context, "error", Toast.LENGTH_LONG).show();
-        }
+        }}
     }
 
     @NonNull

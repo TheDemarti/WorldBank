@@ -94,6 +94,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return res;
     }
 
+    public Cursor getData(String id){
+        SQLiteDatabase dbDet  = this.getWritableDatabase();
+        String query = "SELECT * FROM TABLE_NAME where name =" + "'" + id + "'";
+        Cursor res = dbDet.rawQuery( query , null);
+        return res;
+    }
+
     public void deletedata (String id){
         Log.w("string",id);
         SQLiteDatabase dbDet = this.getWritableDatabase();
