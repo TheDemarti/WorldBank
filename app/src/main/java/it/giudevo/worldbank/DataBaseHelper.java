@@ -69,6 +69,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+
+    public int Delete(String string) {
+        SQLiteDatabase dbDel = this.getWritableDatabase();
+        Log.w("CA", string);
+
+        return dbDel.delete(TABLE_NAME, NAME + "=" + string, null);
+
+        //return true;
+    }
+
+
+
     public Cursor getListContents(){
         SQLiteDatabase db  = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT * FROM TABLE_NAME ", null);

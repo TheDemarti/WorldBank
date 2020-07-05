@@ -234,7 +234,7 @@ public class FinalSearch extends AppCompatActivity  {
                     }
                 } catch (JSONException e) {
                     Log.d("Prova", "errore");
-                    Toast.makeText(FinalSearch.this, "No Data Available", Toast.LENGTH_LONG).show();//////////////
+                    Toast.makeText(FinalSearch.this, "No Data Available", Toast.LENGTH_SHORT).show();//////////////
                     e.printStackTrace();
                 }
             }
@@ -347,7 +347,7 @@ public class FinalSearch extends AppCompatActivity  {
     }
 
 
-        @Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
@@ -442,8 +442,8 @@ public class FinalSearch extends AppCompatActivity  {
             case R.id.graphSave: {
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-                    lcGraph.saveToGallery(String.valueOf(tvResume.getText()) + Calendar.getInstance().getTime(),
-                            "WorldBank", null, Bitmap.CompressFormat.PNG, 75);
+//                    lcGraph.saveToGallery(String.valueOf(tvResume.getText()) + Calendar.getInstance().getTime(),
+//                            "WorldBank", null, Bitmap.CompressFormat.PNG, 75);
                 }
                 lcGraph.saveToGallery(String.valueOf(tvResume.getText()) + Calendar.getInstance().getTime(),
                         "/WorldBank", null, Bitmap.CompressFormat.PNG, 75);
