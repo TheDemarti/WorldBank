@@ -131,7 +131,7 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
 
         @Override
         public void onErrorResponse(VolleyError error) {
-            Toast.makeText(SearchByArg.this, "Some Thing Goes Wrong", Toast.LENGTH_LONG).show();//
+            Toast.makeText(SearchByArg.this, R.string.goes_wrong, Toast.LENGTH_LONG).show();//
             error.printStackTrace();//
         }
 

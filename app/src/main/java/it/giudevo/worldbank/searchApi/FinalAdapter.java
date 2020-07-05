@@ -16,7 +16,6 @@ import java.util.List;
 
 import it.giudevo.worldbank.DataBaseHelper;
 import it.giudevo.worldbank.R;
-import it.giudevo.worldbank.ViewListContents;
 import it.giudevo.worldbank.database.Final.Final;
 
 public class FinalAdapter extends RecyclerView.Adapter<FinalAdapter.Holder> {
@@ -38,9 +37,9 @@ public class FinalAdapter extends RecyclerView.Adapter<FinalAdapter.Holder> {
         //Log.w("CA", String.valueOf(insertData));
 
         if(insertData){
-            Toast.makeText(context, "saved", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, R.string.saved_data, Toast.LENGTH_LONG).show();
         }   else {
-            Toast.makeText(context, "error", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, R.string.error_data, Toast.LENGTH_LONG).show();
         }}
     }
 
@@ -57,7 +56,7 @@ public class FinalAdapter extends RecyclerView.Adapter<FinalAdapter.Holder> {
         @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(@NonNull Holder holder, int position) {
-                holder.tvFinal.setText("Date: " + ultimate.get(position).getDate() + " --> " + ultimate.get(position).getValue());
+                holder.tvFinal.setText("Year: " + ultimate.get(position).getDate() + " --> " + ultimate.get(position).getValue());
         }
 
         @Override

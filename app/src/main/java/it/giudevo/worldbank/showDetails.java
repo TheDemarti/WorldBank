@@ -36,7 +36,7 @@ public class showDetails extends AppCompatActivity {
         ArrayList<String> theList = new ArrayList<>();
         final Cursor det = myDB.getOneData(dat);
         if (det.getCount() == 0) {
-            Toast.makeText(this, "There are no contents in this list!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.no_content, Toast.LENGTH_LONG).show();
         } else {
             while (det.moveToNext()) {
                 theList.add(det.getString(2) + "---->"+ det.getString(3));

@@ -41,7 +41,7 @@ public class ViewListContents extends AppCompatActivity implements AdapterView.O
         //public final Cursor
         data = myDB.getListContents();
         if (data.getCount() == 0) {
-            Toast.makeText(this, "There are no contents in this list!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.no_content, Toast.LENGTH_LONG).show();
         } else {
             while (data.moveToNext()) {
                 theList.add(data.getString(1));

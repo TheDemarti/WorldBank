@@ -88,11 +88,11 @@ public class FinalSearch extends AppCompatActivity  {
         if(requestCode == 0){
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED){
-                    Toast.makeText(this, "Permission Granted", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.ok_permission, Toast.LENGTH_LONG).show();
                 }
             }
             else{
-                Toast.makeText(this, "Permission Denied", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.no_permission, Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -203,7 +203,7 @@ public class FinalSearch extends AppCompatActivity  {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(FinalSearch.this, "Some Thing Goes Wrong", Toast.LENGTH_LONG).show();//
+                Toast.makeText(FinalSearch.this, R.string.goes_wrong, Toast.LENGTH_LONG).show();//
                 error.printStackTrace();
             }
 
@@ -235,7 +235,7 @@ public class FinalSearch extends AppCompatActivity  {
                     }
                 } catch (JSONException e) {
                     Log.d("Prova", "errore");
-                    Toast.makeText(FinalSearch.this, "No Data Available", Toast.LENGTH_SHORT).show();//////////////
+                    Toast.makeText(FinalSearch.this, R.string.no_data, Toast.LENGTH_SHORT).show();//////////////
                     e.printStackTrace();
                 }
             }
@@ -448,7 +448,7 @@ public class FinalSearch extends AppCompatActivity  {
                 }
                 lcGraph.saveToGallery(String.valueOf(tvResume.getText()) + Calendar.getInstance().getTime(),
                         "/WorldBank", null, Bitmap.CompressFormat.PNG, 75);
-                Toast.makeText(this, "Grafico Salvato", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.graph_saved, Toast.LENGTH_LONG).show();
                 break;
             }
             case R.id.dataSave: {

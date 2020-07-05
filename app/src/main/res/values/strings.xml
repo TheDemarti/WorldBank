@@ -7,4 +7,13 @@
     <string name="graphs">Graphs</string>
     <string name="information">Information</string>
     <string name="home">home</string>
+    <string name="saved_data">Saved data</string>
+    <string name="error_data">Error</string>
+    <string name="ok_permission">Permission Granted</string>
+    <string name="no_permission">Permission Denied</string>
+    <string name="goes_wrong">Something goes wrong</string>
+    <string name="no_data">No Data Available</string>
+    <string name="graph_saved">Graph saved</string>
+    <string name="no_content">There are no contents in this list!</string>
+    <string name="year_info">"Year: "</string>
 </resources>

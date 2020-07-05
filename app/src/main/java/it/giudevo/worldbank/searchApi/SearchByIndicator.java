@@ -131,7 +131,7 @@ public class SearchByIndicator extends AppCompatActivity {
 
         @Override
         public void onErrorResponse(VolleyError error) {
-            Toast.makeText(SearchByIndicator.this, "Some Thing Goes Wrong", Toast.LENGTH_LONG).show();//
+            Toast.makeText(SearchByIndicator.this, R.string.goes_wrong, Toast.LENGTH_LONG).show();//
             error.printStackTrace();//
         }
 

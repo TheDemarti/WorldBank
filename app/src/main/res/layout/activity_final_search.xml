@@ -6,55 +6,45 @@
     android:layout_height="match_parent"
     tools:context=".searchApi.FinalSearch">
 
-    <ScrollView
-        android:id="@+id/svFinal"
+    <TextView
+        android:id="@+id/tvResume"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/information"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/lcGraph"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/lcGraph"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/rvFinal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvResume" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvFinal"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvResume"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/PidTextView"
-                android:layout_marginTop="@dimen/PidTextView"
-                android:layout_marginEnd="@dimen/PidTextView"
-                android:text="@string/information"
-                android:textAlignment="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/lcGraph"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginStart="@dimen/PidGraph"
-                android:layout_marginTop="@dimen/PidGraph"
-                android:layout_marginEnd="@dimen/PidGraph"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvResume" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvFinal"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginStart="@dimen/PidRecyclerView"
-                android:layout_marginTop="@dimen/PidRecyclerView"
-                android:layout_marginEnd="@dimen/PidRecyclerView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lcGraph" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lcGraph" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
