@@ -32,7 +32,6 @@ public class showDetails extends AppCompatActivity {
         lvDet = findViewById(R.id.lvDet);
         myDB = new DataBaseHelper(this);
 
-        //populate an ArrayList<String> from the database and then view it
         ArrayList<String> theList = new ArrayList<>();
         final Cursor det = myDB.getOneData(dat);
         if (det.getCount() == 0) {
@@ -40,7 +39,6 @@ public class showDetails extends AppCompatActivity {
         } else {
             while (det.moveToNext()) {
                 theList.add(det.getString(2) + "---->"+ det.getString(3));
-                //Log.w("CA", det.getString(1));
 
                 ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, theList);
                 lvDet.setAdapter(listAdapter);

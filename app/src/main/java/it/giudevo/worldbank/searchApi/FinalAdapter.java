@@ -34,8 +34,6 @@ public class FinalAdapter extends RecyclerView.Adapter<FinalAdapter.Holder> {
                boolean insertData = mDatabaseHelper.addData(ultimate, resume);
                 mDatabaseHelper.addDataDetails(ultimate, resume);
 
-        //Log.w("CA", String.valueOf(insertData));
-
         if(insertData){
             Toast.makeText(context, R.string.saved_data, Toast.LENGTH_LONG).show();
         }   else {

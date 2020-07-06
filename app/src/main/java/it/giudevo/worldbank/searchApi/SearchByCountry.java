@@ -94,36 +94,14 @@ public class SearchByCountry extends AppCompatActivity {
             Intent data = getIntent();
             choice = data.getBooleanExtra("choice", false);
             Log.w("CA", String.valueOf(choice));
-            if(choice){
-                model.CountriesAPI(getApplicationContext());
-                model.searchByCountry();
-                hideKeyboard(SearchByCountry.this);
-            }
-            else{
+            if(!choice){
                 arguments = data.getParcelableExtra("arguments");
                 indicators = data.getParcelableExtra("indicators");
                 model.CountriesAPI(getApplicationContext());
                 model.searchByCountry();
-                hideKeyboard(SearchByCountry.this);
             }
-            //Indicators search = data.getParcelableExtra("indicators");
-            //Log.w("ID TOPIC", String.valueOf(search));
-            //assert search != null;
-//            model.CountriesAPI(getApplicationContext());
-//            model.searchByCountry();
-//            hideKeyboard(SearchByCountryFirst.this);
-        }
-
-        void hideKeyboard(Activity activity) {
-            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            //Find the currently focused view, so we can grab the correct window token from it.
-            View view = activity.getCurrentFocus();
-            //If no view currently has focus, create a new one, just so we can grab a window token from it
-            if (view == null) {
-                view = new View(activity);
-            }
-            assert imm != null;
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            model.CountriesAPI(getApplicationContext());
+            model.searchByCountry();
         }
     }
 

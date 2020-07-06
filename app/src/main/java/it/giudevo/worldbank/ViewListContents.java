@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-
 public class ViewListContents extends AppCompatActivity {
 
     DataBaseHelper myDB;
@@ -29,7 +28,7 @@ public class ViewListContents extends AppCompatActivity {
     public Cursor data;
     public SparseBooleanArray selectedList = new SparseBooleanArray();
     public ArrayList<String> theList;
-    public FinAdapter finAdapter;
+    public SaveAdapter finAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +49,7 @@ public class ViewListContents extends AppCompatActivity {
                 theList.add(data.getString(1));
 
                 rvFav.setLayoutManager(new LinearLayoutManager((this)));
-                finAdapter = new FinAdapter(theList);
+                finAdapter = new SaveAdapter(theList);
                 rvFav.setAdapter(finAdapter);
 
             }
@@ -85,10 +84,10 @@ public class ViewListContents extends AppCompatActivity {
     }
 
 
-    public class FinAdapter extends RecyclerView.Adapter<Holder> implements View.OnClickListener, View.OnLongClickListener{
+    public class SaveAdapter extends RecyclerView.Adapter<Holder> implements View.OnClickListener, View.OnLongClickListener{
         ArrayList<String> dt;
 
-        public FinAdapter(ArrayList<String> theList) {
+        public SaveAdapter(ArrayList<String> theList) {
             dt = theList;
         }
 

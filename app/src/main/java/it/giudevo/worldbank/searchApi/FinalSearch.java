@@ -9,18 +9,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
-//import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,7 +51,6 @@ import java.util.Locale;
 import it.giudevo.worldbank.DataBaseHelper;
 import it.giudevo.worldbank.MainActivity;
 import it.giudevo.worldbank.R;
-import it.giudevo.worldbank.ViewListContents;
 import it.giudevo.worldbank.database.Arguments.Arguments;
 import it.giudevo.worldbank.database.Countries.Countries;
 import it.giudevo.worldbank.database.Final.Final;
@@ -127,46 +122,24 @@ public class FinalSearch extends AppCompatActivity  {
             };
 
             Intent data = getIntent();
-            //Indicators
             arguments = data.getParcelableExtra("arguments");
-                    indicators = data.getParcelableExtra("indicators");
+            indicators = data.getParcelableExtra("indicators");
             choice = data.getBooleanExtra("choice", true);
             if(choice) {
-                //Countries
-                 countries = data.getParcelableExtra("countries");
+                countries = data.getParcelableExtra("countries");
                 assert indicators != null;
-                //model.CountriesAPI(getApplicationContext());
                 assert countries != null;
                 model.searchByCountry(countries.getIso2Code(), indicators.getId());
             }
             else{
-                //Countries
-                        countries = data.getParcelableExtra("countries");
+                countries = data.getParcelableExtra("countries");
                 assert indicators != null;
-                //model.CountriesAPI(getApplicationContext());
                 assert countries != null;
                 model.searchByCountry(countries.getIso2Code(), indicators.getId());
             }
-            hideKeyboard(FinalSearch.this);
-            Log.w("CA", countries.getName());
-            Log.w("CA", indicators.getName());
 
             string = countries.getName() + " - " + arguments.getValue() + " - " + indicators.getName();
-
             tvResume.setText(string);
-
-        }
-
-        void hideKeyboard(Activity activity) {                                                                                              //todo
-            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            //Find the currently focused view, so we can grab the correct window token from it.
-            View view = activity.getCurrentFocus();
-            //If no view currently has focus, create a new one, just so we can grab a window token from it
-            if (view == null) {
-                view = new View(activity);
-            }
-            assert imm != null;
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
 
         private abstract class VolleyFinal implements Response.ErrorListener, Response.Listener<String>{
@@ -343,7 +316,7 @@ public class FinalSearch extends AppCompatActivity  {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.line, menu);
+        getMenuInflater().inflate(R.menu.menu_final, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -7,7 +7,6 @@
     <string name="data">Dati</string>
     <string name="graphs">Grafici</string>
     <string name="information">Informazione</string>
-    <string name="home">home</string>
     <string name="saved_data">Dati salvati</string>
     <string name="error_data">Errore</string>
     <string name="ok_permission">Permesso concesso</string>
@@ -17,4 +16,5 @@
     <string name="graph_saved">Grafico salvato</string>
     <string name="no_content">Non ci sono contenuti in questa lista!</string>
     <string name="year_info">"Anno: "</string>
+    <string name="home">Home</string>
 </resources>

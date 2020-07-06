@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WorldBank</string>
+    <string name="buttonCountry">Paìses</string>
+    <string name="buttonArg">Argumentos</string>
+    <string name="buttonFavorites">Favorito</string>
+    <string name="data">Datos</string>
+    <string name="graphs">Grafìcos</string>
+    <string name="information">Informacìon</string>
+    <string name="home">Hogar</string>
+    <string name="saved_data">Datos guardados</string>
+    <string name="error_data">Error</string>
+    <string name="ok_permission">Permiso concendido</string>
+    <string name="no_permission">Permiso denegado</string>
+    <string name="goes_wrong">Algo mal</string>
+    <string name="no_data">Datos no disponibles</string>
+    <string name="graph_saved">Grafìco guardado</string>
+    <string name="no_content">No hay contenidos en esta lista!</string>
+    <string name="year_info">Año</string>
+</resources>

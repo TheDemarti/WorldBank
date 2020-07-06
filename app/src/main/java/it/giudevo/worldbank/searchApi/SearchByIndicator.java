@@ -92,9 +92,6 @@ public class SearchByIndicator extends AppCompatActivity {
             if(choice) {
                 countries = data.getParcelableExtra("countries");
             }
-
-            //Log.w("ID TOPIC", String.valueOf(search));
-            assert arguments != null;
             model.searchByInd(arguments.id);
         }
 }
