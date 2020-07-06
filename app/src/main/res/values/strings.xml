@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">WorldBank</string>
     <string name="buttonCountry">Country</string>
-    <string name="buttonArg">Arguments</string>
+    <string name="buttonArg">Topics</string>
     <string name="buttonFavorites">Favorites</string>
     <string name="data">Data</string>
     <string name="graphs">Graphs</string>
@@ -18,4 +18,18 @@
     <string name="year_info">Year: </string>
     <string name="unselect_all">Unselect all</string>
     <string name="select_all">Select all</string>
+    <string name="actionToggleValues">Show values on graph</string>
+    <string name="actionToggleFilled">Color the graph</string>
+    <string name="actionToggleCircles">Show circles for every value</string>
+    <string name="actionToggleCubic">Show the cubic graph</string>
+    <string name="ActionToggleStepped">Show the graph stepped</string>
+    <string name="actionToggleHorizontalCubic">Show the horizontal cubic graph</string>
+    <string name="actionTogglePinch">Alternative pinch-to-zoom</string>
+    <string name="animateX">Animate the X-axis</string>
+    <string name="animateY">Animate the Y-axis</string>
+    <string name="animateXY">Animate the XY-axes</string>
+    <string name="graphSave">Save Graph</string>
+    <string name="dataSave">Save data</string>
+    <string name="powered_by">Powered by www.worldbank.org</string>
+    <string name="delete">Delete</string>
 </resources>

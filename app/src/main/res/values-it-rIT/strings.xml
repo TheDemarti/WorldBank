@@ -17,4 +17,20 @@
     <string name="no_content">Non ci sono contenuti in questa lista!</string>
     <string name="year_info">"Anno: "</string>
     <string name="home">Home</string>
+    <string name="unselect_all">Deseleziona tutto</string>
+    <string name="select_all">Seleziona tutto</string>
+    <string name="actionToggleValues">Mostra valori sul grafico</string>
+    <string name="actionToggleFilled">Colora il grafico</string>
+    <string name="actionToggleCircles">Mostra pallini per ogni valore</string>
+    <string name="actionToggleCubic">Mostra il grafico \"cubic\"</string>
+    <string name="ActionToggleStepped">Mostra il grafico a gradini</string>
+    <string name="actionToggleHorizontalCubic">Mostra il grafico \"cubic\" orizzontale</string>
+    <string name="actionTogglePinch">Pinch-to-zoom alternativo</string>
+    <string name="animateX">Anima l\'asse X</string>
+    <string name="animateY">Anima l\'asse Y</string>
+    <string name="animateXY">Anima gli assi X e Y</string>
+    <string name="graphSave">Salva il grafico</string>
+    <string name="dataSave">Salva i dati</string>
+    <string name="powered_by">Offerto da www.worldbank.org</string>
+    <string name="delete">Cancella</string>
 </resources>

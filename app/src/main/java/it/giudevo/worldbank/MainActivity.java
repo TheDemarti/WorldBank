@@ -7,8 +7,11 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
 import it.giudevo.worldbank.searchApi.SearchByArg;
 import it.giudevo.worldbank.searchApi.SearchByCountry;
 
@@ -26,11 +29,14 @@ public class MainActivity extends AppCompatActivity {
     class Holder implements View.OnClickListener {
 
         Button btnCountry, btnArg, btnOff;
+        TextView tvPowered;
 
         Holder(){
         btnArg = findViewById(R.id.btnArg);
         btnCountry = findViewById(R.id.btnCountry);
-        btnOff= findViewById(R.id.btnFavorites);
+        btnOff = findViewById(R.id.btnFavorites);
+        tvPowered = findViewById(R.id.tvPowered);
+        tvPowered.setMovementMethod(LinkMovementMethod.getInstance());
         btnCountry.setOnClickListener(this);
         btnArg.setOnClickListener(this);
         btnOff.setOnClickListener(this);
@@ -38,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
             }
         }
-
 
         @Override
         public void onClick(View v) {

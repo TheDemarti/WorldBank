@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">WorldBank</string>
     <string name="buttonCountry">Paìses</string>
-    <string name="buttonArg">Argumentos</string>
+    <string name="buttonArg">Temas</string>
     <string name="buttonFavorites">Favorito</string>
     <string name="data">Datos</string>
     <string name="graphs">Grafìcos</string>
@@ -16,5 +16,21 @@
     <string name="no_data">Datos no disponibles</string>
     <string name="graph_saved">Grafìco guardado</string>
     <string name="no_content">No hay contenidos en esta lista!</string>
-    <string name="year_info">Año</string>
+    <string name="year_info">"Año: "</string>
+    <string name="dataSave">Guardar datos</string>
+    <string name="graphSave">Guardar gráfico</string>
+    <string name="animateX">Animar el eje X</string>
+    <string name="animateY">Animar el eje Y</string>
+    <string name="animateXY">Animar los ejes X e Y</string>
+    <string name="actionTogglePinch">Pellizcar para hacer zoom alternativo</string>
+    <string name="actionToggleCubic">Mostrar el gráfico \"cubic\"</string>
+    <string name="ActionToggleStepped">Mostrar el gráfico escalonado</string>
+    <string name="actionToggleHorizontalCubic">Mostrar el gráfico \"cubic\" horizontal</string>
+    <string name="actionToggleCircles">Mostrar círculos para cada valor</string>
+    <string name="actionToggleFilled">Colorea el gráfico</string>
+    <string name="actionToggleValues">Mostrar valores en el gráfico</string>
+    <string name="select_all">Seleccionar todo</string>
+    <string name="unselect_all">Deseleccionar todo</string>
+    <string name="powered_by">Energizado por www.worldbank.org</string>
+    <string name="delete">Borrar</string>
 </resources>

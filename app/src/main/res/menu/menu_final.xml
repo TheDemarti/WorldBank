@@ -4,56 +4,49 @@
 
     <item
         android:id="@+id/actionToggleValues"
-        android:title="actionToggleValues">
-    </item>
+        android:title="@string/actionToggleValues" />
     <item
         android:id="@+id/actionToggleFilled"
-        android:title="actionToggleFilled">
-    </item>
+        android:title="@string/actionToggleFilled" />
     <item
         android:id="@+id/actionToggleCircles"
-        android:title="actionToggleCircles">
-    </item>
+        android:title="@string/actionToggleCircles" />
     <item
         android:id="@+id/actionToggleCubic"
-        android:title="actionToggleCubic">
-    </item>
+        android:title="@string/actionToggleCubic" />
     <item
         android:id="@+id/actionToggleStepped"
-        android:title="actionToggleStepped">
-    </item>
+        android:title="@string/ActionToggleStepped" />
     <item
         android:id="@+id/actionToggleHorizontalCubic"
-        android:title="actionToggleHorizontalCubic">
-    </item>
+        android:title="@string/actionToggleHorizontalCubic" />
     <item
         android:id="@+id/actionTogglePinch"
-        android:title="actionTogglePinch">
-    </item>
+        android:title="@string/actionTogglePinch" />
     <item
         android:id="@+id/animateX"
-        android:title="Animate X"></item>
+        android:title="@string/animateX" />
     <item
         android:id="@+id/animateY"
-        android:title="Animate Y"></item>
+        android:title="@string/animateY" />
     <item
         android:id="@+id/animateXY"
-        android:title="Animate XY"></item>
+        android:title="@string/animateXY" />
     <item
         android:id="@+id/home"
         android:icon="@drawable/ic_outline_home_24"
-        android:title="Home"
+        android:title="@string/home"
         app:showAsAction="always" />
     <item
         android:id="@+id/graphSave"
         android:icon="@drawable/ic_outline_savegraph"
-        android:title="Save Graph"
-        app:showAsAction="always"></item>
+        android:title="@string/graphSave"
+        app:showAsAction="always" />
     <item
         android:id="@+id/dataSave"
         android:icon="@drawable/ic_outline_savedata"
-        android:title="Save data"
-        app:showAsAction="always"></item>
+        android:title="@string/dataSave"
+        app:showAsAction="always" />
 
 
 

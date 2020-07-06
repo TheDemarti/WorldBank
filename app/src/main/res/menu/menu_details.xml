@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
         android:id="@+id/delete_all"
         android:icon="@drawable/ic_outline_delete_24"
-        android:title="delete_all"
+        android:title="@string/delete"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/unselect_all"
-        android:title="@string/unselect_all"
-        app:showAsAction="never" />
+
     <item
         android:id="@+id/select_all"
         android:title="@string/select_all"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/unselect_all"
+        android:title="@string/unselect_all"
         app:showAsAction="never" />
 </menu>
