@@ -3,13 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/delete_all"
-        app:showAsAction="ifRoom"
-        android:icon="@android:drawable/ic_menu_delete"
-        android:title="delete_all" />
-    <item android:id="@+id/unselect_all"
-        app:showAsAction="never"
-        android:title="unselect_all"/>
-    <item android:id="@+id/select_all"
-        app:showAsAction="never"
-        android:title="select_all"/>
+        android:icon="@drawable/ic_outline_delete_24"
+        android:title="delete_all"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/unselect_all"
+        android:title="@string/unselect_all"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/select_all"
+        android:title="@string/select_all"
+        app:showAsAction="never" />
 </menu>

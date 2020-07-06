@@ -32,32 +32,29 @@
     </item>
     <item
         android:id="@+id/animateX"
-        android:title="animateX">
-    </item>
+        android:title="Animate X"></item>
     <item
         android:id="@+id/animateY"
-        android:title="animateY">
-    </item>
+        android:title="Animate Y"></item>
     <item
         android:id="@+id/animateXY"
-        android:title="animateXY">
-    </item>
-    <item
-        android:id="@+id/graphSave"
-        android:title="graphSave"
-        app:showAsAction="ifRoom">
-
-    </item>
-    <item
-        android:id="@+id/dataSave"
-        app:showAsAction="ifRoom"
-        android:title="dataSave">
-    </item>
+        android:title="Animate XY"></item>
     <item
         android:id="@+id/home"
-        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_outline_home_24"
         android:title="Home"
-        />
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/graphSave"
+        android:icon="@drawable/ic_outline_savegraph"
+        android:title="Save Graph"
+        app:showAsAction="always"></item>
+    <item
+        android:id="@+id/dataSave"
+        android:icon="@drawable/ic_outline_savedata"
+        android:title="Save data"
+        app:showAsAction="always"></item>
+
 
 
 </menu>
