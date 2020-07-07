@@ -34,6 +34,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IFillFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
@@ -224,7 +225,7 @@ public class FinalSearch extends AppCompatActivity  {
     public void CreateGraph(List<Final> cnt){
 
         lcGraph.setViewPortOffsets(0, 0, 0, 0);
-        lcGraph.setBackgroundColor(Color.rgb(104, 241, 175));
+        lcGraph.setBackgroundColor(Color.rgb(180, 255, 255));
 
         // no description text
         lcGraph.getDescription().setEnabled(false);
@@ -270,13 +271,19 @@ public class FinalSearch extends AppCompatActivity  {
 
     private void setData(List<Final> cnt) {
 
-        ArrayList<Entry> values = new ArrayList<>();
+        final ArrayList<Entry> values = new ArrayList<>();
+        final ArrayList<String> xVal = new ArrayList<>();
 
         for(int i = 0; i < cnt.size(); i++) {
                 int date = (cnt.get(cnt.size() - 1 - i).getDate());
+                xVal.add(String.valueOf(date));
                 float val = cnt.get(cnt.size() - 1 - i).getValue();
-                values.add(new Entry(date, val));
+                values.add(new Entry(i, val));
         }
+
+        lcGraph.getXAxis().setValueFormatter(new com.github.mikephil.charting.formatter.IndexAxisValueFormatter(xVal));
+
+        //lcGraph.getAxisLeft().setValueFormatter(new com.github.mikephil.charting.formatter.IndexAxisValueFormatter(yVal));
 
         LineDataSet set1;
 
