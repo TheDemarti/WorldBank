@@ -7,16 +7,14 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,15 +50,32 @@ public class SearchByCountry extends AppCompatActivity {
     public boolean choice;
     public Indicators indicators;
     public Arguments arguments;
+    public boolean theme_boolean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        SharedPreferences mPref = getSharedPreferences("THEME", 0);
+        theme_boolean = mPref.getBoolean("theme_boolean", true);
+
+        SetTheme(theme_boolean);
+        
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_by_country);
 
         new Holder();
         createDB();
     }
+
+    private void SetTheme(boolean bool) {
+        if(bool){
+            setTheme(R.style.AppTheme);
+        }
+        else{
+            setTheme(R.style.Theme_MaterialComponents_DayNight_DarkActionBar);
+        }
+    }
+
     private void createDB(){
         db = Room.databaseBuilder(getApplicationContext(),
                 AppCountriesDatabase.class, "countries.db").allowMainThreadQueries().

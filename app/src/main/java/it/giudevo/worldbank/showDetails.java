@@ -3,6 +3,7 @@ package it.giudevo.worldbank;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,9 +18,16 @@ public class showDetails extends AppCompatActivity {
 
     DataBaseHelper myDB;
     ListView lvDet;
+    public boolean theme_boolean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        SharedPreferences mPref = getSharedPreferences("THEME", 0);
+        theme_boolean = mPref.getBoolean("theme_boolean", true);
+
+        SetTheme(theme_boolean);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_details);
 
@@ -44,6 +52,15 @@ public class showDetails extends AppCompatActivity {
                 lvDet.setAdapter(listAdapter);
 
             }
+        }
+    }
+
+    private void SetTheme(boolean bool) {
+        if(bool){
+            setTheme(R.style.AppTheme);
+        }
+        else{
+            setTheme(R.style.Theme_MaterialComponents_DayNight_DarkActionBar);
         }
     }
 }
