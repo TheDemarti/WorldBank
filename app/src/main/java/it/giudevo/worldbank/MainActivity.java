@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
                     Theme.changeToTheme(this, Theme.THEME_FIRST);
                     Theme.onActivityCreateSetTheme(this);
                     theme_boolean = false;
+
                 }
                 else{
                     item.setIcon(R.drawable.sun);
