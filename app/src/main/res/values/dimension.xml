@@ -9,5 +9,10 @@
     <dimen name="TitleSize">28sp</dimen>
     <dimen name="DescriptionSize">18sp</dimen>
     <dimen name="PidTextView">8dp</dimen>
+    <dimen name="PidTextView2">16dp</dimen>
     <dimen name="PidGraph">10dp</dimen>
+    <dimen name="ButtonTextSize">22sp</dimen>
+    <dimen name="GraphHeight">300dp</dimen>
+    <dimen name="PidListView">1dp</dimen>
+    <dimen name="TextSize">16sp</dimen>
 </resources>

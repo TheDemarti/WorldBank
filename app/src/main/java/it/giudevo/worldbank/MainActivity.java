@@ -132,10 +132,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(@NonNull Menu menu) {
         invalidateOptionsMenu();
         if(theme_boolean) {
-            menu.findItem(R.id.change_theme).setIcon(R.drawable.moon);
+            menu.findItem(R.id.change_theme).setIcon(R.drawable.ic_outline_moon);
         }
         else{
-            menu.findItem(R.id.change_theme).setIcon(R.drawable.sun);
+            menu.findItem(R.id.change_theme).setIcon(R.drawable.ic_outline_sun);
         }
         return super.onPrepareOptionsMenu(menu);
     }

@@ -4,8 +4,7 @@
 
     <item
         android:id="@+id/change_theme"
-        android:icon="@drawable/moon"
-        android:title="@string/delete"
+        android:title="Change Theme"
         app:showAsAction="ifRoom" />
 
 </menu>
