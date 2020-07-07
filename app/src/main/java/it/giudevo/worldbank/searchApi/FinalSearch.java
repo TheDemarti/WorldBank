@@ -212,9 +212,11 @@ public class FinalSearch extends AppCompatActivity  {
                         CreateGraph(cnt);
                         fill(cnt, string);
                     }
+                    else{
+                        Toast.makeText(FinalSearch.this, R.string.no_data, Toast.LENGTH_SHORT).show();
+                    }
                 } catch (JSONException e) {
-                    Log.d("Prova", "errore");
-                    Toast.makeText(FinalSearch.this, R.string.no_data, Toast.LENGTH_SHORT).show();//////////////
+                    Toast.makeText(FinalSearch.this, R.string.no_data, Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
             }
