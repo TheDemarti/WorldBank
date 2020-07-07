@@ -33,7 +33,7 @@ public class Map_View extends AppCompatActivity implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(0,0)).title("MAKER"));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(41.803017,12.603446)).title("MAKER"));
     }
 
     @Override
