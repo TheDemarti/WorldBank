@@ -1,6 +1,7 @@
 package it.giudevo.worldbank.searchApi;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -18,6 +19,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +49,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import it.giudevo.worldbank.DataBaseHelper;
 import it.giudevo.worldbank.MainActivity;
@@ -333,7 +334,6 @@ public class FinalSearch extends AppCompatActivity  {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.actionToggleValues: {
                 for (IDataSet set : lcGraph.getData().getDataSets())
@@ -433,7 +433,6 @@ public class FinalSearch extends AppCompatActivity  {
                 break;
             }
             case R.id.dataSave: {
-
                 FinalAdapter.AddData(this);
                 //Toast.makeText(this, "Dati Salvati", Toast.LENGTH_LONG).show();
                 break;
@@ -444,5 +443,12 @@ public class FinalSearch extends AppCompatActivity  {
             }
         }
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        invalidateOptionsMenu();
+
+        return super.onPrepareOptionsMenu(menu);
     }
 }

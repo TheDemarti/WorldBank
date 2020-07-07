@@ -15,4 +15,5 @@
     <dimen name="GraphHeight">300dp</dimen>
     <dimen name="PidListView">1dp</dimen>
     <dimen name="TextSize">16sp</dimen>
+    <dimen name="PidImageView">8dp</dimen>
 </resources>

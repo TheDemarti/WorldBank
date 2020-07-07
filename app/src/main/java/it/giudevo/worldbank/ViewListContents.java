@@ -2,6 +2,7 @@ package it.giudevo.worldbank;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
@@ -131,9 +133,11 @@ public class ViewListContents extends AppCompatActivity {
                 if(isSelected) {
                     holder.tvSave.setSelected(true);
                     holder.tvSave.setTypeface(null, Typeface.BOLD);
+                    holder.cvListContents.setBackgroundColor(Color.YELLOW);
                 } else {
                     holder.tvSave.setSelected(false);
                     holder.tvSave.setTypeface(null, Typeface.NORMAL);
+                    holder.cvListContents.setBackgroundColor(Color.WHITE);
                 }
         }
 
@@ -198,11 +202,13 @@ public class ViewListContents extends AppCompatActivity {
     private static class Holder extends RecyclerView.ViewHolder {
 
         TextView tvSave;
+        CardView cvListContents;
 
         public Holder(@NonNull View cl) {
             super(cl);
 
             tvSave = cl.findViewById(R.id.tvSave);
+            cvListContents = cl.findViewById(R.id.cvListContents);
         }
     }
 }
