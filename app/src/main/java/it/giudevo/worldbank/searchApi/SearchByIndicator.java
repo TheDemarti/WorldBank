@@ -117,18 +117,8 @@ public class SearchByIndicator extends AppCompatActivity {
         abstract void fill(List<Indicators> cnt);
 
         void searchByInd(int s) {
-            String language;
-
-            if(!Locale.getDefault().getLanguage().equals("en") || !Locale.getDefault().getLanguage().equals("es") ||
-                    !Locale.getDefault().getLanguage().equals("fr") || !Locale.getDefault().getLanguage().equals("zh") ||
-                    !Locale.getDefault().getLanguage().equals("ar")){
-                language = "en";
-            }
-            else{
-                language = Locale.getDefault().getLanguage();
-            }
-            String url = "http://api.worldbank.org/v2/%s/topic/%s/indicator?format=json&per_page=17447";
-            url = String.format(url, language, s);
+            String url = "http://api.worldbank.org/v2/topic/%s/indicator?format=json&per_page=17447";
+            url = String.format(url, s);
             apiCall(url);
         }
 

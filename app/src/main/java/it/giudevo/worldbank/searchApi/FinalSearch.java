@@ -163,20 +163,8 @@ public class FinalSearch extends AppCompatActivity  {
             abstract void fill(List<Final> cnt, String s);
 
             void searchByCountry(String s, String r) {
-                String language;
-
-                if(!Locale.getDefault().getLanguage().equals("en") || !Locale.getDefault().getLanguage().equals("es") ||
-                        !Locale.getDefault().getLanguage().equals("fr") || !Locale.getDefault().getLanguage().equals("zh") ||
-                        !Locale.getDefault().getLanguage().equals("ar")){
-                    language = "en";
-                }
-                else{
-                    language = Locale.getDefault().getLanguage();
-                }
-
-                Log.w("CA", language);
-                String url = "http://api.worldbank.org/v2/%s/country/%s/indicator/%s?format=json&per_page=500";
-                url = String.format(url, language, s, r);
+                String url = "http://api.worldbank.org/v2/country/%s/indicator/%s?format=json&per_page=500";
+                url = String.format(url, s, r);
                 apiCall(url);
             }
 

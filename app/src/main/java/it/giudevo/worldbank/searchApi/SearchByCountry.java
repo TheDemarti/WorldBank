@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,8 +38,8 @@ import org.json.JSONException;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Locale;
 
+import it.giudevo.worldbank.Map_View;
 import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.Arguments.Arguments;
 import it.giudevo.worldbank.database.Countries.Countries;
@@ -133,18 +134,8 @@ public class SearchByCountry extends AppCompatActivity {
         }
 
         void searchByCountry() {
-            String language;
-
-            if(!Locale.getDefault().getLanguage().equals("en") || !Locale.getDefault().getLanguage().equals("es") ||
-                    !Locale.getDefault().getLanguage().equals("fr") || !Locale.getDefault().getLanguage().equals("zh") ||
-                    !Locale.getDefault().getLanguage().equals("ar")){
-                language = "en";
-            }
-            else{
-                language = Locale.getDefault().getLanguage();
-            }
-            String url = "http://api.worldbank.org/v2/%s/country?format=json&per_page=304";
-            url = String.format(url, language);
+            String url = "http://api.worldbank.org/v2/country?format=json&per_page=304";
+            url = String.format(url);
             apiCall(url);
         }
 
@@ -189,7 +180,7 @@ public class SearchByCountry extends AppCompatActivity {
         }
     }
 
-    public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHolder> implements View.OnClickListener{// implements View.OnClickListener{
+    public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHolder> implements View.OnClickListener{
 
         public List<Countries> countries;
 
@@ -240,14 +231,24 @@ public class SearchByCountry extends AppCompatActivity {
             }
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder {
+        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             TextView tvIsoCodeFirst;
             CardView cvCountryFirst;
+            Button btnMap;
 
             public ViewHolder(ConstraintLayout cl) {
                 super(cl);
                 tvIsoCodeFirst = cl.findViewById(R.id.tvIsoCodeFirst);
                 cvCountryFirst = cl.findViewById(R.id.cvCountriesFirst);
+                btnMap = cl.findViewById(R.id.btnMap);
+
+                btnMap.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SearchByCountry.this, Map_View.class);
+                SearchByCountry.this.startActivity(intent);
             }
         }
     }

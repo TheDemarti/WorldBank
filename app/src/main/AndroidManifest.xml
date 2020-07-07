@@ -8,28 +8,39 @@
 
     <application
         android:allowBackup="true"
-        android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Map_View">
+            android:screenOrientation="portrait"
+        </activity>
+        <activity
             android:name=".showDetails"
             android:screenOrientation="portrait" />
-        <activity android:name=".ViewListContents"
+        <activity
+            android:name=".ViewListContents"
             android:screenOrientation="portrait" />
-        <activity android:name=".searchApi.FinalSearch"
+        <activity
+            android:name=".searchApi.FinalSearch"
             android:screenOrientation="portrait" />
-        <activity android:name=".searchApi.SearchByCountry"
+        <activity
+            android:name=".searchApi.SearchByCountry"
             android:screenOrientation="portrait" />
-        <activity android:name=".searchApi.SearchByIndicator"
+        <activity
+            android:name=".searchApi.SearchByIndicator"
             android:screenOrientation="portrait" />
-        <activity android:name=".FavoritesActivity"
+        <activity
+            android:name=".FavoritesActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".searchApi.SearchByArg"
+        <activity
+            android:name=".searchApi.SearchByArg"
             android:screenOrientation="portrait" />
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
