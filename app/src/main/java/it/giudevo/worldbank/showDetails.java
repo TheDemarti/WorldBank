@@ -53,6 +53,7 @@ public class showDetails extends AppCompatActivity {
 
             }
         }
+        myDB.close();
     }
 
     private void SetTheme(boolean bool) {

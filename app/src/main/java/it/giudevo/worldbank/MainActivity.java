@@ -43,20 +43,11 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //SetImage(menu.findItem(R.id.change_theme), theme_boolean);
         new Holder();
 
     }
 
-    private void SetImage(MenuItem item, boolean bool) {
-        if(bool){
-            item.setIcon(R.drawable.moon);
-        }
-        else{
-            item.setIcon(R.drawable.sun);
-        }
-    }
+
 
     private void SetTheme(boolean bool) {
         if(bool){
@@ -118,15 +109,11 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.change_theme: {
                 if(theme_boolean){
-                    //SetImage(item, theme_boolean);
-                    //item.setIcon(R.drawable.moon);
                     Theme.changeToTheme(this, Theme.THEME_FIRST);
                     Theme.onActivityCreateSetTheme(this);
                     theme_boolean = false;
                 }
                 else{
-                    //SetImage(item, theme_boolean);
-                    //item.setIcon(R.drawable.sun);
                     Theme.changeToTheme(this, Theme.THEME_SECOND);
                     Theme.onActivityCreateSetTheme(this);
                     theme_boolean = true;

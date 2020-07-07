@@ -31,7 +31,7 @@ public class FinalAdapter extends RecyclerView.Adapter<FinalAdapter.Holder> {
     public static void AddData(Context context) {
         DataBaseHelper mDatabaseHelper = new DataBaseHelper(context);
         if(mDatabaseHelper.getData(resume).getCount()== 0 ){
-               boolean insertData = mDatabaseHelper.addData(ultimate, resume);
+               boolean insertData = mDatabaseHelper.addData(resume);
                 mDatabaseHelper.addDataDetails(ultimate, resume);
 
         if(insertData){

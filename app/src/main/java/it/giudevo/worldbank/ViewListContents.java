@@ -62,6 +62,7 @@ public class ViewListContents extends AppCompatActivity {
 
             }
         }
+        myDB.close();
     }
 
     private void SetTheme(boolean bool) {
