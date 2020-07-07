@@ -1,6 +1,7 @@
 package it.giudevo.worldbank;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -16,7 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.interfaces.datasets.IDataSet;
+import java.util.Objects;
 
 import it.giudevo.worldbank.searchApi.SearchByArg;
 import it.giudevo.worldbank.searchApi.SearchByCountry;
@@ -25,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean choice;
     public boolean theme_boolean; //variabile usata per identificate il tema dell'activity corrente
     public SharedPreferences mPref;
+    MenuItem menu;
+
+    public MainActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +43,19 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //SetImage(menu.findItem(R.id.change_theme), theme_boolean);
         new Holder();
 
+    }
+
+    private void SetImage(MenuItem item, boolean bool) {
+        if(bool){
+            item.setIcon(R.drawable.moon);
+        }
+        else{
+            item.setIcon(R.drawable.sun);
+        }
     }
 
     private void SetTheme(boolean bool) {
@@ -102,14 +118,15 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.change_theme: {
                 if(theme_boolean){
-                    item.setIcon(R.drawable.moon);
+                    //SetImage(item, theme_boolean);
+                    //item.setIcon(R.drawable.moon);
                     Theme.changeToTheme(this, Theme.THEME_FIRST);
                     Theme.onActivityCreateSetTheme(this);
                     theme_boolean = false;
-
                 }
                 else{
-                    item.setIcon(R.drawable.sun);
+                    //SetImage(item, theme_boolean);
+                    //item.setIcon(R.drawable.sun);
                     Theme.changeToTheme(this, Theme.THEME_SECOND);
                     Theme.onActivityCreateSetTheme(this);
                     theme_boolean = true;
@@ -124,5 +141,16 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(@NonNull Menu menu) {
+        invalidateOptionsMenu();
+        if(theme_boolean) {
+            menu.findItem(R.id.change_theme).setIcon(R.drawable.moon);
+        }
+        else{
+            menu.findItem(R.id.change_theme).setIcon(R.drawable.sun);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
 }
 

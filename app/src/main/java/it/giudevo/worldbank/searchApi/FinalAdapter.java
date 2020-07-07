@@ -54,7 +54,7 @@ public class FinalAdapter extends RecyclerView.Adapter<FinalAdapter.Holder> {
         @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(@NonNull Holder holder, int position) {
-                holder.tvFinal.setText( R.string.year_info + ultimate.get(position).getDate() + " --> " + ultimate.get(position).getValue());
+                holder.tvFinal.setText("Data" + ultimate.get(position).getDate() + " --> " + ultimate.get(position).getValue());
         }
 
         @Override

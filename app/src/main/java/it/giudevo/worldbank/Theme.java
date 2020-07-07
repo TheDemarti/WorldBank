@@ -22,7 +22,6 @@ public class Theme {
             default:
             case THEME_FIRST:
                 activity.setTheme(R.style.AppTheme);
-                //activity.setTheme(R.style.prova);
                 break;
             case THEME_SECOND:
                 activity.setTheme(R.style.Theme_AppCompat_DayNight);
