@@ -34,7 +34,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IFillFormatter;
-import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
@@ -211,9 +210,6 @@ public class FinalSearch extends AppCompatActivity  {
                     if (cnt != null && cnt.size() > 0) {
                         CreateGraph(cnt);
                         fill(cnt, string);
-                    }
-                    else{
-                        Toast.makeText(FinalSearch.this, R.string.no_data, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     Toast.makeText(FinalSearch.this, R.string.no_data, Toast.LENGTH_SHORT).show();
@@ -430,8 +426,6 @@ public class FinalSearch extends AppCompatActivity  {
             case R.id.graphSave: {
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-//                    lcGraph.saveToGallery(String.valueOf(tvResume.getText()) + Calendar.getInstance().getTime(),
-//                            "WorldBank", null, Bitmap.CompressFormat.PNG, 75);
                 }
                 lcGraph.saveToGallery(String.valueOf(tvResume.getText()) + Calendar.getInstance().getTime(),
                         "/WorldBank", null, Bitmap.CompressFormat.PNG, 75);
