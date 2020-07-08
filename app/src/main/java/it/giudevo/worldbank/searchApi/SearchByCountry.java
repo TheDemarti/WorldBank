@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -255,7 +256,7 @@ public class SearchByCountry extends AppCompatActivity {
         public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             TextView tvIsoCodeFirst;
             CardView cvCountryFirst;
-            Button btnMap;
+            ImageButton btnMap;
 
             public ViewHolder(ConstraintLayout cl) {
                 super(cl);
