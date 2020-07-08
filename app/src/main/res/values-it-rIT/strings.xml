@@ -15,7 +15,6 @@
     <string name="no_data">Nessun dato disponibile</string>
     <string name="graph_saved">Grafico salvato</string>
     <string name="no_content">Non ci sono contenuti in questa lista!</string>
-    <string name="year_info">"Anno: "</string>
     <string name="home">Home</string>
     <string name="unselect_all">Deseleziona tutto</string>
     <string name="select_all">Seleziona tutto</string>
@@ -33,4 +32,6 @@
     <string name="dataSave">Salva i dati</string>
     <string name="powered_by">Offerto da www.worldbank.org</string>
     <string name="delete">Cancella</string>
+    <string name="data_info">"Data: "</string>
+    <string name="value">"Valore: "</string>
 </resources>

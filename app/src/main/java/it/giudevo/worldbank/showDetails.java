@@ -46,7 +46,7 @@ public class showDetails extends AppCompatActivity {
             Toast.makeText(this, R.string.no_content, Toast.LENGTH_LONG).show();
         } else {
             while (det.moveToNext()) {
-                theList.add("Date: " + det.getString(2) + "---->"+ det.getString(3));
+                theList.add( getString(R.string.data_info) + det.getString(2) + " ----> " + getString(R.string.value) + det.getString(3));
 
                 ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, theList);
                 lvDet.setAdapter(listAdapter);

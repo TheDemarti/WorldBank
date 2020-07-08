@@ -16,7 +16,6 @@
     <string name="no_data">Datos no disponibles</string>
     <string name="graph_saved">Grafìco guardado</string>
     <string name="no_content">No hay contenidos en esta lista!</string>
-    <string name="year_info">"Año: "</string>
     <string name="dataSave">Guardar datos</string>
     <string name="graphSave">Guardar gráfico</string>
     <string name="animateX">Animar el eje X</string>
@@ -33,4 +32,6 @@
     <string name="unselect_all">Deseleccionar todo</string>
     <string name="powered_by">Energizado por www.worldbank.org</string>
     <string name="delete">Borrar</string>
+    <string name="value">"Valore: "</string>
+    <string name="data_info">"Fecha: "</string>
 </resources>

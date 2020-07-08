@@ -16,7 +16,6 @@
     <string name="no_data">Pas de données disponibles</string>
     <string name="graph_saved">Graphique enregistré</string>
     <string name="no_content">Il n\'y a pas de countenu dans cette liste!</string>
-    <string name="year_info">"An: "</string>
     <string name="unselect_all">Déselectionner tout</string>
     <string name="select_all">Selectionner tout</string>
     <string name="actionToggleValues">Afficher les valeurs</string>
@@ -33,4 +32,6 @@
     <string name="dataSave">Enregistrer des données</string>
     <string name="powered_by">Alimenté par www.worldbank.org</string>
     <string name="delete">Effacer</string>
+    <string name="data_info">"Date: "</string>
+    <string name="value">"Valeur: "</string>
 </resources>
