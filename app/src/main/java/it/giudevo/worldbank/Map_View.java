@@ -49,9 +49,8 @@ public class Map_View extends AppCompatActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         googleMap.addMarker(new MarkerOptions().position(new LatLng(latitude,longitude)).title(capitalcity));
-        //CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(latitude, longitude)).zoom(15).build();
-
-        //googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(latitude, longitude)).zoom(5).build();
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
     @Override
