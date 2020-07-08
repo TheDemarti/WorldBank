@@ -1,4 +1,4 @@
-package it.giudevo.worldbank;
+package it.giudevo.worldbank.localDatabase;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +21,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
+
+import it.giudevo.worldbank.R;
 
 public class ViewListContents extends AppCompatActivity {
 

@@ -48,7 +48,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import it.giudevo.worldbank.DataBaseHelper;
+import it.giudevo.worldbank.localDatabase.DataBaseHelper;
 import it.giudevo.worldbank.MainActivity;
 import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.Arguments.Arguments;
@@ -217,7 +217,7 @@ public class FinalSearch extends AppCompatActivity  {
     public void CreateGraph(List<Final> cnt){
 
         lcGraph.setViewPortOffsets(0, 0, 0, 0);
-        lcGraph.setBackgroundColor(Color.rgb(180, 255, 255));
+        lcGraph.setBackgroundColor(Color.rgb(160, 210, 255));
 
         // no description text
         lcGraph.getDescription().setEnabled(false);

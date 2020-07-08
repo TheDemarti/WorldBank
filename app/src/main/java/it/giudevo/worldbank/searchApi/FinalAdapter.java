@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
-import it.giudevo.worldbank.DataBaseHelper;
+import it.giudevo.worldbank.localDatabase.DataBaseHelper;
 import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.Final.Final;
 

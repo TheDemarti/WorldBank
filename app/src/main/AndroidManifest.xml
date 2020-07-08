@@ -26,10 +26,10 @@
             android:name=".Map_View"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".showDetails"
+            android:name=".localDatabase.showDetails"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ViewListContents"
+            android:name=".localDatabase.ViewListContents"
             android:screenOrientation="portrait" />
         <activity
             android:name=".searchApi.FinalSearch"

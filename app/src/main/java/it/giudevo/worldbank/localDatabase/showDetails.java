@@ -1,4 +1,4 @@
-package it.giudevo.worldbank;
+package it.giudevo.worldbank.localDatabase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,6 +13,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import it.giudevo.worldbank.R;
+import it.giudevo.worldbank.localDatabase.DataBaseHelper;
 
 public class showDetails extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package it.giudevo.worldbank;
+package it.giudevo.worldbank.localDatabase;
 
 import android.content.ContentValues;
 import android.content.Context;
