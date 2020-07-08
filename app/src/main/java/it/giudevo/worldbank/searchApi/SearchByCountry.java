@@ -7,7 +7,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,20 +14,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Cache;
-import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.BasicNetwork;
-import com.android.volley.toolbox.DiskBasedCache;
-import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
@@ -49,14 +42,14 @@ import it.giudevo.worldbank.database.Countries.AppCountriesDatabase;
 
 public class SearchByCountry extends AppCompatActivity {
     AppCountriesDatabase db;
-    public boolean choice;
+    public boolean choice; //variabile che identifica il percorso di ricerca selezionato all'inizio
     public Indicators indicators;
     public Arguments arguments;
-    public boolean theme_boolean;
-    public String latitude;
-    public String longitude;
-    public String capitalCity;
-    public int positionButton;
+    public boolean theme_boolean; //variabile usata per impostare il tema corretto (true = Light, false = Dark)
+    public String latitude; //latitudine del paese selezionato
+    public String longitude; //longitudine del paese selezionato
+    public String capitalCity; //capitale del paese selezionato
+    public int positionButton; //posizione nella recyclerview del bottone premuto
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +66,7 @@ public class SearchByCountry extends AppCompatActivity {
         createDB();
     }
 
+    // funzione che imposta il tema dell'activity
     private void SetTheme(boolean bool) {
         if(bool){
             setTheme(R.style.AppTheme);
@@ -96,14 +90,8 @@ public class SearchByCountry extends AppCompatActivity {
             rvCountryFirst = findViewById(R.id.rvCountryFirst);
             this.model = new VolleyCountries() {
 
-
                 @Override
                 void fill(List<Countries> cnt) {
-                    Log.w("CA", "fill");
-                    fillList(cnt);
-                }
-
-                private void fillList(List<Countries> cnt) {
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SearchByCountry.this);
                     rvCountryFirst.setLayoutManager(layoutManager);
                     rvCountryFirst.setHasFixedSize(true);
@@ -114,14 +102,13 @@ public class SearchByCountry extends AppCompatActivity {
 
             Intent data = getIntent();
             choice = data.getBooleanExtra("choice", false);
-            Log.w("CA", String.valueOf(choice));
+
+            //se la ricerca si svolge secondo: argomento-indicatore-PAESE
             if(!choice){
                 arguments = data.getParcelableExtra("arguments");
                 indicators = data.getParcelableExtra("indicators");
-                model.CountriesAPI(getApplicationContext());
                 model.searchByCountry();
             }
-            model.CountriesAPI(getApplicationContext());
             model.searchByCountry();
         }
     }
@@ -129,24 +116,13 @@ public class SearchByCountry extends AppCompatActivity {
     private abstract class VolleyCountries implements Response.ErrorListener, Response.Listener<String> {
         abstract void fill(List<Countries> cnt);
 
-        RequestQueue requestQueue;
-
-        void CountriesAPI(Context context) {
-            Cache cache = new DiskBasedCache(context.getCacheDir(), 20 * 1024 * 1024); // 20MB
-            Network network = new BasicNetwork(new HurlStack());
-            requestQueue = new RequestQueue(cache, network);
-            requestQueue.start();
-        }
-
         void searchByCountry() {
             String url = "http://api.worldbank.org/v2/country?format=json&per_page=304";
-            //url = String.format(url);
             apiCall(url);
         }
 
         private void apiCall(String url) {
-            //RequestQueue requestQueue;
-            requestQueue = Volley.newRequestQueue(SearchByCountry.this);
+            RequestQueue requestQueue = Volley.newRequestQueue(SearchByCountry.this);
             StringRequest stringRequest = new StringRequest(Request.Method.GET,
                     url,
                     this,
@@ -178,7 +154,7 @@ public class SearchByCountry extends AppCompatActivity {
                     fill(cnt);
                 }
             } catch (JSONException e) {
-                Log.d("Prova", "errore");
+                Log.d("Avviso", "errore");
                 e.printStackTrace();
             }
         }
@@ -207,8 +183,7 @@ public class SearchByCountry extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            Log.w("CA", "onbindviewholder" + position);
-                holder.tvIsoCodeFirst.setText(countries.get(position).getName());
+            holder.tvIsoCodeFirst.setText(countries.get(position).getName()); //nome del paese
         }
 
         @Override
@@ -219,37 +194,25 @@ public class SearchByCountry extends AppCompatActivity {
         @Override
         public void onClick(View v){
             int position = ((RecyclerView) v.getParent()).getChildAdapterPosition(v);
-            Log.w("CA", "onclick" + position);
 
-            if(v.getId() == R.id.btnMap){
-                latitude = countries.get(position).getLatitude();
-                longitude = countries.get(position).getLongitude();
-                capitalCity = countries.get(position).getCapitalCity();
+            Countries cou = countries.get(position);
 
-                Intent intent = new Intent(SearchByCountry.this, Map_View.class);
-                intent.putExtra("latitude", Double.valueOf(latitude));
-                intent.putExtra("longitude", Double.valueOf(longitude));
-                intent.putExtra("capitalCity", capitalCity);
-                Log.w("CA", String.valueOf((latitude)));
-                Log.w("CA", String.valueOf((longitude)));
-                Log.w("CA", capitalCity);
+            //se la ricerca si svolge secondo: PAESE-argomento-indicatore
+            if (choice) {
+                Intent intent = new Intent(SearchByCountry.this, SearchByArg.class);
+                intent.putExtra("countries", cou);
+                intent.putExtra("choice", choice);
                 SearchByCountry.this.startActivity(intent);
             }
+
+            //se la ricerca si svolge secondo: argomento-indicatore-PAESE
             else {
-                Countries cou = countries.get(position);
-                if (choice) {
-                    Intent intent = new Intent(SearchByCountry.this, SearchByArg.class);
-                    intent.putExtra("countries", cou);
-                    intent.putExtra("choice", choice);
-                    SearchByCountry.this.startActivity(intent);
-                } else {
-                    Intent intent = new Intent(SearchByCountry.this, FinalSearch.class);
-                    intent.putExtra("countries", cou);
-                    intent.putExtra("indicators", indicators);
-                    intent.putExtra("arguments", arguments);
-                    intent.putExtra("choice", choice);
-                    SearchByCountry.this.startActivity(intent);
-                }
+                Intent intent = new Intent(SearchByCountry.this, FinalSearch.class);
+                intent.putExtra("countries", cou);
+                intent.putExtra("indicators", indicators);
+                intent.putExtra("arguments", arguments);
+                intent.putExtra("choice", choice);
+                SearchByCountry.this.startActivity(intent);
             }
         }
 

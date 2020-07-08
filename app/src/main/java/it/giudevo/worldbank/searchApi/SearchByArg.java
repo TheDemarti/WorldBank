@@ -36,25 +36,27 @@ import it.giudevo.worldbank.database.Countries.Countries;
 
 public class SearchByArg extends AppCompatActivity {
     AppArgumentsDatabase db;
-    public boolean choice;
+    public boolean choice; //variabile che identifica il percorso di ricerca selezionato all'inizio
     public Countries countries;
-    public boolean theme_boolean;
+    public boolean theme_boolean; //variabile usata per impostare il tema corretto (true = Light, false = Dark)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
 
         SharedPreferences mPref = getSharedPreferences("THEME", 0);
         theme_boolean = mPref.getBoolean("theme_boolean", true);
 
         SetTheme(theme_boolean);
 
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_by_arg);
+
         new Holder();
         createDB();
     }
 
+    // funzione che imposta il tema dell'activity
     private void SetTheme(boolean bool) {
         if(bool){
             setTheme(R.style.AppTheme);
@@ -78,14 +80,8 @@ public class SearchByArg extends AppCompatActivity {
             rvArguments = findViewById(R.id.rvArguments);
             this.model = new VolleyArguments() {
 
-
                 @Override
                 void fill(List<Arguments> cnt) {
-                    Log.w("CA", "fill");
-                    fillList(cnt);
-                }
-
-                private void fillList(List<Arguments> cnt) {
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SearchByArg.this);
                     rvArguments.setLayoutManager(layoutManager);
                     rvArguments.setHasFixedSize(true);
@@ -93,9 +89,10 @@ public class SearchByArg extends AppCompatActivity {
                     rvArguments.setAdapter(myAdapter);
                 }
             };
+
             Intent data = getIntent();
             choice = data.getBooleanExtra("choice",false);
-            if(choice) {
+            if(choice){
                 countries = data.getParcelableExtra("countries");
             }
             model.searchByArg();
@@ -107,7 +104,7 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
 
         void searchByArg() {
             String url = "http://api.worldbank.org/v2/topic?format=json";
-            url = String.format(url);
+            //url = String.format(url);
             apiCall(url);
         }
 
@@ -124,13 +121,12 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
 
         @Override
         public void onErrorResponse(VolleyError error) {
-            Toast.makeText(SearchByArg.this, R.string.goes_wrong, Toast.LENGTH_LONG).show();//
-            error.printStackTrace();//
+            Toast.makeText(SearchByArg.this, R.string.goes_wrong, Toast.LENGTH_LONG).show();
+            error.printStackTrace();
         }
 
         @Override
         public void onResponse(String response) {
-            Log.d("Prova", "json approvato");
             Gson gson = new Gson();
             String arguments;
             try {
@@ -140,12 +136,11 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
                 Type listType = new TypeToken<List<Arguments>>() {}.getType();
                 List<Arguments> cnt = gson.fromJson(arguments, listType);
                 if (cnt != null && cnt.size() > 0 && cnt.get(0).value != null) {
-                    Log.w("CA", "" + cnt.size());
                     db.argumentsDAO().insertAll();
                     fill(cnt);
                 }
             } catch (JSONException e) {
-                Log.d("Prova", "errore");
+                Log.d("Avviso", "errore");
                 e.printStackTrace();
             }
         }
@@ -171,8 +166,8 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
 
             @Override
             public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-                holder.tvValue.setText(arguments.get(position).getValue());
-                holder.tvSourceNote.setText(arguments.get(position).getSourceNote());
+                holder.tvValue.setText(arguments.get(position).getValue());// titolo del topic
+                holder.tvSourceNote.setText(arguments.get(position).getSourceNote());// descrizione del topic
             }
 
             @Override
@@ -186,6 +181,8 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
             Arguments arg = arguments.get(position);
             Intent intent = new Intent(SearchByArg.this, SearchByIndicator.class);
             intent.putExtra("arguments", arg);
+
+            //se la ricerca si svolge secondo: paese-ARGOMENTO-indicatore
             if(choice){
                 intent.putExtra("choice", choice);
                 intent.putExtra("countries", countries);

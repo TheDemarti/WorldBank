@@ -33,7 +33,6 @@ import org.json.JSONException;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Locale;
 
 import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.Arguments.Arguments;
@@ -43,10 +42,10 @@ import it.giudevo.worldbank.database.Indicators.Indicators;
 
 public class SearchByIndicator extends AppCompatActivity {
     AppIndicatorsDatabase db;
-    public boolean choice;
+    public boolean choice; //variabile che identifica il percorso di ricerca selezionato all'inizio
     public Countries countries;
     public Arguments arguments;
-    public boolean theme_boolean;
+    public boolean theme_boolean; //variabile usata per impostare il tema corretto (true = Light, false = Dark)
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -64,6 +63,7 @@ public class SearchByIndicator extends AppCompatActivity {
         createDB();
     }
 
+    // funzione che imposta il tema dell'activity
     private void SetTheme(boolean bool) {
         if(bool){
             setTheme(R.style.AppTheme);
@@ -79,7 +79,6 @@ public class SearchByIndicator extends AppCompatActivity {
                 build();
     }
 
-
     private class Holder{
         RecyclerView rvIndicators;
         VolleyIndicator model;
@@ -90,11 +89,6 @@ public class SearchByIndicator extends AppCompatActivity {
 
                 @Override
                 void fill(List<Indicators> cnt) {
-                    Log.w("CA", "fill");
-                    fillList(cnt);
-                }
-
-                private void fillList(List<Indicators> cnt) {
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SearchByIndicator.this);
                     rvIndicators.setLayoutManager(layoutManager);
                     rvIndicators.setHasFixedSize(true);
@@ -102,14 +96,16 @@ public class SearchByIndicator extends AppCompatActivity {
                     rvIndicators.setAdapter(myAdapter);
                 }
             };
+
             Intent data = getIntent();
             arguments = data.getParcelableExtra("arguments");
-
             choice = data.getBooleanExtra("choice",false);
+
+            //se la ricerca si svolge secondo: paese-argomento-INDICATORE
             if(choice) {
                 countries = data.getParcelableExtra("countries");
             }
-            model.searchByInd(arguments.id);
+            model.searchByInd(arguments.getId());
         }
 }
 
@@ -155,7 +151,7 @@ public class SearchByIndicator extends AppCompatActivity {
                     fill(cnt);
                 }
             } catch (JSONException e) {
-                Log.d("Prova", "errore");
+                Log.d("Avviso", "errore");
                 e.printStackTrace();
             }
         }
@@ -181,7 +177,7 @@ public class SearchByIndicator extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull Holder1 holder, int position) {
-            holder.tvIndicator.setText(indicators.get(position).getName());
+            holder.tvIndicator.setText(indicators.get(position).getName()); //nome dell'indicatore
         }
 
         @Override
@@ -193,6 +189,8 @@ public class SearchByIndicator extends AppCompatActivity {
         public void onClick(View v) {
             int position = ((RecyclerView) v.getParent()).getChildAdapterPosition(v);
             Indicators ind = indicators.get(position);
+
+            //se la ricerca si svolge secondo: paese-argomento-INDICATORE
             if(choice){
                 Intent intent = new Intent(SearchByIndicator.this, FinalSearch.class);
                 intent.putExtra("indicators", ind);
@@ -201,6 +199,8 @@ public class SearchByIndicator extends AppCompatActivity {
                 intent.putExtra("arguments", arguments);
                 SearchByIndicator.this.startActivity(intent);
             }
+
+            //se la ricerca si svolge secondo: argomento-INDICATORE-paese
             else{
                 Intent intent = new Intent(SearchByIndicator.this, SearchByCountry.class);///////////////////////
                 intent.putExtra("indicators", ind);
