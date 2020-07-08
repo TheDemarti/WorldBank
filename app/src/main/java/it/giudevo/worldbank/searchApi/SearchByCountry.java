@@ -55,7 +55,7 @@ public class SearchByCountry extends AppCompatActivity {
     public String latitude;
     public String longitude;
     public String capitalCity;
-    public int position;
+    public int positionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,9 +208,6 @@ public class SearchByCountry extends AppCompatActivity {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             Log.w("CA", "onbindviewholder" + position);
                 holder.tvIsoCodeFirst.setText(countries.get(position).getName());
-                latitude = countries.get(position).getLatitude();
-                longitude = countries.get(position).getLongitude();
-                capitalCity = countries.get(position).getCapitalCity();
         }
 
         @Override
@@ -219,22 +216,39 @@ public class SearchByCountry extends AppCompatActivity {
         }
 
         @Override
-        public void onClick(View v) {
-            position = ((RecyclerView) v.getParent()).getChildAdapterPosition(v);
+        public void onClick(View v){
+            int position = ((RecyclerView) v.getParent()).getChildAdapterPosition(v);
             Log.w("CA", "onclick" + position);
-            Countries cou = countries.get(position);
-            if (choice) {
-                Intent intent = new Intent(SearchByCountry.this, SearchByArg.class);
-                intent.putExtra("countries", cou);
-                intent.putExtra("choice", choice);
+
+            if(v.getId() == R.id.btnMap){
+                latitude = countries.get(position).getLatitude();
+                longitude = countries.get(position).getLongitude();
+                capitalCity = countries.get(position).getCapitalCity();
+
+                Intent intent = new Intent(SearchByCountry.this, Map_View.class);
+                intent.putExtra("latitude", Double.valueOf(latitude));
+                intent.putExtra("longitude", Double.valueOf(longitude));
+                intent.putExtra("capitalCity", capitalCity);
+                Log.w("CA", String.valueOf((latitude)));
+                Log.w("CA", String.valueOf((longitude)));
+                Log.w("CA", capitalCity);
                 SearchByCountry.this.startActivity(intent);
-            } else {
-                Intent intent = new Intent(SearchByCountry.this, FinalSearch.class);
-                intent.putExtra("countries", cou);
-                intent.putExtra("indicators", indicators);
-                intent.putExtra("arguments", arguments);
-                intent.putExtra("choice", choice);
-                SearchByCountry.this.startActivity(intent);
+            }
+            else {
+                Countries cou = countries.get(position);
+                if (choice) {
+                    Intent intent = new Intent(SearchByCountry.this, SearchByArg.class);
+                    intent.putExtra("countries", cou);
+                    intent.putExtra("choice", choice);
+                    SearchByCountry.this.startActivity(intent);
+                } else {
+                    Intent intent = new Intent(SearchByCountry.this, FinalSearch.class);
+                    intent.putExtra("countries", cou);
+                    intent.putExtra("indicators", indicators);
+                    intent.putExtra("arguments", arguments);
+                    intent.putExtra("choice", choice);
+                    SearchByCountry.this.startActivity(intent);
+                }
             }
         }
 
@@ -254,13 +268,17 @@ public class SearchByCountry extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+
+                positionButton = getAdapterPosition();
+
+                latitude = countries.get(positionButton).getLatitude();
+                longitude = countries.get(positionButton).getLongitude();
+                capitalCity = countries.get(positionButton).getCapitalCity();
+
                 Intent intent = new Intent(SearchByCountry.this, Map_View.class);
                 intent.putExtra("latitude", Double.valueOf(latitude));
                 intent.putExtra("longitude", Double.valueOf(longitude));
                 intent.putExtra("capitalCity", capitalCity);
-                Log.w("CA", String.valueOf((latitude)));
-                Log.w("CA", String.valueOf((longitude)));
-                Log.w("CA", capitalCity);
                 SearchByCountry.this.startActivity(intent);
             }
         }
