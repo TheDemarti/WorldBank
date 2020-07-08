@@ -2,18 +2,14 @@ package it.giudevo.worldbank.searchApi;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-//import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.List;
-
 import it.giudevo.worldbank.DataBaseHelper;
 import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.Final.Final;

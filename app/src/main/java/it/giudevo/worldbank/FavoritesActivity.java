@@ -1,7 +1,6 @@
 package it.giudevo.worldbank;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -42,7 +41,6 @@ public class FavoritesActivity extends AppCompatActivity {
 
             btnData = findViewById(R.id.btnData);
             btnGraph = findViewById(R.id.btnGraph);
-
             btnData.setOnClickListener(this);
             btnGraph.setOnClickListener(this);
         }

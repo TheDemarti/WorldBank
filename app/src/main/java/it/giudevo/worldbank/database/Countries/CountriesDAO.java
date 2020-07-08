@@ -10,15 +10,6 @@ import java.util.List;
 
 @Dao
 public interface CountriesDAO {
-    @Query("SELECT * FROM Countries")
-    List<Countries> getAll();
-
-    @Query("SELECT * FROM Countries WHERE id IN (:ids)")
-    List<Countries> loadAllByIds(int[] ids);
-
-    @Query("SELECT * FROM Countries WHERE iso2Code LIKE :name ORDER BY iso2Code")
-    List<Countries> findByCountryName(String name);
-
     @Query("SELECT count(*) FROM Countries")
     int size();
 

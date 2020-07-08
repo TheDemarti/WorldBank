@@ -10,15 +10,6 @@ import java.util.List;
 
 @Dao
 public interface ArgumentsDAO {
-    @Query("SELECT * FROM Arguments")
-    List<Arguments> getAll();
-
-    @Query("SELECT * FROM Arguments WHERE id IN (:ids)")
-    List<Arguments> loadAllByIds(int[] ids);
-
-    @Query("SELECT * FROM Arguments WHERE value LIKE :value ORDER BY value")
-    List<Arguments> findByCountryName(String value);
-
     @Query("SELECT count(*) FROM Arguments")
     int size();
 

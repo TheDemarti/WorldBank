@@ -2,11 +2,8 @@ package it.giudevo.worldbank;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -27,15 +24,10 @@ public class Map_View extends AppCompatActivity implements OnMapReadyCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_view);
-
         Intent data = getIntent();
         latitude = data.getDoubleExtra("latitude",0);
         longitude = data.getDoubleExtra("longitude",0);
         capitalcity = data.getStringExtra("capitalCity");
-
-        Log.w("latitude", String.valueOf(latitude));
-        Log.w("longitude", String.valueOf(longitude));
-
         Bundle mapViewBundle = null;
         if(savedInstanceState != null){
             mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
@@ -56,7 +48,6 @@ public class Map_View extends AppCompatActivity implements OnMapReadyCallback {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-
         Bundle mapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY);
         if(mapViewBundle == null){
             mapViewBundle = new Bundle();

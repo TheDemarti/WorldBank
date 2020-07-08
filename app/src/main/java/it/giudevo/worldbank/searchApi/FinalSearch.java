@@ -75,12 +75,9 @@ public class FinalSearch extends AppCompatActivity  {
 
         SharedPreferences mPref = getSharedPreferences("THEME", 0);
         theme_boolean = mPref.getBoolean("theme_boolean", true);
-
         SetTheme(theme_boolean);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final_search);
-
         new Holder();
         lcGraph = findViewById(R.id.lcGraph);
         mDatabaseHelper = new DataBaseHelper(this);
@@ -118,8 +115,6 @@ public class FinalSearch extends AppCompatActivity  {
         Holder() {
             rvFinal = findViewById(R.id.rvFinal);
             tvResume = findViewById(R.id.tvResume);
-
-
             this.model = new VolleyFinal() {
 
 
@@ -252,7 +247,6 @@ public class FinalSearch extends AppCompatActivity  {
         x.setTextColor(Color.BLACK);
         x.setDrawGridLines(true);
         x.setAxisLineColor(Color.BLACK);
-
         YAxis y = lcGraph.getAxisLeft();
         //y.setTypeface(tfLight);
         y.setLabelCount(5, false);
@@ -260,7 +254,6 @@ public class FinalSearch extends AppCompatActivity  {
         y.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
         y.setDrawGridLines(true);
         y.setAxisLineColor(Color.BLACK);
-
         lcGraph.getAxisRight().setEnabled(false);
         setData(cnt);
         lcGraph.getLegend().setEnabled(false);
