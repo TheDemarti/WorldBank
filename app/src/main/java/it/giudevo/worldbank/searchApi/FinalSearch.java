@@ -273,8 +273,6 @@ public class FinalSearch extends AppCompatActivity  {
 
         lcGraph.getXAxis().setValueFormatter(new com.github.mikephil.charting.formatter.IndexAxisValueFormatter(xVal));
 
-        //lcGraph.getAxisLeft().setValueFormatter(new com.github.mikephil.charting.formatter.IndexAxisValueFormatter(yVal));
-
         LineDataSet set1;
 
         if (lcGraph.getData() != null && lcGraph.getData().getDataSetCount() > 0) {

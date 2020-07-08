@@ -133,7 +133,7 @@ public class ViewListContents extends AppCompatActivity {
                 if(isSelected) {
                     holder.tvSave.setSelected(true);
                     holder.tvSave.setTypeface(null, Typeface.BOLD);
-                    holder.cvListContents.setBackgroundColor(Color.RED);
+                    holder.cvListContents.setBackgroundColor(Color.rgb(193, 215, 224));
                 } else {
                     holder.tvSave.setSelected(false);
                     holder.tvSave.setTypeface(null, Typeface.NORMAL);
