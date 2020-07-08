@@ -275,11 +275,16 @@ public class SearchByCountry extends AppCompatActivity {
                 longitude = countries.get(positionButton).getLongitude();
                 capitalCity = countries.get(positionButton).getCapitalCity();
 
-                Intent intent = new Intent(SearchByCountry.this, Map_View.class);
-                intent.putExtra("latitude", Double.valueOf(latitude));
-                intent.putExtra("longitude", Double.valueOf(longitude));
-                intent.putExtra("capitalCity", capitalCity);
-                SearchByCountry.this.startActivity(intent);
+                if(latitude.isEmpty() || longitude.isEmpty()){
+                    Toast.makeText(SearchByCountry.this, "Impossibile aprire la mappa", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Intent intent = new Intent(SearchByCountry.this, Map_View.class);
+                    intent.putExtra("latitude", Double.valueOf(latitude));
+                    intent.putExtra("longitude", Double.valueOf(longitude));
+                    intent.putExtra("capitalCity", capitalCity);
+                    SearchByCountry.this.startActivity(intent);
+                }
             }
         }
     }
