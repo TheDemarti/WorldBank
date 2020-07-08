@@ -206,6 +206,7 @@ public class SearchByCountry extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+            Log.w("CA", "onbindviewholder" + position);
                 holder.tvIsoCodeFirst.setText(countries.get(position).getName());
                 latitude = countries.get(position).getLatitude();
                 longitude = countries.get(position).getLongitude();
@@ -220,20 +221,21 @@ public class SearchByCountry extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             position = ((RecyclerView) v.getParent()).getChildAdapterPosition(v);
-                Countries cou = countries.get(position);
-                if (choice) {
-                    Intent intent = new Intent(SearchByCountry.this, SearchByArg.class);
-                    intent.putExtra("countries", cou);
-                    intent.putExtra("choice", choice);
-                    SearchByCountry.this.startActivity(intent);
-                } else {
-                    Intent intent = new Intent(SearchByCountry.this, FinalSearch.class);
-                    intent.putExtra("countries", cou);
-                    intent.putExtra("indicators", indicators);
-                    intent.putExtra("arguments", arguments);
-                    intent.putExtra("choice", choice);
-                    SearchByCountry.this.startActivity(intent);
-                }
+            Log.w("CA", "onclick" + position);
+            Countries cou = countries.get(position);
+            if (choice) {
+                Intent intent = new Intent(SearchByCountry.this, SearchByArg.class);
+                intent.putExtra("countries", cou);
+                intent.putExtra("choice", choice);
+                SearchByCountry.this.startActivity(intent);
+            } else {
+                Intent intent = new Intent(SearchByCountry.this, FinalSearch.class);
+                intent.putExtra("countries", cou);
+                intent.putExtra("indicators", indicators);
+                intent.putExtra("arguments", arguments);
+                intent.putExtra("choice", choice);
+                SearchByCountry.this.startActivity(intent);
+            }
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
