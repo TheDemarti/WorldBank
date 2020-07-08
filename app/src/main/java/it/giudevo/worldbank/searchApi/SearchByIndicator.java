@@ -6,7 +6,6 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -37,11 +36,9 @@ import java.util.List;
 import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.Arguments.Arguments;
 import it.giudevo.worldbank.database.Countries.Countries;
-import it.giudevo.worldbank.database.Indicators.AppIndicatorsDatabase;
 import it.giudevo.worldbank.database.Indicators.Indicators;
 
 public class SearchByIndicator extends AppCompatActivity {
-    AppIndicatorsDatabase db;
     public boolean choice; //variabile che identifica il percorso di ricerca selezionato all'inizio
     public Countries countries;
     public Arguments arguments;
@@ -60,7 +57,6 @@ public class SearchByIndicator extends AppCompatActivity {
         setContentView(R.layout.activity_search_by_indicator);
 
         new Holder();
-        createDB();
     }
 
     // funzione che imposta il tema dell'activity
@@ -71,12 +67,6 @@ public class SearchByIndicator extends AppCompatActivity {
         else{
             setTheme(R.style.Theme_MaterialComponents_DayNight_DarkActionBar);
         }
-    }
-
-    private void createDB(){
-        db = Room.databaseBuilder(getApplicationContext(),
-                AppIndicatorsDatabase.class, "indicator.db").allowMainThreadQueries().
-                build();
     }
 
     private class Holder{
@@ -147,7 +137,6 @@ public class SearchByIndicator extends AppCompatActivity {
                 Type listType = new TypeToken<List<Indicators>>() {}.getType();
                 List<Indicators> cnt = gson.fromJson(indicators, listType);
                 if (cnt != null && cnt.size() > 0) {
-                    db.indicatorsDAO().insertAll();
                     fill(cnt);
                 }
             } catch (JSONException e) {

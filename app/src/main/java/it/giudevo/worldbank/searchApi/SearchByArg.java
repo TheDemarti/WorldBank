@@ -1,6 +1,5 @@
 package it.giudevo.worldbank.searchApi;
 
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -31,11 +29,9 @@ import java.lang.reflect.Type;
 import java.util.List;
 import it.giudevo.worldbank.R;
 import it.giudevo.worldbank.database.Arguments.Arguments;
-import it.giudevo.worldbank.database.Arguments.AppArgumentsDatabase;
 import it.giudevo.worldbank.database.Countries.Countries;
 
 public class SearchByArg extends AppCompatActivity {
-    AppArgumentsDatabase db;
     public boolean choice; //variabile che identifica il percorso di ricerca selezionato all'inizio
     public Countries countries;
     public boolean theme_boolean; //variabile usata per impostare il tema corretto (true = Light, false = Dark)
@@ -53,7 +49,6 @@ public class SearchByArg extends AppCompatActivity {
         setContentView(R.layout.activity_search_by_arg);
 
         new Holder();
-        createDB();
     }
 
     // funzione che imposta il tema dell'activity
@@ -64,12 +59,6 @@ public class SearchByArg extends AppCompatActivity {
         else{
             setTheme(R.style.Theme_MaterialComponents_DayNight_DarkActionBar);
         }
-    }
-
-    private void createDB(){
-        db = Room.databaseBuilder(getApplicationContext(),
-                AppArgumentsDatabase.class, "arguments.db").allowMainThreadQueries().
-                build();
     }
 
     private class Holder{
@@ -136,7 +125,6 @@ private abstract class VolleyArguments implements Response.ErrorListener, Respon
                 Type listType = new TypeToken<List<Arguments>>() {}.getType();
                 List<Arguments> cnt = gson.fromJson(arguments, listType);
                 if (cnt != null && cnt.size() > 0 && cnt.get(0).value != null) {
-                    db.argumentsDAO().insertAll();
                     fill(cnt);
                 }
             } catch (JSONException e) {

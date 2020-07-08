@@ -18,7 +18,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,14 +59,14 @@ import it.giudevo.worldbank.database.Indicators.Indicators;
 public class FinalSearch extends AppCompatActivity  {
     DataBaseHelper mDatabaseHelper;
 
-    public boolean choice;
+    public boolean choice; //variabile che identifica il percorso di ricerca selezionato all'inizio
     public LineChart lcGraph;
     TextView tvResume;
     public Countries countries;
     public Indicators indicators;
     public Arguments arguments;
-    public  String string;
-    public  boolean theme_boolean;
+    public  String string; //contiene il paese, indicatore e argomento
+    public  boolean theme_boolean; //variabile usata per impostare il tema corretto (true = Light, false = Dark)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
