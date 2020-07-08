@@ -52,6 +52,10 @@ public class SearchByCountry extends AppCompatActivity {
     public Indicators indicators;
     public Arguments arguments;
     public boolean theme_boolean;
+    public String latitude;
+    public String longitude;
+    public String capitalCity;
+    public int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +139,7 @@ public class SearchByCountry extends AppCompatActivity {
 
         void searchByCountry() {
             String url = "http://api.worldbank.org/v2/country?format=json&per_page=304";
-            url = String.format(url);
+            //url = String.format(url);
             apiCall(url);
         }
 
@@ -158,12 +162,11 @@ public class SearchByCountry extends AppCompatActivity {
 
         @Override
         public void onResponse(String response) {
-            Log.d("Prova", "json approvato");
             Gson gson = new Gson();
             String countries;
             try {
                 JSONArray jsonArray = new JSONArray(response);
-                JSONArray json = jsonArray.getJSONArray(1);/////modificato
+                JSONArray json = jsonArray.getJSONArray(1);
 
                 countries = json.toString();
                 Type listType = new TypeToken<List<Countries>>() {}.getType();
@@ -204,6 +207,9 @@ public class SearchByCountry extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
                 holder.tvIsoCodeFirst.setText(countries.get(position).getName());
+                latitude = countries.get(position).getLatitude();
+                longitude = countries.get(position).getLongitude();
+                capitalCity = countries.get(position).getCapitalCity();
         }
 
         @Override
@@ -213,22 +219,21 @@ public class SearchByCountry extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            int position = ((RecyclerView) v.getParent()).getChildAdapterPosition(v);
-            Countries cou = countries.get(position);
-            if(choice){
-                Intent intent = new Intent(SearchByCountry.this, SearchByArg.class);
-                intent.putExtra("countries", cou);
-                intent.putExtra("choice", choice);
-                SearchByCountry.this.startActivity(intent);
-            }
-            else {
-                Intent intent = new Intent(SearchByCountry.this, FinalSearch.class);
-                intent.putExtra("countries",cou);
-                intent.putExtra("indicators", indicators);
-                intent.putExtra("arguments", arguments);
-                intent.putExtra("choice", choice);
-                SearchByCountry.this.startActivity(intent);
-            }
+            position = ((RecyclerView) v.getParent()).getChildAdapterPosition(v);
+                Countries cou = countries.get(position);
+                if (choice) {
+                    Intent intent = new Intent(SearchByCountry.this, SearchByArg.class);
+                    intent.putExtra("countries", cou);
+                    intent.putExtra("choice", choice);
+                    SearchByCountry.this.startActivity(intent);
+                } else {
+                    Intent intent = new Intent(SearchByCountry.this, FinalSearch.class);
+                    intent.putExtra("countries", cou);
+                    intent.putExtra("indicators", indicators);
+                    intent.putExtra("arguments", arguments);
+                    intent.putExtra("choice", choice);
+                    SearchByCountry.this.startActivity(intent);
+                }
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -248,6 +253,12 @@ public class SearchByCountry extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SearchByCountry.this, Map_View.class);
+                intent.putExtra("latitude", Double.valueOf(latitude));
+                intent.putExtra("longitude", Double.valueOf(longitude));
+                intent.putExtra("capitalCity", capitalCity);
+                Log.w("CA", String.valueOf((latitude)));
+                Log.w("CA", String.valueOf((longitude)));
+                Log.w("CA", capitalCity);
                 SearchByCountry.this.startActivity(intent);
             }
         }
