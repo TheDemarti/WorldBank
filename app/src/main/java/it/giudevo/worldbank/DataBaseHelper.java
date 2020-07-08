@@ -73,7 +73,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public void deletedata (String id){                                                            //data una stringa id , la funzione  elimina da entrambe le tabelle del db tutti i dati releativi ad essa
-        Log.w("string",id);
+       // Log.w("string",id);
         SQLiteDatabase db = this.getWritableDatabase();
         String query = " DELETE FROM TABLE_ID WHERE name =" + "'"+ id +"'";
         String query1 = " DELETE FROM TABLE_VALUE WHERE string =" + "'"+ id +"'";

@@ -21,6 +21,7 @@ public class Map_View extends AppCompatActivity implements OnMapReadyCallback {
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
     public double latitude;
     public double longitude;
+    public  String capitalcity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +31,10 @@ public class Map_View extends AppCompatActivity implements OnMapReadyCallback {
         Intent data = getIntent();
         latitude = data.getDoubleExtra("latitude",0);
         longitude = data.getDoubleExtra("longitude",0);
+        capitalcity = data.getStringExtra("capitalCity");
 
-        Log.w("CA", String.valueOf(latitude));
-        Log.w("CA", String.valueOf(longitude));
+        Log.w("latitude", String.valueOf(latitude));
+        Log.w("longitude", String.valueOf(longitude));
 
         Bundle mapViewBundle = null;
         if(savedInstanceState != null){
@@ -46,7 +48,7 @@ public class Map_View extends AppCompatActivity implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title("MAKER"));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(latitude,longitude)).title(capitalcity));
         //CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(latitude, longitude)).zoom(15).build();
 
         //googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
