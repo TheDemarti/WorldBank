@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="pidButton">16dp</dimen>
+    <dimen name="pidButton2">32dp</dimen>
     <dimen name="pidLogo">32dp</dimen>
     <dimen name="MainActivityImageHeight">200dp</dimen>
     <dimen name="MainActivityImageWidth">300dp</dimen>

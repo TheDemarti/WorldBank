@@ -22,11 +22,11 @@
 
     <Button
         android:id="@+id/btnCountry"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/pidButton"
+        android:layout_marginStart="@dimen/pidButton2"
         android:layout_marginTop="@dimen/pidLogo"
-        android:layout_marginEnd="@dimen/pidButton"
+        android:layout_marginEnd="@dimen/pidButton2"
         android:text="@string/buttonCountry"
         android:textSize="@dimen/ButtonTextSize"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,11 +35,11 @@
 
     <Button
         android:id="@+id/btnArg"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/pidButton"
+        android:layout_marginStart="@dimen/pidButton2"
         android:layout_marginTop="@dimen/pidButton"
-        android:layout_marginEnd="@dimen/pidButton"
+        android:layout_marginEnd="@dimen/pidButton2"
         android:text="@string/buttonArg"
         android:textSize="@dimen/ButtonTextSize"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,11 +48,11 @@
 
     <Button
         android:id="@+id/btnFavorites"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/pidButton"
+        android:layout_marginStart="@dimen/pidButton2"
         android:layout_marginTop="@dimen/pidButton"
-        android:layout_marginEnd="@dimen/pidButton"
+        android:layout_marginEnd="@dimen/pidButton2"
         android:text="@string/buttonFavorites"
         android:textSize="@dimen/ButtonTextSize"
         app:layout_constraintEnd_toEndOf="parent"
