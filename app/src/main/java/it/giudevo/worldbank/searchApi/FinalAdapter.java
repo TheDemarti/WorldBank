@@ -57,8 +57,6 @@ public class FinalAdapter extends RecyclerView.Adapter<FinalAdapter.Holder> {
         public int getItemCount() {
             return ultimate.size();
         }
-
-
         static class Holder extends RecyclerView.ViewHolder{
         TextView tvFinal;
 

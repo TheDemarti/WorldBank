@@ -6,6 +6,8 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -124,6 +126,7 @@ public class ViewListContents extends AppCompatActivity {
 
         }
 
+        @SuppressLint("ResourceAsColor")
         @Override
         public void onBindViewHolder(@NonNull Holder holder, int position) {
                 holder.tvSave.setText(dt.get(position));
@@ -133,7 +136,7 @@ public class ViewListContents extends AppCompatActivity {
                 if(isSelected) {
                     holder.tvSave.setSelected(true);
                     holder.tvSave.setTypeface(null, Typeface.BOLD);
-                    holder.cvListContents.setBackgroundColor(Color.rgb(193, 215, 224));
+                    holder.cvListContents.setBackgroundColor(R.color.Grey);
                 } else {
                     holder.tvSave.setSelected(false);
                     holder.tvSave.setTypeface(null, Typeface.NORMAL);
