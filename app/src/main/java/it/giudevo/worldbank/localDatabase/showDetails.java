@@ -37,7 +37,7 @@ public class showDetails extends AppCompatActivity {
         Intent data = getIntent();
         String dat = data.getStringExtra("details");
 
-        Log.w("id show Details", String.valueOf(data.getStringExtra("details")));
+        Log.w("id show Details", dat);
 
 
         lvDet = findViewById(R.id.lvDet);
