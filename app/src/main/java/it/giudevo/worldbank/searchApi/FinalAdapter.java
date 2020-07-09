@@ -26,7 +26,7 @@ public class FinalAdapter extends RecyclerView.Adapter<FinalAdapter.Holder> {
 
     public static void AddData(Context context) {
         DataBaseHelper mDatabaseHelper = new DataBaseHelper(context);
-        if(mDatabaseHelper.getData(resume).getCount()== 0 ){
+        if(mDatabaseHelper.getData(resume).getCount()== 0 ){   // per non salvare i dati due volte nel database
                boolean insertData = mDatabaseHelper.addData(resume);
                 mDatabaseHelper.addDataDetails(ultimate, resume);
 

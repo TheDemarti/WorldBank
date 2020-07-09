@@ -209,18 +209,15 @@ public class FinalSearch extends AppCompatActivity  {
         lcGraph.setViewPortOffsets(0, 0, 0, 0);
         lcGraph.setBackgroundColor(Color.rgb(160, 210, 255));
 
-        // no description text
+        // nessun testo descrittivo
         lcGraph.getDescription().setEnabled(false);
 
-        // enable touch gestures
+        // attiva gesture tattili
         lcGraph.setTouchEnabled(true);
 
-        // enable scaling and dragging
+        // attiva scaling e trascinamento
         lcGraph.setDragEnabled(true);
         lcGraph.setScaleEnabled(true);
-
-
-        ///////lcGraph.setPinchZoom(true);
 
         lcGraph.setDrawGridBackground(false);
         lcGraph.setMaxHighlightDistance(300);
@@ -236,7 +233,6 @@ public class FinalSearch extends AppCompatActivity  {
         x.setDrawGridLines(true);
         x.setAxisLineColor(Color.BLACK);
         YAxis y = lcGraph.getAxisLeft();
-        //y.setTypeface(tfLight);
         y.setLabelCount(5, false);
         y.setTextColor(Color.BLACK);
         y.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
@@ -261,7 +257,7 @@ public class FinalSearch extends AppCompatActivity  {
                 values.add(new Entry(i, val));
         }
 
-        lcGraph.getXAxis().setValueFormatter(new com.github.mikephil.charting.formatter.IndexAxisValueFormatter(xVal));
+        lcGraph.getXAxis().setValueFormatter(new com.github.mikephil.charting.formatter.IndexAxisValueFormatter(xVal));  //visualizzazione data nel formato corretto
 
         LineDataSet set1;
 
@@ -271,7 +267,7 @@ public class FinalSearch extends AppCompatActivity  {
             lcGraph.getData().notifyDataChanged();
             lcGraph.notifyDataSetChanged();
         } else {
-            // create a dataset and give it a type
+            // crea un dataset e dagli un tipo
             set1 = new LineDataSet(values, "DataSet 1");
 
             set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
@@ -293,13 +289,13 @@ public class FinalSearch extends AppCompatActivity  {
                 }
             });
 
-            // create a data object with the data sets
+            // crea un data object con i data sets
             LineData data = new LineData(set1);
             //data.setValueTypeface(tfLight);
             data.setValueTextSize(9f);
             data.setDrawValues(false);
 
-            // set data
+            // setta i dati
             lcGraph.setData(data);
         }
     }
