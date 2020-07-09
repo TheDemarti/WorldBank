@@ -10,17 +10,18 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import it.giudevo.worldbank.R;
-import it.giudevo.worldbank.localDatabase.DataBaseHelper;
 
 public class showDetails extends AppCompatActivity {
 
     DataBaseHelper myDB;
     ListView lvDet;
+    TextView tvDetails;
     public boolean theme_boolean;
 
     @Override
@@ -39,12 +40,15 @@ public class showDetails extends AppCompatActivity {
 
         Log.w("id show Details", dat);
 
-
+        tvDetails = findViewById(R.id.tvDetails);
         lvDet = findViewById(R.id.lvDet);
         myDB = new DataBaseHelper(this);
 
+        tvDetails.setText(dat);
+
         ArrayList<String> theList = new ArrayList<>();
         final Cursor det = myDB.getOneData(dat);
+
         if (det.getCount() == 0) {
             Toast.makeText(this, R.string.no_content, Toast.LENGTH_LONG).show();
         } else {
